@@ -20,3 +20,28 @@ git remote add origin https://gitlab.com/workscombine/evsa_dashboard_frontend.gi
 git branch -M main
 git push -uf origin main
 ```
+# evsa_dashboard_frontend_git
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+### vue_files 안에 들어가서 커맨드를 입력하셔야 합니다.
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
