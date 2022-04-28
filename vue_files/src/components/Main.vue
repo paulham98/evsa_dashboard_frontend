@@ -1,16 +1,19 @@
 <template>
   <div class="hello">
+    <Top_navBar></Top_navBar>
     <router-link  :to="{name:'Ex_router'}">Router Example</router-link>
     <ApexCharts></ApexCharts>
   </div>
 </template>
 
 <script>
-import ApexCharts from "../components/ApexCharts"
+import Top_navBar from "./Top_navBar"
+import ApexCharts from "./ApexCharts"
 export default {
   name: 'MainPage',
   props: {},
   components: {
+    Top_navBar,
     ApexCharts
   }
 }
