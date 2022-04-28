@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>checking router</p>
-    <router-link :to="{name:'HelloWorld'}">go back</router-link>
+    <router-link :to="{name:'Main'}">go back</router-link>
   </div>
 </template>
 

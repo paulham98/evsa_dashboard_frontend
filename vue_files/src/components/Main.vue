@@ -1,14 +1,17 @@
 <template>
   <div class="hello">
-    <router-link  :to="{name:'Ex_router'}"><img alt="Vue logo" src="../assets/logo.png">Router Example</router-link>
+    <router-link  :to="{name:'Ex_router'}">Router Example</router-link>
+    <ApexCharts></ApexCharts>
   </div>
 </template>
 
 <script>
+import ApexCharts from "../components/ApexCharts"
 export default {
-  name: 'HelloWorld',
+  name: 'MainPage',
   props: {},
   components: {
+    ApexCharts
   }
 }
 </script>
