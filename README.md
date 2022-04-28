@@ -1,6 +1,6 @@
 # Evsa Dashboard Frontend
 
-**기획서 공유**
+###**기획서 공유**
 
 [기획서](https://docs.google.com/presentation/d/16BUAbqo-BgAYA2JKQAkkKnatjNz9YStpluHLpotV9IY/edit#slide=id.g123baca5f92_0_8)
 
@@ -16,7 +16,7 @@
 
 웍스컴바인의 자회사 법인인 그리트 라운지 로고를 사용합니다.
 
-**대시보드 user** 
+###**대시보드 user** 
 
 볼보(b2b), 폴스타2 전기차 구매 고객(b2c)
 
