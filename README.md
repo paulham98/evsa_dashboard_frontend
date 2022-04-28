@@ -1,47 +1,22 @@
 # Evsa Dashboard Frontend
 
-evsa 대시보드 frontend
+**기획서 공유**
 
+[기획서](https://docs.google.com/presentation/d/16BUAbqo-BgAYA2JKQAkkKnatjNz9YStpluHLpotV9IY/edit#slide=id.g123baca5f92_0_8)
 
-## Getting started
+**프로젝트**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+볼보 전기차 보조금 현황 대시보드 제작 
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+금번 프로젝트는 볼보사의 요청에 따라 만드는 전기차 보조금 현황 대시보드입니다. (bmw프로젝트와 별개)
 
-## Add your files
+고객사와 전기차 구매 고객이 보기 편하게 정보를 구성하는 것과 전기차 구매 고객에게 브랜드 홍보를 위한
+광고 유치 목적도 있습니다.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+지금은 볼보사 타겟으로 만들지만 이후에 다른 국산/수입 자동차 브랜드사 고객도 이용할 수 있습니다.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/workscombine/evsa_dashboard_frontend.git
-git branch -M main
-git push -uf origin main
-```
-# evsa_dashboard_frontend_git
+웍스컴바인의 자회사 법인인 그리트 라운지 로고를 사용합니다.
 
-## Project setup
-```
-npm install
-```
+**대시보드 user** 
+볼보(b2b), 폴스타2 전기차 구매 고객(b2c)
 
-### Compiles and hot-reloads for development
-### vue_files 안에 들어가서 커맨드를 입력하셔야 합니다.
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
