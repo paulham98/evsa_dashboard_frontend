@@ -4,7 +4,6 @@
 
 [기획서](https://docs.google.com/presentation/d/16BUAbqo-BgAYA2JKQAkkKnatjNz9YStpluHLpotV9IY/edit#slide=id.g123baca5f92_0_8)
 
-**프로젝트**
 
 ## 볼보 전기차 보조금 현황 대시보드 제작
 
