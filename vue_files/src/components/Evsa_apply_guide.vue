@@ -1,5 +1,6 @@
 <template>
   <Top_navBar></Top_navBar>
+  <p>보조금 신청 가이드</p>
 </template>
 
 <script>

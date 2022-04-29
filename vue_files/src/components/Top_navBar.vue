@@ -11,12 +11,27 @@
     <div class="container-fluid">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <li class="nav-left-item">
+            <router-link  :to="{name:'Main'}">
+             <h2 class="nav-link active" aria-current="page">우리지역 한눈에</h2>
+            </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <router-link  :to="{name:'Evsa_sup_current'}">
+              <a class="nav-link" href="#">전기차 보조금 현황</a>
+            </router-link>
           </li>
+          <li class="nav-item">
+            <router-link  :to="{name:'Evsa_sup_cal'}">
+              <a class="nav-link" href="#">전기차 보조금 계산기</a>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link  :to="{name:'Evsa_apply_guide'}">
+              <a class="nav-link" href="#">보조금 신청 가이드</a>
+            </router-link>
+          </li>
+          <!--
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
@@ -28,11 +43,11 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
+          -->
           <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
           </li>
         </ul>
-
       </div>
     </div>
   </nav>
@@ -46,4 +61,5 @@
 
 <style scoped>
 .d-flex{width: 500px; float:right}
+.nav-item{float:right!important;}
 </style>
