@@ -26,15 +26,15 @@ install_dependencies:
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   before_script:
-    - echo docker login $DOCKER_REGISTRY --username $DOCKER_REGISTRY_USER --password-stdin
+    - echo docker login registry.gitlab.com --username $DOCKER_REGISTRY_USER --password-stdin
   tags:
     - gitlab-org-docker
   script:
     - echo "Compiling the code..."
     - echo "build"
-    - docker build -t registry.gitlab.com/areum.lee1/bmwgs_frontend . 
+    - docker build -t $DOCKER_REGISTRY . 
     - docker login registry.gitlab.com -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PASS
-    - docker push registry.gitlab.com/areum.lee1/bmwgs_frontend
+    - docker push $DOCKER_REGISTRY
    #- docker push bmw-frontend-app
    #- docker images
 
