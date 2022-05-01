@@ -18,7 +18,7 @@
     <p v-show="!sup_show" class="container">지원금 자격 부여 가능성이 {{sup_av}}입니다.</p>
   </transition>
   <Transition name="fadeTwo" mode="out-in">
-    <p v-if="deadline_show" :class="{deadline_red:isRed, dealine_black:isBlack}">{{deadline_av}}</p>
+    <p v-if="deadline_show" :class="{deadline_red:isRed, deadline_black:isBlack}">{{deadline_av}}</p>
     <p v-else :class="{deadline_red:isRed}">{{deadline_av}}</p>
   </Transition>
   <apexchart class="bar1" type="bar" width="300" height="300" :options="bar1_chartOptions" :series="bar1_series"></apexchart>
