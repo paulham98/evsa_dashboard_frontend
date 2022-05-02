@@ -1,4 +1,23 @@
 <template>
+  <header>
+    <div class="inner">
+      <img src="../../public/images/logo.png" alt="" class="logo">
+    </div>
+    <div class="line">
+      <div class="inner">
+        <h1>우리 지역 한눈에</h1>
+        <div>
+          <ul>
+            <li><router-link :to="{name:'Evsa_sup_current'}"><a class="active">전기차 보조금 현황</a></router-link></li>
+            <li><router-link :to="{name:'Evsa_sup_cal'}"><a class="active">전기차 보조금 계산기</a></router-link></li>
+            <li><router-link :to="{name:'Evsa_apply_guide'}"><a class="active">보조금 신청 가이드</a></router-link></li>
+          </ul>
+        </div>
+        <a href="#" class="login"><img src="images/login.png" alt=""></a>
+      </div>
+    </div>
+  </header>
+  <!--
   <router-link :to="{name:'Main'}"><a class="navbar-brand">IMG</a></router-link>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -31,7 +50,7 @@
               <a class="nav-link" href="#">보조금 신청 가이드</a>
             </router-link>
           </li>
-          <!--
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
@@ -43,7 +62,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
-          -->
+
           <li class="nav-item">
             <a class="nav-link disabled">Disabled</a>
           </li>
@@ -51,6 +70,7 @@
       </div>
     </div>
   </nav>
+  -->
 </template>
 
 <script>
@@ -60,6 +80,4 @@
 </script>
 
 <style scoped>
-.d-flex{width: 500px; float:right}
-.nav-item{float:right!important;}
 </style>
