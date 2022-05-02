@@ -1,19 +1,21 @@
 <template>
-  <Top_navBar></Top_navBar>
+  <Evsa_sup_current></Evsa_sup_current>
   <!--
   <router-link  :to="{name:'Ex_router'}">Router Example</router-link>
   -->
 </template>
 
 <script>
-import Top_navBar from "../components/Top_navBar"
+//import Top_navBar from "../components/Top_navBar"
 import {onMounted} from 'vue'
 import {fetch_api} from "../plugin";
+import Evsa_sup_current from "./Evsa_sup_current"
 export default {
   name: 'MainPage',
   props: {},
   components: {
-    Top_navBar,
+    //Top_navBar,
+    Evsa_sup_current
   },
   data(){
     return{
