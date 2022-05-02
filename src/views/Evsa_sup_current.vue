@@ -314,278 +314,280 @@
 </template>
 
 <script>
-  import Top_navBar from "./Top_navBar"
+import Top_navBar from "../components/Top_navBar"
+//import {ref} from "vue"
   export default {
     name: "Evsa_sup_current",
     components: {
       Top_navBar
     },
-    data(){
-      return{
-        sup_availability: ['매우 낮은편', '낮은편', '보통', '높은편', '매우 높은편'],
-        deadline: ['마감여유','마감임박', '마감위험'],
-        deadline_av: '마감여유',
-        isRed:false,
-        isBlack: true,
-        sup_show:true,
-        deadline_show: true,
-        sup_av: '매우 낮은편',
-        mixed_chartOptions: {
-          chart: {
-            height: 350,
+    setup(){
+      let sup_availability = ['매우 낮은편', '낮은편', '보통', '높은편', '매우 높은편'];
+      let deadline = ['마감여유','마감임박', '마감위험'];
+      let deadline_av = '마감여유';
+      let isRed = false;
+      let isBlack = true;
+      let sup_show = true;
+      let deadline_show = true;
+      let sup_av = '매우 낮은편';
+      let  mixed_chartOptions= {
+        chart: {
+          height: 350,
             type: 'line',
             stacked: false,
-          },
-          plotOptions: {
-            bar: {
-              horizontal: false,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
               borderRadius: 7,
-            },
           },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            width: [1, 1, 4]
-          },
-          title: {
-            text: '보조금 접수 일별 트렌드(최근 1개월)',
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [1, 1, 4]
+        },
+        title: {
+          text: '보조금 접수 일별 트렌드(최근 1개월)',
             align: 'left',
             offsetX: 110
-          },
-          xaxis: {
-            categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
-          },
-          yaxis: [
-            {
-              axisTicks: {
-                show: true,
-              },
-              axisBorder: {
-                show: true,
-                color: '#008FFB'
-              },
-              labels: {
-                style: {
-                  colors: '#008FFB',
-                }
-              },
-              title: {
-                text: "Income (thousand crores)",
-                style: {
-                  color: '#008FFB',
-                }
-              },
-              tooltip: {
-                enabled: true
+        },
+        xaxis: {
+          categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+        },
+        yaxis: [
+          {
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#008FFB'
+            },
+            labels: {
+              style: {
+                colors: '#008FFB',
               }
             },
-            {
-              seriesName: 'Income',
-              opposite: true,
-              axisTicks: {
-                show: true,
-              },
-              axisBorder: {
-                show: true,
+            title: {
+              text: "Income (thousand crores)",
+              style: {
+                color: '#008FFB',
+              }
+            },
+            tooltip: {
+              enabled: true
+            }
+          },
+          {
+            seriesName: 'Income',
+            opposite: true,
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#00E396',
+            },
+            labels: {
+              style: {
+                colors: '#00E396',
+              }
+            },
+            title: {
+              text: "Operating Cashflow (thousand crores)",
+              style: {
                 color: '#00E396',
-              },
-              labels: {
-                style: {
-                  colors: '#00E396',
-                }
-              },
-              title: {
-                text: "Operating Cashflow (thousand crores)",
-                style: {
-                  color: '#00E396',
-                }
-              },
-            },
-            {
-              seriesName: 'Revenue',
-              opposite: true,
-              axisTicks: {
-                show: true,
-              },
-              axisBorder: {
-                show: true,
-                color: '#FEB019'
-              },
-              labels: {
-                style: {
-                  colors: '#FEB019',
-                },
-              },
-              title: {
-                text: "Revenue (thousand crores)",
-                style: {
-                  color: '#FEB019',
-                }
               }
             },
-          ],
+          },
+          {
+            seriesName: 'Revenue',
+            opposite: true,
+            axisTicks: {
+              show: true,
+            },
+            axisBorder: {
+              show: true,
+              color: '#FEB019'
+            },
+            labels: {
+              style: {
+                colors: '#FEB019',
+              },
+            },
+            title: {
+              text: "Revenue (thousand crores)",
+              style: {
+                color: '#FEB019',
+              }
+            }
+          },
+        ],
           tooltip: {
-            fixed: {
-              enabled: true,
+          fixed: {
+            enabled: true,
               position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
               offsetY: 30,
               offsetX: 60
-            },
           },
-          legend: {
-            horizontalAlign: 'left',
-            offsetX: 40
-          }
         },
-        mixed_series: [{
-          name: '접수대수(누적)',
-          type: 'column',
-          data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
-        }, {
-          name: '출고대수(누적)',
-          type: 'column',
-          data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
-        }, {
-          name: '접수대수(일별)',
-          type: 'line',
-          data: [20, 29, 37, 36, 44, 45, 50, 58]
-        }],
-        line_series: [{
+        legend: {
+          horizontalAlign: 'left',
+            offsetX: 40
+        }
+      };
+      let mixed_series= [{
+        name: '접수대수(누적)',
+        type: 'column',
+        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+      }, {
+        name: '출고대수(누적)',
+        type: 'column',
+        data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
+      }, {
+        name: '접수대수(일별)',
+        type: 'line',
+        data: [20, 29, 37, 36, 44, 45, 50, 58]
+      }];
+      let line_series = [{
+        name: "Desktops",
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      },
+        {
           name: "Desktops",
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-        },
-          {
-            name: "Desktops",
-            data: [79, 101, 158]
-          }
-        ],
-        bar1_series: [{
-          name: 'Marine Sprite',
-          data: [44,]
-        }, {
-          name: 'Striking Calf',
-          data: [53,]
+          data: [79, 101, 158]
         }
-        ],
-        bar1_chartOptions: {
-          chart: {
-            type: 'bar',
+      ];
+      let bar1_series= [{
+        name: 'Marine Sprite',
+        data: [44,]
+      }, {
+        name: 'Striking Calf',
+        data: [53,]
+      }
+      ];
+      let bar1_chartOptions = {
+        chart: {
+          type: 'bar',
             height: 350,
             stacked: true,
             stackType: '100%',
             width: 200
-          },
-          plotOptions: {
-            bar: {
-              horizontal: true,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
               borderRadius:5
-            },
           },
-          stroke: {
-            width: 1,
+        },
+        stroke: {
+          width: 1,
             colors: ['#fff']
-          },
-          title: {
-            text: '100% Stacked Bar'
-          },
-          xaxis: {
-            categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
-          },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return val + "K"
-              }
+        },
+        title: {
+          text: '100% Stacked Bar'
+        },
+        xaxis: {
+          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val + "K"
             }
-          },
-          fill: {
-            opacity: 1
-
-          },
-          legend: {
-            position: 'top',
-            horizontalAlign: 'left',
-            offsetX: 40
           }
         },
-        bar2_series: [{
-          name: 'Marine Sprite',
-          data: [44,]
-        }, {
-          name: 'Striking Calf',
-          data: [53,]
+        fill: {
+          opacity: 1
+
+        },
+        legend: {
+          position: 'top',
+            horizontalAlign: 'left',
+            offsetX: 40
         }
-        ],
-        bar2_chartOptions: {
-          chart: {
-            type: 'bar',
+      };
+      let bar2_series = [{
+        name: 'Marine Sprite',
+        data: [44,]
+      }, {
+        name: 'Striking Calf',
+        data: [53,]
+      }
+      ];
+      let bar2_chartOptions = {
+        chart: {
+          type: 'bar',
             height: 350,
             stacked: true,
             stackType: '100%',
             width: 200
-          },
-          plotOptions: {
-            bar: {
-              horizontal: true,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
               borderRadius:5
-            },
           },
-          stroke: {
-            width: 1,
+        },
+        stroke: {
+          width: 1,
             colors: ['#fff']
-          },
-          title: {
-            text: '100% Stacked Bar'
-          },
-          xaxis: {
-            categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
-          },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return val + "K"
-              }
+        },
+        title: {
+          text: '100% Stacked Bar'
+        },
+        xaxis: {
+          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val + "K"
             }
-          },
-          fill: {
-            opacity: 1
-
-          },
-          legend: {
-            position: 'top',
-            horizontalAlign: 'left',
-            offsetX: 40
           }
         },
-        line_chartOptions: {
-          chart: {
-            height: 350,
+        fill: {
+          opacity: 1
+
+        },
+        legend: {
+          position: 'top',
+            horizontalAlign: 'left',
+            offsetX: 40
+        }
+      };
+      let line_chartOptions = {
+        chart: {
+          height: 350,
             type: 'line',
             zoom: {
-              enabled: false
-            }
-          },
-          dataLabels: {
             enabled: false
-          },
-          stroke: {
-            curve: 'straight'
-          },
-          title: {
-            text: 'Product Trends by Month',
-            align: 'left'
-          },
-          grid: {
-            row: {
-              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-              opacity: 0.5
-            },
-          },
-          xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
           }
         },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Product Trends by Month',
+            align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+              opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        }
+      };
+      return{
+        sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
       }
     },
     methods:{

@@ -8,7 +8,8 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import mitt from 'mitt'
 import '../public/css/reset.css'
 import '../public/css/style.css'
-
+import { fetch_api } from './plugin.js'
+import $ from 'jquery'
 
 /*
  저번 프로젝트에선 컴포넌트간 통신 방법으로 eventbus 를 사용했지만
@@ -17,12 +18,16 @@ import '../public/css/style.css'
  https://zincod.tistory.com/237
  혹시 궁금하시면 저한테 물어보셔도 됩니다.
  */
-const emitter = mitt();
 
+
+const emitter = mitt();
 const app = createApp(App);
 app.config.globalProperties.emiiter = emitter;
+
+app.use($);
 app.use(Router);
 app.use(VueApexCharts);
 app.use(BootstrapVue3);
 app.mount("#app");
+app.use(fetch_api);
 

@@ -6,8 +6,9 @@
 </template>
 
 <script>
-import Top_navBar from "./Top_navBar"
-
+import Top_navBar from "../components/Top_navBar"
+import {onMounted} from 'vue'
+import {fetch_api} from "../plugin";
 export default {
   name: 'MainPage',
   props: {},
@@ -18,8 +19,24 @@ export default {
     return{
 
     }
-  }
+  },
+  setup: function () {
+
+    console.log("hello");
+    onMounted(() =>{
+      console.log('onMounted stage');
+
+    });
+    let get_api = fetch_api();
+    console.log(get_api);
+    console.log(get_api.data)
+
+  },
+  methods:{
+
+  },
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

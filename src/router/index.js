@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Ex_router from "../components/Ex_router"
-import Main from "../components/Main"
-import Evsa_sup_current from "../components/Evsa_sup_current"
-import Evsa_sup_cal from "../components/Evsa_sup_cal"
-import Evsa_apply_guide from "../components/Evsa_apply_guide"
+import Main from "../views/Main"
+import Evsa_sup_current from "../views/Evsa_sup_current"
+import Evsa_sup_cal from "../views/Evsa_sup_cal"
+import Evsa_apply_guide from "../views/Evsa_apply_guide"
 
 const routes = [
   { path: "/", component: Main, name: "Main" },
