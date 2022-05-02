@@ -21,8 +21,7 @@ install_dependencies:
   script:
     # - echo "$DOCKER_REPO_HOST"
     - pwd
-    - cd vue_files
-
+    
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   before_script:
