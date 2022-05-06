@@ -8,7 +8,7 @@ import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import mitt from 'mitt'
 import '../public/css/reset.css'
 import '../public/css/style.css'
-import { fetch_api } from './plugin.js'
+import { fetch_api, get_api } from './plugin.js'
 import $ from 'jquery'
 
 /*
@@ -29,5 +29,5 @@ app.use(Router);
 app.use(VueApexCharts);
 app.use(BootstrapVue3);
 app.mount("#app");
-app.use(fetch_api);
+app.use(fetch_api, get_api);
 

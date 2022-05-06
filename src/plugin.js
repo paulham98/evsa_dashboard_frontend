@@ -13,17 +13,52 @@ const get_hostname = () => {
 const config = {
   hostname: get_hostname()
 };
-function fetch_api(){
-  let api = `${config.hostname}//api/v1/subsidy_info/0?param1=1123`;
-  console.log(api);
-  return axios.get(api)
-    .then(res => res.json())
-    .then(data =>data.data)
-    .catch();
+function fetch_api(callback = () =>{}){
+  let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
+  fetch(api)
+    .then(res => {
+      if(res.ok){
+        return res.json()
+      } else {
+        throw new Error('error has occurred')
+      }
+    })
+    .then(data => {
+      callback(data);
+      console.log(data)
+    })
+    .catch( err => {
+      console.log(err)
+    });
 
+}
+
+async function get_api(){
+  console.log(1)
+  let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
+  let api_response = await axios.get(api)
+    .then(res=>res)
+    .then(data=>data)
+    .catch(err=>console.log(err));
+  console.log("api response check",api_response);
+  let result = await new Promise ((resolve)=>{
+    resolve(api_response)
+  }).then(resolveData=>{
+    console.log('at plugin ',resolveData);
+    return resolveData
+  });
+  return result
+}
+async function callback_api(){
+  return await get_api().then(resolveData=>{
+    console.log(resolveData);
+    return(resolveData)
+  });
 }
 
 
 
 
-export {fetch_api}
+
+
+export {fetch_api, get_api, callback_api}
