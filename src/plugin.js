@@ -13,9 +13,9 @@ const get_hostname = () => {
 const config = {
   hostname: get_hostname()
 };
-function fetch_api(callback = () =>{}){
-  let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
-  fetch(api)
+function fetch_api(url ,callback = () =>{}){
+  //let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
+  fetch(url)
     .then(res => {
       if(res.ok){
         return res.json()

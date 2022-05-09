@@ -138,6 +138,7 @@ border-radius: 8px 8px 0 0;}
 .color_green{color: #4BC600;}
 .area1{height: 564px;background: #eff3f6;border-radius: 20px;}
 .area2{height: 544px;background: #eff3f6;border-radius: 20px;}
+.chart{height: 544px;background: #eff3f6;border-radius: 20px;}
 .banner{margin: 100px 0;display: block;background: #f4f4f2;}
 .banner img{display:block;margin:0 auto;}
 
@@ -320,4 +321,12 @@ td:last-child{border-right: 0;}
   .txt_bg{padding: 40px 0;}
   .txt_bg h1{margin-bottom:10px}
   .txt_bg h2{margin-bottom:30px}
+    table{margin-top: 30px;min-width: 0px}
+}
+@media(max-width: 430px){
+    header .line .inner>div{ font-size: 12px}
+
+}
+@media(max-width: 380px){
+    header .line .inner>div{ font-size: 8px}
 }

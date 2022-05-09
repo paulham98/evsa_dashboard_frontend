@@ -10,7 +10,7 @@
           <ul>
             <li><router-link :to="{name:'Evsa_sup_current'}"><a class="active">전기차 보조금 현황</a></router-link></li>
             <li><router-link :to="{name:'Evsa_sup_cal'}"><a class="active">전기차 보조금 계산기</a></router-link></li>
-            <li><router-link :to="{name:'Evsa_apply_guide'}"><a class="active">보조금 신청 가이드</a></router-link></li>
+            <li><a @click="this.open_new_window()" class="active">보조금 신청 가이드</a></li>
           </ul>
         </div>
         <a href="#" class="login"><img src="images/login.png" alt=""></a>
@@ -75,7 +75,17 @@
 
 <script>
   export default {
-    name: "Top_navBar"
+    name: "Top_navBar",
+    setup(){
+      function open_new_window(){
+        let api = `http://www.easyplug.co.kr`;
+        window.open(api,"_blank")
+      }
+      return{ open_new_window}
+    },
+    methods:{
+
+    }
   }
 </script>
 

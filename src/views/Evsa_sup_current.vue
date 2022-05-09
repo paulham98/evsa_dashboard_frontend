@@ -110,14 +110,14 @@
     <div class="inner">
       <p class="tit">보조금 신청 접수 예측 트렌드</p>
       <div class="area1">
-        <apexchart width="1000" type="line" height="500" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
+        <apexchart class="chart"  type="line" height="500" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
       </div>
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
     <div class="inner">
       <p class="tit">보조금 신청 접수 예측 트렌드</p>
       <div class="area2">
-        <apexchart type="line" height="500" width="1000" :options="line_chartOptions" :series="line_series"></apexchart>
+        <apexchart class="chart" type="line" height="500" :options="line_chartOptions" :series="line_series"></apexchart>
       </div>
       <div class="txt2">
         <h1>일 평균 접수대수 <em class="color_sky">3.2</em>대, <br class="v800">출고대수 <em class="color_sky">8</em>대로</h1>
@@ -287,13 +287,14 @@
     </div>
   </div>
   <a href="#" class="banner"><img src="images/bot_banner.png" alt=""></a>
+
+  <!--
   <select v-model="sup_av" @change="select_sup_ab(0, this.sup_show)" >
     <option  v-for="(v, i) in sup_availability" :value="v" :key="i+1">{{v}}</option>
   </select>
   <select v-model="deadline_av" @change="select_sup_ab(1, this.deadline_show, deadline_av)">
     <option v-for="(v, i) in deadline" :value="v" :key="i">{{v}}</option>
   </select>
-  <!--
   <transition>
     <p >지원금 자격 부여 가능성이<span>{{sup_av}}</span>입니다.</p>
   </transition>
@@ -315,7 +316,8 @@
 
 <script>
 import Top_navBar from "../components/Top_navBar"
-//import {ref} from "vue"
+import {fetch_api} from "../plugin.js"
+import {ref} from "vue"
   export default {
     name: "Evsa_sup_current",
     components: {
@@ -584,10 +586,18 @@ import Top_navBar from "../components/Top_navBar"
         },
         xaxis: {
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        }
+        },
       };
+      let region_data = ref({});
+      let url = `http://15.165.32.56:30423/api/v1/subsidy_accepted`;
+      fetch_api(url,(data) => {
+        console.log(data);
+        region_data.value = data;
+        console.log('getting region data',region_data.value)
+      });
+
       return{
-        sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
+        region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
       }
     },
     methods:{

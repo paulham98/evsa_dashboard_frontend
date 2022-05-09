@@ -1,6 +1,5 @@
 <template>
   <Evsa_sup_current></Evsa_sup_current>
-  {{tmp}}
   <!--
   <router-link  :to="{name:'Ex_router'}">Router Example</router-link>
   -->
@@ -10,8 +9,8 @@
 //import Top_navBar from "../components/Top_navBar"
 import {onMounted} from 'vue'
 import Evsa_sup_current from "./Evsa_sup_current"
-import { get_api, fetch_api} from "../plugin.js"
-import {ref} from "vue"
+//import { get_api, fetch_api} from "../plugin.js"
+//import {ref} from "vue"
 export default {
   name: 'MainPage',
   props: {},
@@ -26,14 +25,14 @@ export default {
   },
 
   setup: function () {
-    let api = get_api();
-    let tmp = ref({});
-    console.log(api);
-    fetch_api((data) => {
-      console.log(data);
-      tmp.value = data;
-      console.log('tmp',tmp)
-    });
+    // let api = get_api();
+    // let tmp = ref({});
+    // console.log(api);
+    // fetch_api((data) => {
+    //   console.log(data);
+    //   tmp.value = data;
+    //   console.log('tmp',tmp)
+    // });
 
     // let api = ref(fetch_api()
     //   .then(resolveData=>{
@@ -52,10 +51,10 @@ export default {
 
 
     onMounted(() =>{
-      console.log(api)
+
 
     });
-    return { api, tmp }
+    return {  }
   },
 }
 
