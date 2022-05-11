@@ -110,14 +110,14 @@
     <div class="inner">
       <p class="tit">보조금 신청 접수 예측 트렌드</p>
       <div class="area1">
-        <apexchart class="chart"  type="line" height="500" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
+        <apexchart class="chart"  type="line" height="520" style="padding-top: 10px;" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
       </div>
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
     <div class="inner">
       <p class="tit">보조금 신청 접수 예측 트렌드</p>
       <div class="area2">
-        <apexchart class="chart" type="line" height="500" :options="line_chartOptions" :series="line_series"></apexchart>
+        <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>
       </div>
       <div class="txt2">
         <h1>일 평균 접수대수 <em class="color_sky">3.2</em>대, <br class="v800">출고대수 <em class="color_sky">8</em>대로</h1>
@@ -334,9 +334,10 @@ import {ref} from "vue"
       let sup_av = '매우 낮은편';
       let  mixed_chartOptions= {
         chart: {
+          width: '130%',
           height: 350,
-            type: 'line',
-            stacked: false,
+          type: 'line',
+          stacked: false,
         },
         plotOptions: {
           bar: {
@@ -361,7 +362,7 @@ import {ref} from "vue"
             },
             axisBorder: {
               show: true,
-              color: '#008FFB'
+              color: '#008FFB',
             },
             labels: {
               style: {
@@ -383,6 +384,7 @@ import {ref} from "vue"
               color: '#00E396',
             },
             labels: {
+              offsetX: -80,
               style: {
                 colors: '#00E396',
               }
@@ -400,6 +402,7 @@ import {ref} from "vue"
               color: '#FEB019'
             },
             labels: {
+              offsetX: 10,
               style: {
                 colors: '#FEB019',
               },
@@ -428,7 +431,7 @@ import {ref} from "vue"
       let mixed_series= [{
         name: '접수대수(누적)',
         type: 'column',
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
       }, {
         name: '출고대수(누적)',
         type: 'column',

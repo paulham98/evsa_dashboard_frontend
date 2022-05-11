@@ -311,6 +311,7 @@ td:last-child{border-right: 0;}
   .price li:first-child div:first-child{letter-spacing: -1.5px;font-size: 18px;}
 }
 @media(max-width: 518px){
+    ::-webkit-scrollbar {display: none;}
   .table_wrap{overflow-x:scroll}
   header .line .inner>div{overflow-x:scroll;}
   .date .right .select{width:100%;margin-left: 0;margin-bottom: 5px;}
@@ -324,9 +325,17 @@ td:last-child{border-right: 0;}
     table{margin-top: 30px;min-width: 0px}
 }
 @media(max-width: 430px){
-    header .line .inner>div{ font-size: 12px}
+    header .line .inner>div{ font-size: 13px}
 
 }
-@media(max-width: 380px){
-    header .line .inner>div{ font-size: 8px}
+@media(max-width: 400px){
+    header .line .inner>div{ font-size: 12px}
 }
+@media(max-width: 380px){
+    header .line .inner>div{ font-size: 11.5px}
+}
+@media(max-width: 370px){
+    header .line .inner>div{ font-size: 10.5px}
+}
+
+.apexcharts-grid{ width:120%}
