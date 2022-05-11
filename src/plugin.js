@@ -15,6 +15,7 @@ const config = {
 };
 function fetch_api(url ,callback = () =>{}){
   //let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
+  console.log(url);
   fetch(url)
     .then(res => {
       if(res.ok){
@@ -25,7 +26,7 @@ function fetch_api(url ,callback = () =>{}){
     })
     .then(data => {
       callback(data);
-      console.log(data)
+      //console.log(data)
     })
     .catch( err => {
       console.log(err)

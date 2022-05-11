@@ -350,11 +350,7 @@ import {ref} from "vue"
         stroke: {
           width: [1, 1, 4]
         },
-        title: {
-          text: '보조금 접수 일별 트렌드(최근 1개월)',
-            align: 'left',
-            offsetX: 110
-        },
+
         xaxis: {
           categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
         },
@@ -370,12 +366,6 @@ import {ref} from "vue"
             labels: {
               style: {
                 colors: '#008FFB',
-              }
-            },
-            title: {
-              text: "Income (thousand crores)",
-              style: {
-                color: '#008FFB',
               }
             },
             tooltip: {
@@ -397,12 +387,7 @@ import {ref} from "vue"
                 colors: '#00E396',
               }
             },
-            title: {
-              text: "Operating Cashflow (thousand crores)",
-              style: {
-                color: '#00E396',
-              }
-            },
+
           },
           {
             seriesName: 'Revenue',
@@ -419,12 +404,6 @@ import {ref} from "vue"
                 colors: '#FEB019',
               },
             },
-            title: {
-              text: "Revenue (thousand crores)",
-              style: {
-                color: '#FEB019',
-              }
-            }
           },
         ],
           tooltip: {
@@ -438,7 +417,13 @@ import {ref} from "vue"
         legend: {
           horizontalAlign: 'left',
             offsetX: 40
-        }
+        },
+        responsive:[{
+          breakpoint: 450,
+          options:{
+          }
+
+        }]
       };
       let mixed_series= [{
         name: '접수대수(누적)',
@@ -589,13 +574,26 @@ import {ref} from "vue"
         },
       };
       let region_data = ref({});
-      let url = `http://15.165.32.56:30423/api/v1/subsidy_accepted`;
+      let trend_data = ref({});
+      let sido = '서울시';
+      let region = '서울';
+      /*
+      http://15.165.32.56:30423/api/v1/subsidy_closing_area?region=${region}&sido=${sido}
+      http://15.165.32.56:30423/api/v1/subsidy_accepted?region=${region}&sido=${sido}
+      http://15.165.32.56:30423/api/v1/subsidy_info?region=${region}&sido=${sido}
+      http://15.165.32.56:30423/api/v1/subsidy_trend
+       */
+      let url = `http://15.165.32.56:30423/api/v1/ev_subsidy_calculator/?importer=${0}&model=${0}&region=${region}&sido=${sido}`;
       fetch_api(url,(data) => {
         console.log(data);
-        region_data.value = data;
-        console.log('getting region data',region_data.value)
+        region_data = data;
+        console.log('getting region data',region_data)
       });
-
+      let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend`;
+      fetch_api(url2, (data) =>{
+        trend_data = data
+        console.log('트렌드 data',data, trend_data);
+      });
       return{
         region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
       }
