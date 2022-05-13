@@ -108,14 +108,14 @@
   </div>
   <div class="border_b">
     <div class="inner">
-      <p class="tit">보조금 신청 접수 예측 트렌드</p>
+      <p class="tit">보조금 신청 접수 일별 트렌드</p>
       <div class="area1">
         <apexchart class="chart"  type="line" height="520" style="padding-top: 10px;" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
       </div>
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
     <div class="inner">
-      <p class="tit">보조금 신청 접수 예측 트렌드</p>
+      <p class="tit">보조금 신청 접수 일별 트렌드</p>
       <div class="area2">
         <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>
       </div>
