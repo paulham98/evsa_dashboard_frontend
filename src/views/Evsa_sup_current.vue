@@ -1,5 +1,6 @@
 <template>
   <Top_navBar></Top_navBar>
+  <p></p>
   <div class="border_b">
     <div class="inner">
       <div class="date">
@@ -9,22 +10,16 @@
         </div>
         <div class="right">
           <div>
-            <div class="select">
-              <button class="label">서울특별시</button>
+            <div class="select first">
+              <button class="label">{{sido_select_left}}</button>
               <ul class="option">
-                <li class="item">서울특별시1</li>
-                <li class="item">서울특별시2</li>
-                <li class="item">서울특별시3</li>
-                <li class="item">서울특별시4</li>
+                <li class="item" v-for="(item, i) in sido_data" :key="i" @click="change_sido(item.name)">{{item.name}}</li>
               </ul>
             </div>
             <div class="select">
-              <button class="label">서울</button>
+              <button class="label">{{sido_select_right}}</button>
               <ul class="option">
-                <li class="item">서울1</li>
-                <li class="item">서울2</li>
-                <li class="item">서울3</li>
-                <li class="item">서울4</li>
+                <li class="item" v-for="(item, i) in sido_select_data" :key="i" @click="change_sido_select(item.region)">{{item.region}}</li>
               </ul>
             </div>
           </div>
@@ -585,6 +580,8 @@ import {ref} from "vue"
       http://15.165.32.56:30423/api/v1/subsidy_accepted?region=${region}&sido=${sido}
       http://15.165.32.56:30423/api/v1/subsidy_info?region=${region}&sido=${sido}
       http://15.165.32.56:30423/api/v1/subsidy_trend
+      http://15.165.32.56:30423/api/v1/sido
+      http://15.165.32.56:30423/api/v1/sido_filter?sido=경기
        */
       let url = `http://15.165.32.56:30423/api/v1/ev_subsidy_calculator/?importer=${0}&model=${0}&region=${region}&sido=${sido}`;
       fetch_api(url,(data) => {
@@ -594,14 +591,47 @@ import {ref} from "vue"
       });
       let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend`;
       fetch_api(url2, (data) =>{
-        trend_data = data
+        trend_data = data;
         console.log('트렌드 data',data, trend_data);
       });
+      let sido_url = `http://15.165.32.56:30423/api/v1/sido`;
+      let sido_data = ref({});
+      let sido_select_left = ref('서울');
+      let sido_select_right = ref('서울 특별시');
+      let sido_select_url = `http://15.165.32.56:30423/api/v1/sido_filter?sido=${sido_select_left.value}`;
+      let sido_select_data = ref({});
+      // 시도 고른 후 데이터
+      fetch_api(sido_select_url,(data) => {
+        sido_select_data.value = data;
+        console.log('시도 고른 후 원본',data);
+        console.log('select sido', sido_select_data.value)
+      });
+      // 시도 구하는 데이터
+      fetch_api(sido_url,(data) => {
+        sido_data.value = data;
+        sido_select_right = data[0].region;
+        console.log('getting sido data',sido_data.value)
+      });
+
+
       return{
-        region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
+        sido_select_data,sido_select_url, sido_select_left,sido_select_right, sido_data, region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
       }
     },
     methods:{
+      change_sido(change_data){
+        this.sido_select_left = change_data;
+        let url = `http://15.165.32.56:30423/api/v1/sido_filter?sido=${change_data}`;
+        fetch_api(url,(data) => {
+          this.sido_select_data = data;
+          this.sido_select_right = data[0].region;
+          console.log('select sido', this.sido_select_data)
+        });
+      },
+      change_sido_select(change_data){
+        this.sido_select_right = change_data;
+
+      },
       select_sup_ab(i, show, deadline){
         if(show && i === 0){
           this.sup_show=false
@@ -629,6 +659,7 @@ import {ref} from "vue"
 </script>
 
 <style scoped>
+  .first{ z-index: 9999}
   .deadline_red{
     color:red
   }

@@ -59,7 +59,7 @@ header .line .login img{display:block;}
   background: #F1F1F1;
   list-style-type: none;
   padding: 0;
-  overflow: hidden;
+  overflow: scroll;
   max-height: 0;
   transition: .3s ease-in;
   padding-top: 45px;/* overflow-y: scroll; */border-radius: 8px;}
@@ -91,7 +91,7 @@ border-radius: 8px 8px 0 0;}
 
 .date .right .select{margin-left: 30px;display: inline-block;width: calc(33.333% - 33px);vertical-align: top;margin-bottom: 30px;}
 
-.select .option::-webkit-scrollbar {width: 10px;}
+.select .option::-webkit-scrollbar {width: 0px;}
 .select .option::-webkit-scrollbar-thumb {background-color: rgba(000,000,000,0.2);;border-radius: 10px;background-clip: padding-box;border: 2px solid transparent;}
 .select .option::-webkit-scrollbar-track {background-color: none;border-radius: 10px;}
 
