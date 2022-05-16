@@ -16,7 +16,7 @@
                 <li class="item" v-for="(item, i) in sido_data" :key="i" @click="change_sido(item.name)">{{item.name}}</li>
               </ul>
             </div>
-            <div class="select">
+            <div class="select second">
               <button class="label">{{sido_select_right}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in sido_select_data" :key="i" @click="change_sido_select(item.region)">{{item.region}}</li>
@@ -660,6 +660,7 @@ import {ref} from "vue"
 
 <style scoped>
   .first{ z-index: 9999}
+  .second{ z-index: 9998}
   .deadline_red{
     color:red
   }
