@@ -5,11 +5,13 @@ import VueApexCharts from "vue3-apexcharts";
 import BootstrapVue3 from 'bootstrap-vue-3'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
-import mitt from 'mitt'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
 import '../public/css/reset.css'
 import '../public/css/style.css'
 //import { fetch_api, get_api } from './plugin.js'
 import $ from 'jquery'
+import mitt from "mitt"
 
 /*
  저번 프로젝트에선 컴포넌트간 통신 방법으로 eventbus 를 사용했지만
@@ -20,9 +22,9 @@ import $ from 'jquery'
  */
 
 
-const emitter = mitt();
 const app = createApp(App);
-app.config.globalProperties.emiiter = emitter;
+const emitter = mitt();
+app.provide('emitter', emitter);
 
 app.use($);
 app.use(Router);

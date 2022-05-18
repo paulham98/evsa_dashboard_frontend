@@ -10,17 +10,25 @@
         </div>
         <div class="right">
           <div>
+
             <div class="select first">
-              <button class="label">{{sido_select_left}}</button>
-              <ul class="option">
-                <li class="item" v-for="(item, i) in sido_data" :key="i" @click="change_sido(item.name)">{{item.name}}</li>
-              </ul>
+              <select class="label" @change="change_sido(sido_select_left)" v-model="sido_select_left">
+                <option class="option" v-for="(item, i) in sido_data" :key="i" >{{item.name}}</option>
+              </select>
+              <!--<button class="label">{{sido_select_left}}</button>-->
+              <!--<ul class="option">-->
+                <!--<li class="item" v-for="(item, i) in sido_data" :key="i" @click="change_sido(item.name)">{{item.name}}</li>-->
+              <!--</ul>-->
+
             </div>
             <div class="select second">
-              <button class="label">{{sido_select_right}}</button>
-              <ul class="option">
-                <li class="item" v-for="(item, i) in sido_select_data" :key="i" @click="change_sido_select(item.region)">{{item.region}}</li>
-              </ul>
+              <select class="label">
+                <option class="option" v-for="(item, i) in sido_select_data" :key="i" @change="change_sido_select(item.region)">{{item.region}}</option>
+              </select>
+              <!--<button class="label">{{sido_select_right}}</button>-->
+              <!--<ul class="option">-->
+                <!--<li class="item" v-for="(item, i) in sido_select_data" :key="i" @click="change_sido_select(item.region)">{{item.region}}</li>-->
+              <!--</ul>-->
             </div>
           </div>
           <div>
@@ -609,29 +617,30 @@ import {ref} from "vue"
       // 시도 구하는 데이터
       fetch_api(sido_url,(data) => {
         sido_data.value = data;
-        sido_select_right = data[0].region;
+        sido_select_right.value = data[0].region;
         console.log('getting sido data',sido_data.value)
       });
+      function change_sido(change_data){
+        // console.log(change_data)
+        sido_select_left.value = change_data;
+        let url = `http://15.165.32.56:30423/api/v1/sido_filter?sido=${change_data}`;
+        fetch_api(url,(data) => {
+          sido_select_data.value = data;
+          sido_select_right.value = data[0].region;
+          console.log('select sido', sido_select_data.value, sido_select_right.value)
+        });
+      }
+      function change_sido_select(change_data){
+        this.sido_select_right = change_data;
 
+      }
 
       return{
-        sido_select_data,sido_select_url, sido_select_left,sido_select_right, sido_data, region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
+        change_sido, change_sido_select,sido_select_data,sido_select_url, sido_select_left,sido_select_right, sido_data, region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
       }
     },
     methods:{
-      change_sido(change_data){
-        this.sido_select_left = change_data;
-        let url = `http://15.165.32.56:30423/api/v1/sido_filter?sido=${change_data}`;
-        fetch_api(url,(data) => {
-          this.sido_select_data = data;
-          this.sido_select_right = data[0].region;
-          console.log('select sido', this.sido_select_data)
-        });
-      },
-      change_sido_select(change_data){
-        this.sido_select_right = change_data;
 
-      },
       select_sup_ab(i, show, deadline){
         if(show && i === 0){
           this.sup_show=false
@@ -659,8 +668,8 @@ import {ref} from "vue"
 </script>
 
 <style scoped>
-  .first{ z-index: 9999}
-  .second{ z-index: 9998}
+  .first{ z-index: 99}
+  .second{ z-index: 98}
   .deadline_red{
     color:red
   }

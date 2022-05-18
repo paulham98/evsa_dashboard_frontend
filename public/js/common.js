@@ -4,14 +4,14 @@ $(function () {
   $(window).resize(function () {
   });
 
-  const label = document.querySelectorAll('.label');
-label.forEach(function(lb){
-    lb.addEventListener('click', e => {
-        let optionList = lb.nextElementSibling;
-        let optionItems = optionList.querySelectorAll('.item');
-        clickLabel(lb, optionItems);
-    })
-});
+//   const label = document.querySelectorAll('.label');
+// label.forEach(function(lb){
+//     lb.addEventListener('click', e => {
+//         let optionList = lb.nextElementSibling;
+//         let optionItems = optionList.querySelectorAll('.item');
+//         clickLabel(lb, optionItems);
+//     })
+// });
 const clickLabel = (lb, optionItems) => {
     if(lb.parentNode.classList.contains('active')) {
         lb.parentNode.classList.remove('active');
