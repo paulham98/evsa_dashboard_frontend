@@ -8,7 +8,7 @@
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
     <div class="inner">
-      <p class="tit">보조금 신청 접수 일별 트렌드</p>
+      <p class="tit">보조금 신청 접수예측별 트렌드</p>
       <div class="area2">
         <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>
       </div>
@@ -24,9 +24,49 @@
 </template>
 
 <script>
+// import {ref} from 'vue'
+import {fetch_api} from "../plugin.js"
   export default {
     name: "Sup_trend",
-    setup(){
+    props:{
+      sido: String,
+      region: String,
+      category: String
+    },
+    setup(props){
+      console.log('sup trend data', props.sido, props.region, props.category);
+      let my_date = new Date();
+      let yy = String(my_date.getFullYear());
+      let mm = my_date.getMonth() + 1;
+      let dd = String(my_date.getDate() < 10 ? '0' + my_date.getDate() : my_date.getDate())
+      let trend_date = yy + '-' + mm +'-' + dd;
+      // 하드코딩된거 바꿔주기
+      // let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=${trend_date-7}&date2=${trend_date}&region=${props.region}&sido=${props.sido}`;
+      let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=2022-05-13&date2=2022-05-20&region=수원시&sido=경기`;
+      // let trend_data = ref([]);
+      let trend_chart_date = [];
+      let trend_chart_accepted = [];
+      let trend_chart_release = [];
+      let trend_chart_recept = [];
+      fetch_api(url2, (data) =>{
+        // trend_data.value = data;
+        console.log('트렌드 data', data);
+        for(let item of data[0].slice(1)){
+          trend_chart_date.push(item)
+          // console.log(item, parseInt(item))
+        }
+        for(let item of data[2].slice(1)){
+          trend_chart_accepted.push(parseInt(item))
+
+        }
+        for(let item of data[3].slice(1)){
+          trend_chart_release.push(parseInt(item))
+        }
+        for(let item of data[4].slice(1)){
+          trend_chart_recept.push(parseInt(item))
+        }
+        console.log(trend_chart_date, trend_chart_accepted, trend_chart_release, trend_chart_recept)
+      });
       let  mixed_chartOptions= {
         chart: {
           width: '130%',
@@ -46,9 +86,8 @@
         stroke: {
           width: [1, 1, 4]
         },
-
         xaxis: {
-          categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
+          categories: [2022,2022,2022]
         },
         yaxis: [
           {
@@ -69,7 +108,6 @@
             }
           },
           {
-            seriesName: 'Income',
             opposite: true,
             axisTicks: {
               show: true,
@@ -84,10 +122,8 @@
                 colors: '#00E396',
               }
             },
-
           },
           {
-            seriesName: 'Revenue',
             opposite: true,
             axisTicks: {
               show: true,
@@ -126,16 +162,17 @@
       let mixed_series= [{
         name: '접수대수(누적)',
         type: 'column',
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
+        data: trend_chart_accepted,
       }, {
         name: '출고대수(누적)',
         type: 'column',
-        data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
+        data: trend_chart_release,
       }, {
         name: '접수대수(일별)',
         type: 'line',
-        data: [20, 29, 37, 36, 44, 45, 50, 58]
+        data: trend_chart_recept
       }];
+      //
       let line_series = [{
         name: "Desktops",
         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
@@ -271,7 +308,7 @@
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
         },
       };
-      return{mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
+      return{trend_date,mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
     }
   }
 </script>

@@ -92,7 +92,7 @@
               <span>{{info_notice-info_remain}}대</span>
             </div>
             <div class="tar">
-              <p>접수대수</p>
+              <p>잔여대수</p>
               <p>공고대수</p>
             </div>
           </div>
@@ -110,7 +110,7 @@
       </div>
     </div>
   </div>
-  <Sup_trend></Sup_trend>
+  <Sup_trend :sido="sido_select_left" :region="sido_select_right" :category="category2"></Sup_trend>
   <div class="inner">
     <div class="border_b dead" style="border-bottom: 0;">
       <p class="tit">보조금 마감 지역 찾기</p>
@@ -245,19 +245,19 @@
           <td>충청북도</td>
           <td>단양군</td>
           <td>97%</td>
-          <td class="color_red">마감위험</td>
+          <td class="color_red">마감예정</td>
         </tr>
         <tr>
           <td>경기도</td>
           <td>용인시</td>
           <td>97%</td>
-          <td class="color_red">마감위험</td>
+          <td class="color_red">마감예정</td>
         </tr>
         <tr>
           <td>충청북도</td>
           <td>충주시</td>
           <td>97%</td>
-          <td class="color_red">마감위험</td>
+          <td class="color_red">마감예정</td>
         </tr>
         <tr>
           <td>경기도</td>
@@ -309,12 +309,6 @@ import {ref} from "vue"
         region_data = data;
         console.log('getting region data',region_data)
       });
-      // let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend`;
-      // let trend_data = ref({});
-      // fetch_api(url2, (data) =>{
-      //   trend_data = data;
-      //   console.log('트렌드 data',data, trend_data);
-      // });
       let sido_url = `http://15.165.32.56:30423/api/v1/sido`;
       let sido_data = ref({});
       let sido_select_left = ref('서울');
@@ -338,7 +332,6 @@ import {ref} from "vue"
       // http://15.165.32.56:30423/api/v1/subsidy_info?category2=${category2}&region=${region}&sido=${sido}&date=${info_date}`
       let info_url = `http://15.165.32.56:30423/api/v1/subsidy_info?category2=전체&region=수원시&sido=경기&date=2022-05-20`;
       let category2 = ref('전체');
-      console.log(info_date)
       let info_remain = ref('');
       let info_release = ref('');
       let info_recept = ref('');
@@ -368,12 +361,12 @@ import {ref} from "vue"
         });
       }
       function change_sido_select(change_data){
-        this.sido_select_right = change_data;
+        sido_select_right.value = change_data;
 
       }
 
       return{
-        info_available_ratio_unit, category2, info_notice, info_remain,info_recept,info_release, info_remain_rate, info_accepted_rate ,change_sido, change_sido_select,sido_select_data,sido_select_url, sido_select_left,sido_select_right, sido_data, region_data,
+        info_date, info_available_ratio_unit, category2, info_notice, info_remain,info_recept,info_release, info_remain_rate, info_accepted_rate ,change_sido, change_sido_select,sido_select_data,sido_select_url, sido_select_left, sido_select_right, sido_data, region_data,
       }
     },
 
