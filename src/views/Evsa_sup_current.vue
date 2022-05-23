@@ -10,20 +10,14 @@
         </div>
         <div class="right">
           <div>
-
             <div class="select first">
               <select class="label" @change="change_sido(sido_select_left)" v-model="sido_select_left">
-                <option class="option" v-for="(item, i) in sido_data" :key="i" >{{item.name}}</option>
+                <option class="option item" v-for="(item, i) in sido_data" :key="i" >{{item.name}}</option>
               </select>
-              <!--<button class="label">{{sido_select_left}}</button>-->
-              <!--<ul class="option">-->
-                <!--<li class="item" v-for="(item, i) in sido_data" :key="i" @click="change_sido(item.name)">{{item.name}}</li>-->
-              <!--</ul>-->
-
             </div>
             <div class="select second">
               <select class="label">
-                <option class="option" v-for="(item, i) in sido_select_data" :key="i" @change="change_sido_select(item.region)">{{item.region}}</option>
+                <option class="item" v-for="(item, i) in sido_select_data" :key="i" @change="change_sido_select(item.region)">{{item.region}}</option>
               </select>
               <!--<button class="label">{{sido_select_right}}</button>-->
               <!--<ul class="option">-->
@@ -41,21 +35,28 @@
               <label for="agree1_2">우선 차량</label>
             </div>
             <div class="select">
-              <button class="label">기타</button>
-              <ul class="option">
-                <li class="item">전체</li>
-                <li class="item">법인</li>
-                <li class="item">택시</li>
-                <li class="item">전체</li>
-                <li class="item">법인</li>
-                <li class="item">택시</li>
-                <li class="item">전체</li>
-                <li class="item">법인</li>
-                <li class="item">택시</li>
-                <li class="item">전체</li>
-                <li class="item">법인</li>
-                <li class="item">택시</li>
-              </ul>
+              <select class="label">
+                <option>전체</option>
+                <option>법인</option>
+                <option>택시</option>
+                <option>법인</option>
+                <option>기타</option>
+              </select>
+              <!--<button class="label">기타</button>-->
+              <!--<ul class="option">-->
+                <!--<li class="item">전체</li>-->
+                <!--<li class="item">법인</li>-->
+                <!--<li class="item">택시</li>-->
+                <!--<li class="item">전체</li>-->
+                <!--<li class="item">법인</li>-->
+                <!--<li class="item">택시</li>-->
+                <!--<li class="item">전체</li>-->
+                <!--<li class="item">법인</li>-->
+                <!--<li class="item">택시</li>-->
+                <!--<li class="item">전체</li>-->
+                <!--<li class="item">법인</li>-->
+                <!--<li class="item">택시</li>-->
+              <!--</ul>-->
             </div>
           </div>
         </div>
@@ -64,13 +65,13 @@
         <div class="left">
           <p class="tit">접수대수</p>
           <div class="line_grp purple">
-            <h1><em>2,250</em> / 3000 <span>Total</span></h1>
+            <h1><em>{{info_recept}}</em> / {{info_notice}} <span>Total</span></h1>
             <div class="wrap">
-              <div class="line1" data-percent="72">
-                <span>2,250대</span>
-                <p>72%</p>
+              <div class="line1" :data-percent="info_accepted_rate">
+                <span>{{info_recept}}대</span>
+                <p>{{info_accepted_rate}}%</p>
               </div>
-              <span>750대</span>
+              <span>{{info_notice-info_recept}}대</span>
             </div>
             <div class="tar">
               <p>접수대수</p>
@@ -81,14 +82,14 @@
         <div class="right">
           <p class="tit">잔여대수</p>
           <div class="line_grp blue">
-            <h1><em>2,350</em> / 3000 <span>Total</span></h1>
+            <h1><em>{{info_remain}}</em> / {{info_notice}} <span>Total</span></h1>
             <div class="wrap">
               <!-- data-percent 만큼 그래프 그려짐 -->
-              <div class="line1" data-percent="50">
-                <span>2,350대</span>
-                <p>20%</p>
+              <div class="line1" :data-percent="info_remain_rate">
+                <span>{{info_remain}}대</span>
+                <p>{{info_remain_rate}}%</p>
               </div>
-              <span>750대</span>
+              <span>{{info_notice-info_remain}}대</span>
             </div>
             <div class="tar">
               <p>접수대수</p>
@@ -99,9 +100,9 @@
       </div>
       <div class="txt1">
         <h1>현재 보조금 신청 공고대수 대비</h1>
-        <h2>접수율 72%, <br class="v800">잔여대수 2,200대로</h2>
+        <h2>접수율 {{info_accepted_rate}}%, <br class="v800">잔여대수 {{info_remain}}대로</h2>
         <!-- span 에 클래스 active가 추가되면 위로올라오도록 애니매이션 처리해둠 (active가 없다가 해당값이되면 addClass(active)처리 필요) -->
-        <h3>방문자님은 해당 지자체 보조금 신청 시 <br>지원금 자격 부여 가능성이 <br class="v800"><span class="color_blue active">높은 편</span> 입니다.</h3>
+        <h3>방문자님은 해당 지자체 보조금 신청 시 <br>지원금 자격 부여 가능성이 <br class="v800"><span class="color_blue active">{{info_available_ratio_unit}}</span> 입니다.</h3>
         <p class="color_gray">* 공고대수보다 접수대수가 많을 시 접수 불가능할 수 있으니 해당 지자체로 문의주시길 바랍니다.  (지자체마다 접수 받는 기준이 다를 수 있음)<br>
           담당부서: 기후변화대응과(02-02-2133-3579)</p>
         <p class="color_gray">* 해당 신청 가능 여부는 data에 기반한 근거로 실제 보조금 신청 가능 여부는 지자체 상황에 따라 달라질 수 있습니다.</p>
@@ -109,28 +110,7 @@
       </div>
     </div>
   </div>
-  <div class="border_b">
-    <div class="inner">
-      <p class="tit">보조금 신청 접수 일별 트렌드</p>
-      <div class="area1">
-        <apexchart class="chart"  type="line" height="520" style="padding-top: 10px;" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
-      </div>
-    </div>
-    <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
-    <div class="inner">
-      <p class="tit">보조금 신청 접수 일별 트렌드</p>
-      <div class="area2">
-        <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>
-      </div>
-      <div class="txt2">
-        <h1>일 평균 접수대수 <em class="color_sky">3.2</em>대, <br class="v800">출고대수 <em class="color_sky">8</em>대로</h1>
-        <h2><em class="color_sky">04-12</em> 기준 <em class="color_sky">90</em>일 후 <br class="v800"><em class="color_red">마감 예정</em>입니다.</h2>
-        <h3><em class="color_sky">73</em>일 내 보조금 신청 시 <br class="v800"><em class="color_green">접수 안정권</em> 입니다.</h3>
-        <p class="color_gray">* 보조금 신청 접수 예측 트렌드는 통합 누리집 data에 기반하였으며 실제 신청 접수 가능여부는<br>
-          지자체 상황에 따라 달라질 수 있습니다.</p>
-      </div>
-    </div>
-  </div>
+  <Sup_trend></Sup_trend>
   <div class="inner">
     <div class="border_b dead" style="border-bottom: 0;">
       <p class="tit">보조금 마감 지역 찾기</p>
@@ -291,298 +271,21 @@
   </div>
   <a href="#" class="banner"><img src="images/bot_banner.png" alt=""></a>
 
-  <!--
-  <select v-model="sup_av" @change="select_sup_ab(0, this.sup_show)" >
-    <option  v-for="(v, i) in sup_availability" :value="v" :key="i+1">{{v}}</option>
-  </select>
-  <select v-model="deadline_av" @change="select_sup_ab(1, this.deadline_show, deadline_av)">
-    <option v-for="(v, i) in deadline" :value="v" :key="i">{{v}}</option>
-  </select>
-  <transition>
-    <p >지원금 자격 부여 가능성이<span>{{sup_av}}</span>입니다.</p>
-  </transition>
-  <Transition name="fadeOne">
-    <p >지원금 자격 부여 가능성이{{sup_av}}입니다.</p>
-  </Transition>
-  <transition name="fadeOne">
-    <p v-show="!sup_show" class="container">지원금 자격 부여 가능성이 {{sup_av}}입니다.</p>
-  </transition>
-  <Transition name="fadeTwo" mode="out-in">
-    <p v-if="deadline_show" :class="{deadline_red:isRed, deadline_black:isBlack}">{{deadline_av}}</p>
-    <p v-else :class="{deadline_red:isRed}">{{deadline_av}}</p>
-  </Transition>
-  <apexchart class="bar1" type="bar" width="300" height="300" :options="bar1_chartOptions" :series="bar1_series"></apexchart>
-  <apexchart class="bar2" type="bar" width="300" height="300" :options="bar2_chartOptions" :series="bar2_series"></apexchart>
-  -->
 
 </template>
 
 <script>
 import Top_navBar from "../components/Top_navBar"
+import Sup_trend from "../components/Sup_trend"
 import {fetch_api} from "../plugin.js"
 import {ref} from "vue"
+
   export default {
     name: "Evsa_sup_current",
     components: {
-      Top_navBar
+      Top_navBar, Sup_trend
     },
     setup(){
-      let sup_availability = ['매우 낮은편', '낮은편', '보통', '높은편', '매우 높은편'];
-      let deadline = ['마감여유','마감임박', '마감위험'];
-      let deadline_av = '마감여유';
-      let isRed = false;
-      let isBlack = true;
-      let sup_show = true;
-      let deadline_show = true;
-      let sup_av = '매우 낮은편';
-      let  mixed_chartOptions= {
-        chart: {
-          width: '130%',
-          height: 350,
-          type: 'line',
-          stacked: false,
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-              borderRadius: 7,
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          width: [1, 1, 4]
-        },
-
-        xaxis: {
-          categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016],
-        },
-        yaxis: [
-          {
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: '#008FFB',
-            },
-            labels: {
-              style: {
-                colors: '#008FFB',
-              }
-            },
-            tooltip: {
-              enabled: true
-            }
-          },
-          {
-            seriesName: 'Income',
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: '#00E396',
-            },
-            labels: {
-              offsetX: -80,
-              style: {
-                colors: '#00E396',
-              }
-            },
-
-          },
-          {
-            seriesName: 'Revenue',
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: '#FEB019'
-            },
-            labels: {
-              offsetX: 10,
-              style: {
-                colors: '#FEB019',
-              },
-            },
-          },
-        ],
-          tooltip: {
-          fixed: {
-            enabled: true,
-              position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-              offsetY: 30,
-              offsetX: 60
-          },
-        },
-        legend: {
-          horizontalAlign: 'left',
-            offsetX: 40
-        },
-        responsive:[{
-          breakpoint: 450,
-          options:{
-          }
-
-        }]
-      };
-      let mixed_series= [{
-        name: '접수대수(누적)',
-        type: 'column',
-        data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6],
-      }, {
-        name: '출고대수(누적)',
-        type: 'column',
-        data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
-      }, {
-        name: '접수대수(일별)',
-        type: 'line',
-        data: [20, 29, 37, 36, 44, 45, 50, 58]
-      }];
-      let line_series = [{
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-      },
-        {
-          name: "Desktops",
-          data: [79, 101, 158]
-        }
-      ];
-      let bar1_series= [{
-        name: 'Marine Sprite',
-        data: [44,]
-      }, {
-        name: 'Striking Calf',
-        data: [53,]
-      }
-      ];
-      let bar1_chartOptions = {
-        chart: {
-          type: 'bar',
-            height: 350,
-            stacked: true,
-            stackType: '100%',
-            width: 200
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true,
-              borderRadius:5
-          },
-        },
-        stroke: {
-          width: 1,
-            colors: ['#fff']
-        },
-        title: {
-          text: '100% Stacked Bar'
-        },
-        xaxis: {
-          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return val + "K"
-            }
-          }
-        },
-        fill: {
-          opacity: 1
-
-        },
-        legend: {
-          position: 'top',
-            horizontalAlign: 'left',
-            offsetX: 40
-        }
-      };
-      let bar2_series = [{
-        name: 'Marine Sprite',
-        data: [44,]
-      }, {
-        name: 'Striking Calf',
-        data: [53,]
-      }
-      ];
-      let bar2_chartOptions = {
-        chart: {
-          type: 'bar',
-            height: 350,
-            stacked: true,
-            stackType: '100%',
-            width: 200
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true,
-              borderRadius:5
-          },
-        },
-        stroke: {
-          width: 1,
-            colors: ['#fff']
-        },
-        title: {
-          text: '100% Stacked Bar'
-        },
-        xaxis: {
-          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return val + "K"
-            }
-          }
-        },
-        fill: {
-          opacity: 1
-
-        },
-        legend: {
-          position: 'top',
-            horizontalAlign: 'left',
-            offsetX: 40
-        }
-      };
-      let line_chartOptions = {
-        chart: {
-          height: 350,
-            type: 'line',
-            zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: 'straight'
-        },
-        title: {
-          text: 'Product Trends by Month',
-            align: 'left'
-        },
-        grid: {
-          row: {
-            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-              opacity: 0.5
-          },
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        },
-      };
-      let region_data = ref({});
-      let trend_data = ref({});
-      let sido = '서울시';
-      let region = '서울';
       /*
       http://15.165.32.56:30423/api/v1/subsidy_closing_area?region=${region}&sido=${sido}
       http://15.165.32.56:30423/api/v1/subsidy_accepted?region=${region}&sido=${sido}
@@ -590,18 +293,28 @@ import {ref} from "vue"
       http://15.165.32.56:30423/api/v1/subsidy_trend
       http://15.165.32.56:30423/api/v1/sido
       http://15.165.32.56:30423/api/v1/sido_filter?sido=경기
+      http://15.165.32.56:30423/api/v1/subsidy_info?category2=전체&region=수원시&sido=경기&date=2022-05-20
        */
+      let region_data = ref({});
+      let sido = '서울시';
+      let region = '서울';
+      let my_date = new Date();
+      let yy = String(my_date.getFullYear());
+      let mm = my_date.getMonth() + 1;
+      let dd = String(my_date.getDate() < 10 ? '0' + my_date.getDate() : my_date.getDate())
+      let info_date = yy + '-' + mm +'-' + dd;
       let url = `http://15.165.32.56:30423/api/v1/ev_subsidy_calculator/?importer=${0}&model=${0}&region=${region}&sido=${sido}`;
       fetch_api(url,(data) => {
         console.log(data);
         region_data = data;
         console.log('getting region data',region_data)
       });
-      let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend`;
-      fetch_api(url2, (data) =>{
-        trend_data = data;
-        console.log('트렌드 data',data, trend_data);
-      });
+      // let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend`;
+      // let trend_data = ref({});
+      // fetch_api(url2, (data) =>{
+      //   trend_data = data;
+      //   console.log('트렌드 data',data, trend_data);
+      // });
       let sido_url = `http://15.165.32.56:30423/api/v1/sido`;
       let sido_data = ref({});
       let sido_select_left = ref('서울');
@@ -620,6 +333,30 @@ import {ref} from "vue"
         sido_select_right.value = data[0].region;
         console.log('getting sido data',sido_data.value)
       });
+      // category 선별이 다되었다면 바뀌는 데이터들
+      // url 하드코딩된거 나중가면 바꾸기
+      // http://15.165.32.56:30423/api/v1/subsidy_info?category2=${category2}&region=${region}&sido=${sido}&date=${info_date}`
+      let info_url = `http://15.165.32.56:30423/api/v1/subsidy_info?category2=전체&region=수원시&sido=경기&date=2022-05-20`;
+      let category2 = ref('전체');
+      console.log(info_date)
+      let info_remain = ref('');
+      let info_release = ref('');
+      let info_recept = ref('');
+      let info_remain_rate = ref('');
+      let info_accepted_rate = ref('');
+      let info_notice = ref('');
+      let info_available_ratio_unit = ref('');
+      fetch_api(info_url, (data) =>{
+        info_remain.value = data.remains;
+        info_recept.value = data.recept;
+        info_remain_rate.value = data.remain_rate;
+        info_release.value = data.release;
+        info_accepted_rate.value = data.accepted_rate;
+        info_notice.value = data.notice;
+        info_available_ratio_unit.value = data.available_ratio_unit;
+        console.log(data);
+        console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
+      });
       function change_sido(change_data){
         // console.log(change_data)
         sido_select_left.value = change_data;
@@ -636,40 +373,17 @@ import {ref} from "vue"
       }
 
       return{
-        change_sido, change_sido_select,sido_select_data,sido_select_url, sido_select_left,sido_select_right, sido_data, region_data, sup_availability, deadline, deadline_av, isRed, isBlack, sup_show, deadline_show, sup_av, mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series
+        info_available_ratio_unit, category2, info_notice, info_remain,info_recept,info_release, info_remain_rate, info_accepted_rate ,change_sido, change_sido_select,sido_select_data,sido_select_url, sido_select_left,sido_select_right, sido_data, region_data,
       }
     },
-    methods:{
 
-      select_sup_ab(i, show, deadline){
-        if(show && i === 0){
-          this.sup_show=false
-        }else if(!show && i === 0){
-          this.sup_show=true
-        }
-        if(show && i === 1 ){
-          this.deadline_show = false
-        }else if(!show && i === 1){
-          this.deadline_show = true
-        }
-        if( i === 1 && deadline === '마감임박'){
-          this.isRed = true;
-          this.isBlack = false
-        }else if( i === 1 && deadline === '마감위험'){
-          this.isRed = true;
-          this.isBlack = false
-        }else if( i === 1 && deadline === '마감여유'){
-          this.isRed = false;
-          this.isBlack = true
-        }
-      }
-    },
   }
 </script>
 
 <style scoped>
   .first{ z-index: 99}
   .second{ z-index: 98}
+  .item{max-height: 50px}
   .deadline_red{
     color:red
   }
