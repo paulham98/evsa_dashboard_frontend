@@ -42,7 +42,7 @@ import {fetch_api} from "../plugin.js"
       let trend_date = yy + '-' + mm +'-' + dd;
       // 하드코딩된거 바꿔주기
       // let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=${trend_date-7}&date2=${trend_date}&region=${props.region}&sido=${props.sido}`;
-      let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=2022-05-13&date2=2022-05-20&region=수원시&sido=경기`;
+      let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=2022-05-13&date2=2022-05-20&region=${props.region}&sido=${props.sido}`;
       // let trend_data = ref([]);
       let trend_chart_date = [];
       let trend_chart_accepted = [];

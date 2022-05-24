@@ -4,7 +4,7 @@
 </template>
 
 <script>
-  import Top_navBar from "../components/Top_navBar"
+  import Top_navBar from "../components/TopNavBar"
   export default {
     name: "Evsa_apply_guide",
     components: {

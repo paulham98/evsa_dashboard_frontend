@@ -8,7 +8,7 @@
 <script>
 //import Top_navBar from "../components/Top_navBar"
 import {onMounted} from 'vue'
-import Evsa_sup_current from "./Evsa_sup_current"
+import Evsa_sup_current from "./EvsaSupCurrent"
 //import { get_api, fetch_api} from "../plugin.js"
 //import {ref} from "vue"
 export default {
