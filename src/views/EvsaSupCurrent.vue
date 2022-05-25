@@ -12,12 +12,16 @@
           <div>
             <div class="select first">
               <select class="label" @change="changeSido(sido)" v-model="sido">
-                <option class="option item" v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>
+                <option  v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>
               </select>
+              <!--<button class="label">{{sido}}</button>-->
+              <!--<ul class="option">-->
+                <!--<li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>-->
+              <!--</ul>-->
             </div>
             <div class="select second">
               <select class="label" @change="changeRegion">
-                <option class="item" v-for="(item, i) in regions" :key="i">{{item.region}}</option>
+                <option  v-for="(item, i) in regions" :key="i">{{item.region}}</option>
               </select>
               <!--<button class="label">{{region}}</button>-->
               <!--<ul class="option">-->
@@ -27,20 +31,17 @@
           </div>
           <div>
             <div class="checkbox1">
-              <input type="checkbox" name="" id="agree1_1" @change="clickCheckboxCategory2('일반')">
+              <input v-model="click_check_left" type="checkbox" name="ck" id="agree1_1" @change="clickCheckboxCategory2('일반')" checked>
+              <!---->
               <label for="agree1_1">일반 차량</label>
             </div>
             <div class="checkbox1">
-              <input type="checkbox" name="" id="agree1_2" @change="clickCheckboxCategory2('우선')">
+              <input v-model="click_check_right"  type="checkbox" name="ck" id="agree1_2" @change="clickCheckboxCategory2('우선')" >
               <label for="agree1_2">우선 차량</label>
             </div>
             <div class="select">
               <select class="label" @change="changeSelectCategory2">
-                <option>전체</option>
-                <option>법인</option>
-                <option>택시</option>
-                <option>법인</option>
-                <option>기타</option>
+                <option v-for="(item, i) in third_select_options" :key="i">{{item}}</option>
               </select>
             </div>
           </div>
@@ -109,7 +110,6 @@ import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "../plugin.js"
 import {ref, onMounted, onUpdated} from "vue"
 import EvsaClose from "@/components/EvsaClose";
-
 export default {
   name: "EvsaSupCurrent",
   components: {
@@ -154,6 +154,7 @@ export default {
       fetch_api(urlTemplates.sido(),(data) => {
         sidos.value = data;
         console.log('getting sido data',sidos.value)
+
       });
     }
     // 시도 고른 후 데이터
@@ -179,6 +180,7 @@ export default {
         console.log('url:', url)
         console.log('subsidyInfoData:', data);
         console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
+
       });
     }
 
@@ -197,23 +199,50 @@ export default {
       region.value = event.target.value;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
     }
-
+    let click_check_left = ref(true);
+    let click_check_right = ref(false);
+    let third_select_options = ref(['전체', '법인', '택시', '기타']);
     function clickCheckboxCategory2(pCategory2) {
+      if(pCategory2 === '일반'){
+        click_check_left.value = true
+        click_check_right.value = false
+      }else if(pCategory2 === '우선'){
+        click_check_left.value = false
+        click_check_right.value = true
+      }
+      if(third_select_options.value.length === 3){
+        third_select_options.value = ['전체', '법인', '택시', '기타']
+      }
       category2.value = pCategory2
       console.log('clickCheckboxCategory2', category2.value)
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+
     }
     function changeSelectCategory2(event) {
-      console.log('clickCheckboxCategory2', event.target.value, region.value)
-      category2.value = event.target.value
-      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
-    }
+      if(event.target.value === '전체' || event.target.value === '법인' || event.target.value === '택시'){
+        third_select_options.value = ['전체', '법인', '택시'];
+        click_check_left.value = false;
+        click_check_right.value = false
+      }
 
-    callSido()
-    callRegion(sido.value)
+      console.log('clickCheckboxCategory2', event.target.value, region.value);
+      category2.value = event.target.value;
+      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
+    }
+    // function click_check(target) {
+    //   document.querySelectorAll(`input[type=checkbox]`)
+    //     .forEach(el => el.checked = false);
+    //
+    //   target.checked = true;
+    // }
+
+    callSido();
+    callRegion(sido.value);
     callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
 
     return{
+      third_select_options,
+      click_check_left, click_check_right,
       infoDate, info_available_ratio_unit,
       category2,
       info_notice, info_remain,info_recept,info_release, info_remain_rate, info_accepted_rate,
@@ -229,6 +258,36 @@ export default {
   .first{ z-index: 99}
   .second{ z-index: 98}
   .item{max-height: 50px}
+  /*.select .label option {*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*width: 100%;*/
+    /*background: #F1F1F1;*/
+    /*list-style-type: none;*/
+    /*padding: 0;*/
+    /*overflow: scroll;*/
+    /*max-height: 0;*/
+    /*transition: .3s ease-in;*/
+    /*padding-top: 45px;!* overflow-y: scroll; *!border-radius: 8px;}*/
+
+  /*.label.active option {*/
+    /*max-height: 250px;*/
+    /*box-shadow: 0px 2px 10px 0px #00000040;*/
+    /*border-radius: 8px 8px 0 0;}*/
+
+  /*.label option {*/
+    /*padding: 10px 15px 10px;*/
+    /*transition: .1s;*/
+  /*}*/
+
+  /*.label option:hover {*/
+    /*background: #DDE0E2;*/
+    /*box-shadow: 0px 2px 4px 0px #00000040;}*/
+
+  /*.label option:last-child {*/
+    /*border-bottom: 0 none;*/
+  /*}*/
   .deadline_red{
     color:red
   }

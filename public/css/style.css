@@ -52,7 +52,7 @@ header .line .login img{display:block;}
   background-size: 20px;background-position: calc(100% - 11px);border-radius: 8px;position: relative;z-index: 2;}
 
 .select .option {
-  position: absolute; 
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
