@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import Top_navBar from "./Top_navBar"
+  import Top_navBar from "./TopNavBar"
   export default {
     name: "Ex_router",
     components:{

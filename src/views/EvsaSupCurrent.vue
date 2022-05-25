@@ -1,0 +1,246 @@
+<template>
+  <Top_navBar></Top_navBar>
+  <p></p>
+  <div class="border_b">
+    <div class="inner">
+      <div class="date">
+        <div class="left">
+          <h1>{{infoDate}}</h1>
+          <h2>{{sido}}</h2>
+        </div>
+        <div class="right">
+          <div>
+            <div class="select first">
+              <select class="label" @change="changeSido(sido)" v-model="sido">
+                <option class="option item" v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>
+              </select>
+            </div>
+            <div class="select second">
+              <select class="label" @change="changeRegion">
+                <option class="item" v-for="(item, i) in regions" :key="i">{{item.region}}</option>
+              </select>
+              <!--<button class="label">{{region}}</button>-->
+              <!--<ul class="option">-->
+                <!--<li class="item" v-for="(item, i) in regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>-->
+              <!--</ul>-->
+            </div>
+          </div>
+          <div>
+            <div class="checkbox1">
+              <input type="checkbox" name="" id="agree1_1" @change="clickCheckboxCategory2('일반')">
+              <label for="agree1_1">일반 차량</label>
+            </div>
+            <div class="checkbox1">
+              <input type="checkbox" name="" id="agree1_2" @change="clickCheckboxCategory2('우선')">
+              <label for="agree1_2">우선 차량</label>
+            </div>
+            <div class="select">
+              <select class="label" @change="changeSelectCategory2">
+                <option>전체</option>
+                <option>법인</option>
+                <option>택시</option>
+                <option>법인</option>
+                <option>기타</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grp">
+        <div class="left">
+          <p class="tit">접수대수</p>
+          <div class="line_grp purple">
+            <h1><em>{{info_recept}}</em> / {{info_notice}} <span>Total</span></h1>
+            <div class="wrap">
+              <div class="line1" :data-percent="info_accepted_rate">
+                <span>{{info_recept}}대</span>
+                <p>{{info_accepted_rate}}%</p>
+              </div>
+              <span>{{info_notice-info_recept}}대</span>
+            </div>
+            <div class="tar">
+              <p>접수대수</p>
+              <p>공고대수</p>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <p class="tit">잔여대수</p>
+          <div class="line_grp blue">
+            <h1><em>{{info_remain}}</em> / {{info_notice}} <span>Total</span></h1>
+            <div class="wrap">
+              <!-- data-percent 만큼 그래프 그려짐 -->
+              <div class="line1" :data-percent="info_remain_rate">
+                <span>{{info_remain}}대</span>
+                <p>{{info_remain_rate}}%</p>
+              </div>
+              <span>{{info_notice-info_remain}}대</span>
+            </div>
+            <div class="tar">
+              <p>잔여대수</p>
+              <p>공고대수</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="txt1">
+        <h1>현재 보조금 신청 공고대수 대비</h1>
+        <h2>접수율 {{info_accepted_rate}}%, <br class="v800">잔여대수 {{info_remain}}대로</h2>
+        <!-- span 에 클래스 active가 추가되면 위로올라오도록 애니매이션 처리해둠 (active가 없다가 해당값이되면 addClass(active)처리 필요) -->
+        <h3>방문자님은 해당 지자체 보조금 신청 시 <br>지원금 자격 부여 가능성이 <br class="v800"><span class="color_blue active">{{info_available_ratio_unit}}</span> 입니다.</h3>
+        <p class="color_gray">* 공고대수보다 접수대수가 많을 시 접수 불가능할 수 있으니 해당 지자체로 문의주시길 바랍니다.  (지자체마다 접수 받는 기준이 다를 수 있음)<br>
+          담당부서: 기후변화대응과(02-02-2133-3579)</p>
+        <p class="color_gray">* 해당 신청 가능 여부는 data에 기반한 근거로 실제 보조금 신청 가능 여부는 지자체 상황에 따라 달라질 수 있습니다.</p>
+        <p class="color_gray">* 자료출처 : 통합누리집</p>
+      </div>
+    </div>
+  </div>
+
+  <SupTrend :sido="sido" :region="region" :category="category2"></SupTrend>
+  <EvsaClose></EvsaClose>
+  <a href="#" class="banner"><img src="images/bot_banner.png" alt=""></a>
+</template>
+
+<script>
+import Top_navBar from "../components/TopNavBar"
+import SupTrend from "../components/SupTrend"
+import getInfoDate from "@/composables/getInfoDate";
+import urlTemplates from "@/composables/urlTemplates";
+import {fetch_api} from "../plugin.js"
+import {ref, onMounted, onUpdated} from "vue"
+import EvsaClose from "@/components/EvsaClose";
+
+export default {
+  name: "EvsaSupCurrent",
+  components: {
+    EvsaClose,
+    Top_navBar, SupTrend
+  },
+  setup(){
+    /*
+    http://15.165.32.56:30423/api/v1/subsidy_closing_area?region=${region}&sido=${sido}
+    http://15.165.32.56:30423/api/v1/subsidy_accepted?region=${region}&sido=${sido}
+    http://15.165.32.56:30423/api/v1/subsidy_trend
+    http://15.165.32.56:30423/api/v1/sido_filter?sido=경기
+    http://15.165.32.56:30423/api/v1/subsidy_info?category2=전체&region=수원시&sido=경기&date=2022-05-20
+     */
+
+    onMounted(()=>{
+      //mounted 이벤트는 여기
+      console.log('mounted')
+    });
+
+    onUpdated(()=>{
+      //updated 이벤트는 여기
+      console.log('updated')
+    })
+
+    let sido = ref('서울');
+    let region = ref('서울특별시');
+    let category2 = ref('전체');
+    let infoDate = getInfoDate
+    let sidos = ref({});
+    let regions = ref({});
+    let info_remain = ref('');
+    let info_release = ref('');
+    let info_recept = ref('');
+    let info_remain_rate = ref('');
+    let info_accepted_rate = ref('');
+    let info_notice = ref('');
+    let info_available_ratio_unit = ref('');
+
+    // 시도 구하는 데이터
+    const callSido = () => {
+      fetch_api(urlTemplates.sido(),(data) => {
+        sidos.value = data;
+        console.log('getting sido data',sidos.value)
+      });
+    }
+    // 시도 고른 후 데이터
+    const callRegion = pSido => {
+      fetch_api(urlTemplates.region(pSido),(data) => {
+        regions.value = data;
+        region.value = data[0].region;
+        console.log('시도 고른 후 원본',data);
+        console.log('select sido', regions.value)
+      });
+    }
+
+    function callSubsidyInfo(pSido, pRegion, pCategory2, pDate) {
+      let url = urlTemplates.subsidy_info(pSido, pRegion, pCategory2, pDate)
+      fetch_api(url, (data) =>{
+        info_remain.value = data.remains;
+        info_recept.value = data.recept;
+        info_remain_rate.value = data.remain_rate;
+        info_release.value = data.release;
+        info_accepted_rate.value = data.accepted_rate;
+        info_notice.value = data.notice;
+        info_available_ratio_unit.value = data.available_ratio_unit;
+        console.log('url:', url)
+        console.log('subsidyInfoData:', data);
+        console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
+      });
+    }
+
+    function changeSido(pSido){
+      sido.value = pSido;
+      let url = urlTemplates.region(sido.value)
+      fetch_api(url,(data) => {
+        regions.value = data;
+        region.value = data[0].region;
+        console.log('select sido', regions.value, region.value)
+      });
+    }
+
+    function changeRegion(event){
+      console.log('region:',event.target.value)
+      region.value = event.target.value;
+      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+    }
+
+    function clickCheckboxCategory2(pCategory2) {
+      category2.value = pCategory2
+      console.log('clickCheckboxCategory2', category2.value)
+      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+    }
+    function changeSelectCategory2(event) {
+      console.log('clickCheckboxCategory2', event.target.value, region.value)
+      category2.value = event.target.value
+      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+    }
+
+    callSido()
+    callRegion(sido.value)
+    callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+
+    return{
+      infoDate, info_available_ratio_unit,
+      category2,
+      info_notice, info_remain,info_recept,info_release, info_remain_rate, info_accepted_rate,
+      changeSido, changeRegion, clickCheckboxCategory2, changeSelectCategory2,
+      regions, sido, region, sidos
+    }
+  },
+
+}
+</script>
+
+<style scoped>
+  .first{ z-index: 99}
+  .second{ z-index: 98}
+  .item{max-height: 50px}
+  .deadline_red{
+    color:red
+  }
+  .deadline_black{
+    color: black
+  }
+  .container {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+  .fadeOne-enter-active, .fadeOne-leave-active{transition: all .5s ease-out; }
+  .fadeOne-enter, .fadeOne-leave-to{clip-path: polygon(0% 100%, 100% 100%, 0% 100%, 0% 100%);transform: translate(0%, -100%);}
+  .fadeOne-enter-from, fadeOne-leave-to{clip-path: polygon(0% 100%, 100% 100%, 0% 100%, 0% 100%);transform: translate(0%, 100%);}
+  .fadeTwo-enter-active, .fadeTwo-leave-active{transition: opacity 1s ease;}
+  .fadeTwo-enter-from, .fadeTwo-leave-to{opacity: 0;}
+</style>

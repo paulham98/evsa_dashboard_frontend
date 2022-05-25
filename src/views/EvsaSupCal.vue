@@ -93,7 +93,7 @@
 </template>
 
 <script>
-  import Top_navBar from "../components/Top_navBar"
+  import Top_navBar from "../components/TopNavBar"
   export default {
     name: "Evsa_sup_cal",
     components: {
