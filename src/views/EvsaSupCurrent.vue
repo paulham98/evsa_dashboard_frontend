@@ -48,41 +48,8 @@
         </div>
       </div>
       <div class="grp">
-        <div class="left">
-          <p class="tit">접수대수</p>
-          <div class="line_grp purple">
-            <h1><em>{{info_recept}}</em> / {{info_notice}} <span>Total</span></h1>
-            <div class="wrap">
-              <div class="line1" :data-percent="info_accepted_rate">
-                <span>{{info_recept}}대</span>
-                <p>{{info_accepted_rate}}%</p>
-              </div>
-              <span>{{info_notice-info_recept}}대</span>
-            </div>
-            <div class="tar">
-              <p>접수대수</p>
-              <p>공고대수</p>
-            </div>
-          </div>
-        </div>
-        <div class="right">
-          <p class="tit">잔여대수</p>
-          <div class="line_grp blue">
-            <h1><em>{{info_remain}}</em> / {{info_notice}} <span>Total</span></h1>
-            <div class="wrap">
-              <!-- data-percent 만큼 그래프 그려짐 -->
-              <div class="line1" :data-percent="info_remain_rate">
-                <span>{{info_remain}}대</span>
-                <p>{{info_remain_rate}}%</p>
-              </div>
-              <span>{{info_notice-info_remain}}대</span>
-            </div>
-            <div class="tar">
-              <p>잔여대수</p>
-              <p>공고대수</p>
-            </div>
-          </div>
-        </div>
+        <GrpLine :is-left="true" :info_accepted_rate="info_accepted_rate" :info_recept="info_recept" :info_notice="info_notice"/>
+        <GrpLine :is-left="false" :info_accepted_rate="info_remain_rate" :info_recept="info_remain" :info_notice="info_notice"/>
       </div>
       <div class="txt1">
         <h1>현재 보조금 신청 공고대수 대비</h1>
@@ -108,11 +75,13 @@ import SupTrend from "../components/SupTrend"
 import getInfoDate from "@/composables/getInfoDate";
 import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "../plugin.js"
-import {ref, onMounted, onUpdated} from "vue"
+import {ref, onMounted, onUpdated, computed} from "vue"
 import EvsaClose from "@/components/EvsaClose";
+import GrpLine from "@/components/GrpLine";
 export default {
   name: "EvsaSupCurrent",
   components: {
+    GrpLine,
     EvsaClose,
     Top_navBar, SupTrend
   },
@@ -143,7 +112,7 @@ export default {
     let regions = ref({});
     let info_remain = ref('');
     let info_release = ref('');
-    let info_recept = ref('');
+    let info_recept = ref(0);
     let info_remain_rate = ref('');
     let info_accepted_rate = ref('');
     let info_notice = ref('');
@@ -229,6 +198,16 @@ export default {
       category2.value = event.target.value;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
     }
+
+    const clickBtn = ()=>{
+      console.log('iar:', info_accepted_rate.value)
+      info_accepted_rate.value = 10
+
+    }
+
+    const ratio = computed(()=>{
+      return info_accepted_rate.value >= 100?100:info_accepted_rate.value
+    })
     // function click_check(target) {
     //   document.querySelectorAll(`input[type=checkbox]`)
     //     .forEach(el => el.checked = false);
@@ -246,7 +225,7 @@ export default {
       infoDate, info_available_ratio_unit,
       category2,
       info_notice, info_remain,info_recept,info_release, info_remain_rate, info_accepted_rate,
-      changeSido, changeRegion, clickCheckboxCategory2, changeSelectCategory2,
+      changeSido, changeRegion, clickCheckboxCategory2, changeSelectCategory2, clickBtn, ratio,
       regions, sido, region, sidos
     }
   },
