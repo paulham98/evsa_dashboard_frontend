@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import {fetch_api} from "../plugin.js"
   export default {
     name: "Sup_trend",
@@ -57,7 +57,6 @@ import {fetch_api} from "../plugin.js"
         }
         for(let item of data[2].slice(1)){
           trend_chart_accepted.push(parseInt(item))
-
         }
         for(let item of data[3].slice(1)){
           trend_chart_release.push(parseInt(item))
@@ -67,10 +66,11 @@ import {fetch_api} from "../plugin.js"
         }
         console.log(trend_chart_date, trend_chart_accepted, trend_chart_release, trend_chart_recept)
       });
-      let  mixed_chartOptions= {
+      let mixed_chartOptions = ref({});
+      let mixed_series = ref([]);
+      mixed_chartOptions.value = {
         chart: {
           width: '130%',
-          height: 350,
           type: 'line',
           stacked: false,
         },
@@ -87,7 +87,7 @@ import {fetch_api} from "../plugin.js"
           width: [1, 1, 4]
         },
         xaxis: {
-          categories: [2022,2022,2022]
+          categories: trend_chart_date
         },
         yaxis: [
           {
@@ -117,7 +117,7 @@ import {fetch_api} from "../plugin.js"
               color: '#00E396',
             },
             labels: {
-              offsetX: -80,
+              offsetX: -55,
               style: {
                 colors: '#00E396',
               }
@@ -159,7 +159,7 @@ import {fetch_api} from "../plugin.js"
 
         }]
       };
-      let mixed_series= [{
+      mixed_series.value = [{
         name: '접수대수(누적)',
         type: 'column',
         data: trend_chart_accepted,
@@ -172,6 +172,7 @@ import {fetch_api} from "../plugin.js"
         type: 'line',
         data: trend_chart_recept
       }];
+      console.log(mixed_chartOptions.value, mixed_series.value)
       //
       let line_series = [{
         name: "Desktops",
@@ -308,6 +309,8 @@ import {fetch_api} from "../plugin.js"
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
         },
       };
+      onMounted(()=>{
+      });
       return{trend_date,mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
     }
   }
