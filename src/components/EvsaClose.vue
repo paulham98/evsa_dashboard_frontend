@@ -159,48 +159,7 @@
       </div>
     </div>
 
-    <div class="inner last">
-      <p class="tit">마감 예정 지역 TOP 5</p>
-      <p class="color_gray">*마감 예정 지역은 보조금 접수율 90%이상 지역으로 접수 지원시 마감 위험이 있는 지역입니다.</p>
-      <div class="table_wrap">
-        <table>
-          <thead>
-          <tr>
-            <th>시·도</th>
-            <th>지 역</th>
-            <th>접수율</th>
-            <th>마감예정 여부</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td>충청북도</td>
-            <td>단양군</td>
-            <td>97%</td>
-            <td class="color_red">마감예정</td>
-          </tr>
-          <tr>
-            <td>경기도</td>
-            <td>용인시</td>
-            <td>97%</td>
-            <td class="color_red">마감예정</td>
-          </tr>
-          <tr>
-            <td>충청북도</td>
-            <td>충주시</td>
-            <td>97%</td>
-            <td class="color_red">마감예정</td>
-          </tr>
-          <tr>
-            <td>경기도</td>
-            <td>시흥시</td>
-            <td>97%</td>
-            <td class="color_red">마감위험</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+
   </div>
 </template>
 
