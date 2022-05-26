@@ -10,39 +10,42 @@
         </div>
         <div class="right">
           <div>
-            <div class="select first">
-              <select class="label" @change="changeSido(sido)" v-model="sido">
-                <option  v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>
-              </select>
-              <!--<button class="label">{{sido}}</button>-->
-              <!--<ul class="option">-->
-                <!--<li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>-->
-              <!--</ul>-->
+            <div :class="isClick_left?'select active first':'select first'">
+              <!--<select class="label" @change="changeSido(sido)" v-model="sido">-->
+                <!--<option  v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>-->
+              <!--</select>-->
+              <button class="label" @click="click_button(1)">{{sido}}</button>
+              <ul class="option">
+                <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
+              </ul>
             </div>
-            <div class="select second">
-              <select class="label" @change="changeRegion">
-                <option  v-for="(item, i) in regions" :key="i">{{item.region}}</option>
-              </select>
-              <!--<button class="label">{{region}}</button>-->
-              <!--<ul class="option">-->
-                <!--<li class="item" v-for="(item, i) in regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>-->
-              <!--</ul>-->
+            <div :class="isClick_right?'select active second':'select second'">
+              <!--<select class="label" @change="changeRegion">-->
+                <!--<option  v-for="(item, i) in regions" :key="i">{{item.region}}</option>-->
+              <!--</select>-->
+              <button class="label" @click="click_button(2)">{{region}}</button>
+              <ul class="option">
+                <li class="item" v-for="(item, i) in regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>
+              </ul>
             </div>
           </div>
           <div>
             <div class="checkbox1">
               <input v-model="click_check_left" type="checkbox" name="ck" id="agree1_1" @change="clickCheckboxCategory2('일반')" checked>
-              <!---->
               <label for="agree1_1">일반 차량</label>
             </div>
             <div class="checkbox1">
               <input v-model="click_check_right"  type="checkbox" name="ck" id="agree1_2" @change="clickCheckboxCategory2('우선')" >
               <label for="agree1_2">우선 차량</label>
             </div>
-            <div class="select">
-              <select class="label" @change="changeSelectCategory2">
-                <option v-for="(item, i) in third_select_options" :key="i">{{item}}</option>
-              </select>
+            <div :class="isClick_third?'select active':'select'">
+              <button class="label" @click="click_button(3)">{{category2}}</button>
+              <ul class="option">
+                <li class="item" v-for="(item, i) in third_select_options" :key="i" @click="changeSelectCategory2">{{item}}</li>
+              </ul>
+              <!--<select class="label" @change="changeSelectCategory2">-->
+                <!--<option v-for="(item, i) in third_select_options" :key="i">{{item}}</option>-->
+              <!--</select>-->
             </div>
           </div>
         </div>
@@ -152,7 +155,18 @@ export default {
 
       });
     }
-
+    let isClick_left = ref(false);
+    let isClick_right = ref(false);
+    let isClick_third = ref(false);
+    function click_button(lr){
+      if(!isClick_left.value && lr === 1)isClick_left.value = true;
+      else isClick_left.value = false;
+      if(!isClick_right.value && lr === 2)isClick_right.value = true;
+      else isClick_right.value = false;
+      if(!isClick_third.value && lr === 3)isClick_third.value = true;
+      else isClick_third.value = false;
+      // console.log(isClick.value)
+    }
     function changeSido(pSido){
       sido.value = pSido;
       let url = urlTemplates.region(sido.value)
@@ -220,6 +234,7 @@ export default {
     callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
 
     return{
+      isClick_left,isClick_right,isClick_third,click_button,
       third_select_options,
       click_check_left, click_check_right,
       infoDate, info_available_ratio_unit,
