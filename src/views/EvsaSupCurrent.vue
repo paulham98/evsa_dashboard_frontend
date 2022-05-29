@@ -14,7 +14,7 @@
               <!--<select class="label" @change="changeSido(sido)" v-model="sido">-->
                 <!--<option  v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>-->
               <!--</select>-->
-              <button class="label" @click="click_button(1)">{{sido}}</button>
+              <button class="label">{{sido}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
               </ul>
@@ -23,7 +23,7 @@
               <!--<select class="label" @change="changeRegion">-->
                 <!--<option  v-for="(item, i) in regions" :key="i">{{item.region}}</option>-->
               <!--</select>-->
-              <button class="label" @click="click_button(2)">{{region}}</button>
+              <button class="label">{{region}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>
               </ul>
@@ -49,12 +49,13 @@
       </div>
       <EvsaInfo :info_recept="info_recept" :info_notice="info_notice" :info_accepted_rate="info_accepted_rate"
                 :info_remain="info_remain" :info_remain_rate="info_remain_rate" :info_available_ratio_unit="info_available_ratio_unit"
+                :style="{'display':'none'}"
       ></EvsaInfo>
     </div>
   </div>
 
-  <SupTrend :sido="sido" :region="region" :category="category2"></SupTrend>
-  <EvsaClose></EvsaClose>
+  <SupTrend :sido="sido" :region="region" :category="category2"  :style="{'display':'none'}"></SupTrend>
+  <EvsaClosingArea :sidos="sidos" :regions="regions"></EvsaClosingArea>
   <a href="#" class="banner"><img src="images/bot_banner.png" alt=""></a>
 </template>
 
@@ -65,13 +66,13 @@ import {getInfoDate} from "@/composables/getInfoDate";
 import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "../plugin.js"
 import {ref, onMounted, onUpdated, computed} from "vue"
-import EvsaClose from "@/components/EvsaClose";
+import EvsaClosingArea from "@/components/EvsaClosingArea";
 import EvsaInfo from "@/components/EvsaInfo";
 export default {
   name: "EvsaSupCurrent",
   components: {
     EvsaInfo,
-    EvsaClose,
+    EvsaClosingArea,
     Top_navBar, SupTrend
   },
   setup(){
@@ -94,8 +95,8 @@ export default {
     let region = ref('서울특별시');
     let category2 = ref('전체');
     let infoDate = getInfoDate()
-    let sidos = ref({});
-    let regions = ref({});
+    let sidos = ref([]);
+    let regions = ref([]);
     let info_remain = ref(0);
     let info_release = ref(0);
     let info_recept = ref(0);
@@ -149,7 +150,7 @@ export default {
       else isClick_third.value = false;
       // console.log(isClick.value)
     }
-    function changeSido(pSido){
+    const changeSido = (pSido) => {
       sido.value = pSido;
       let url = urlTemplates.region(sido.value)
       fetch_api(url,(data) => {

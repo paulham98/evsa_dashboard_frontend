@@ -9,7 +9,6 @@
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
     <div class="inner">
-      import getInfoDate from "@/composables/getInfoDate";
       <p class="tit">보조금 신청 접수예측별 트렌드</p>
       <div class="area2">
         <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>

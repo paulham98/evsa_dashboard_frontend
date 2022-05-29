@@ -6,19 +6,13 @@
         <div class="select">
           <button class="label">전북</button>
           <ul class="option">
-            <li class="item">전북1</li>
-            <li class="item">전북2</li>
-            <li class="item">전북3</li>
-            <li class="item">전북4</li>
+            <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
           </ul>
         </div>
         <div class="select">
           <button class="label">완주군</button>
           <ul class="option">
-            <li class="item">완주군1</li>
-            <li class="item">완주군2</li>
-            <li class="item">완주군3</li>
-            <li class="item">완주군4</li>
+            <li class="item" v-for="(item, i) in regions" :key="i" @click="changeSido(item.region)">{{item.region}}</li>
           </ul>
         </div>
         <div class="select">
@@ -164,8 +158,36 @@
 </template>
 
 <script>
+import urlTemplates from "@/composables/urlTemplates";
+import {fetch_api} from "@/plugin";
+import {ref} from "vue";
+
 export default {
-  name: "EvsaClose"
+  name: "EvsaClosingArea",
+  props: {
+    sidos: Array,
+    regions: Array,
+  },
+  setup(props){
+    console.log("setup child")
+    let sido = ref('서울');
+    console.log(urlTemplates, fetch_api, props.sidos)
+    console.log('sidos:',props.sidos)
+    console.log('regions:',props.regions)
+
+    const changeSido = pSido =>{
+      sido.value = pSido;
+      // let url = urlTemplates.region(sido.value)
+      // fetch_api(url,(data) => {
+      //   regions.value = data;
+      //   region.value = data[0].region;
+      //   console.log('select sido', regions.value, region.value)
+      // });
+    }
+
+    return {changeSido, }
+
+  }
 }
 </script>
 
