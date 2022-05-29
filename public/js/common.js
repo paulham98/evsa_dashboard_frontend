@@ -1,8 +1,6 @@
 
 
 $(function () {
-  $(window).resize(function () {
-  });
 
   const label = document.querySelectorAll('.label');
   label.forEach(function(lb){
@@ -34,17 +32,9 @@ const handleSelect = (label, item) => {
     label.parentNode.classList.remove('active');
 }
 
-$(".select").each(function(){ 
+$(".select").each(function(){
   if($(this).find(".option li").length > 5){
     $(this).find(".option").css("overflow-y","scroll");
   }
 })
-$(window).load(function(){
-  $(".grp .line_grp").each(function(){
-    $(this).find(".line1").css("width",$(this).find(".line1").attr("data-percent")+"%")
-    $(this).find(".wrap").addClass("active");
-    $(this).find(".wrap").children("span").css("width",100-$(this).find(".line1").attr("data-percent")+"%")
-  })
-})
-
 });

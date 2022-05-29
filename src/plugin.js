@@ -57,9 +57,4 @@ async function callback_api(){
   });
 }
 
-
-
-
-
-
 export {fetch_api, get_api, callback_api}

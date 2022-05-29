@@ -3,11 +3,13 @@
     <div class="inner">
       <p class="tit">보조금 신청 접수 일별 트렌드</p>
       <div class="area1">
-        <apexchart class="chart"  type="line" height="520" style="padding-top: 10px;" :options="mixed_chartOptions" :series="mixed_series" ></apexchart>
+        <apexchart class="chart" type="line" height="520" style="padding-top: 10px;"
+                   :options="mixed_chart_options" :series="mixed_series" ></apexchart>
       </div>
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
     <div class="inner">
+      import getInfoDate from "@/composables/getInfoDate";
       <p class="tit">보조금 신청 접수예측별 트렌드</p>
       <div class="area2">
         <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>
@@ -24,137 +26,45 @@
 </template>
 
 <script>
+import urlTemplates from "@/composables/urlTemplates";
 import {onMounted,onUpdated, ref} from 'vue'
+import getInfoDate from "@/composables/getInfoDate";
+import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
 import {fetch_api} from "../plugin.js"
   export default {
-    name: "Sup_trend",
+    name: "SupTrend",
     props:{
       sido: String,
       region: String,
       category: String
     },
     setup(props){
-      onUpdated(() =>{
-        mixed_chartOptions.value = {
-          chart: {
-            width: '100%',
-            type: 'line',
-            stacked: false,
-          },
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              borderRadius: 7,
-            },
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            width: [1, 1, 4]
-          },
-          xaxis: {
-            categories: trend_chart_date
-          },
-          yaxis: [
-            {
-              axisTicks: {
-                show: true,
-              },
-              axisBorder: {
-                show: true,
-                color: '#008FFB',
-              },
-              labels: {
-                style: {
-                  colors: '#008FFB',
-                }
-              },
-              tooltip: {
-                enabled: true
-              }
-            },
-            {
-              opposite: true,
-              axisTicks: {
-                show: true,
-              },
-              axisBorder: {
-                show: true,
-                color: '#00E396',
-              },
-              labels: {
-                offsetX: -55,
-                style: {
-                  colors: '#00E396',
-                }
-              },
-            },
-            {
-              opposite: true,
-              axisTicks: {
-                show: true,
-              },
-              axisBorder: {
-                show: true,
-                color: '#FEB019'
-              },
-              labels: {
-                offsetX: 10,
-                style: {
-                  colors: '#FEB019',
-                },
-              },
-            },
-          ],
-          tooltip: {
-            fixed: {
-              enabled: true,
-              position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-              offsetY: 30,
-              offsetX: 60
-            },
-          },
-          legend: {
-            horizontalAlign: 'left',
-            offsetX: 40
-          },
-          responsive:[{
-            breakpoint: 450,
-            options:{
-            }
-
-          }]
-        };
-        mixed_series.value = [{
-          name: '접수대수(누적)',
-          type: 'column',
-          data: trend_chart_accepted,
-        }, {
-          name: '출고대수(누적)',
-          type: 'column',
-          data: trend_chart_release,
-        }, {
-          name: '접수대수(일별)',
-          type: 'line',
-          data: trend_chart_recept
-        }];
-        console.log(mixed_chartOptions.value, mixed_series.value)
-      });
-      console.log('sup trend data', props.sido, props.region, props.category);
-      let my_date = new Date();
-      let yy = String(my_date.getFullYear());
-      let mm = my_date.getMonth() + 1;
-      let dd = String(my_date.getDate() < 10 ? '0' + my_date.getDate() : my_date.getDate())
-      let trend_date = yy + '-' + mm +'-' + dd;
-      // 하드코딩된거 바꿔주기
-      // let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=${trend_date-7}&date2=${trend_date}&region=${props.region}&sido=${props.sido}`;
-      let url2 = `http://15.165.32.56:30423/api/v1/subsidy_trend?category2=${props.category}&date1=2022-05-13&date2=2022-05-20&region=${props.region}&sido=${props.sido}`;
-      // let trend_data = ref([]);
+      let trend_date = getInfoDate
+      let url2 = urlTemplates.subsidy_trend(props.category, props.region, props.sido, '2022-05-13', '2022-05-20')
       let trend_chart_date = [];
       let trend_chart_accepted = [];
       let trend_chart_release = [];
       let trend_chart_recept = [];
+      let mixed_chart_options = ref({});
+      let mixed_series = ref([]);
+      // mixed_chart_options.value = chartDataMaker.mixed_chart_options();
+
+
+      onUpdated(()=>{
+        console.log('onUpdated')
+      });
+      onMounted(() =>{
+        console.log('onMounted')
+      });
+      mixed_chart_options.value = get_chart_options()
+      mixed_series.value = get_mixed_series(trend_chart_accepted, trend_chart_release, trend_chart_recept);
+
+      console.log('chart data:', mixed_chart_options.value, mixed_series.value)
+      console.log('sup trend data', props.sido, props.region, props.category);
+      const call_api = () => {
+
+      }
+      call_api()
       fetch_api(url2, (data) =>{
         // trend_data.value = data;
         console.log('트렌드 data', data);
@@ -173,9 +83,7 @@ import {fetch_api} from "../plugin.js"
         }
         console.log(trend_chart_date, trend_chart_accepted, trend_chart_release, trend_chart_recept)
       });
-      let mixed_chartOptions = ref({});
-      let mixed_series = ref([]);
-      mixed_chartOptions.value = {
+      mixed_chart_options.value = {
         chart: {
           width: '130%',
           type: 'line',
@@ -279,7 +187,7 @@ import {fetch_api} from "../plugin.js"
         type: 'line',
         data: trend_chart_recept
       }];
-      console.log(mixed_chartOptions.value, mixed_series.value)
+      console.log(mixed_chart_options.value, mixed_series.value)
       //
       let line_series = [{
         name: "Desktops",
@@ -418,7 +326,7 @@ import {fetch_api} from "../plugin.js"
       };
       onMounted(()=>{
       });
-      return{trend_date,mixed_chartOptions, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
+      return{trend_date,mixed_chart_options, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
     }
   }
 </script>
