@@ -1,5 +1,5 @@
 <template>
-  <div :style="{'display':'none'}">
+  <div>
     <div class="grp">
       <GrpLine :is-left="true" :info_accepted_rate="info_accepted_rate" :info_recept="info_recept" :info_notice="info_notice"/>
       <GrpLine :is-left="false" :info_accepted_rate="info_remain_rate" :info_recept="info_remain" :info_notice="info_notice"/>
