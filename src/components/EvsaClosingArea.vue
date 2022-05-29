@@ -4,13 +4,13 @@
       <div class="border_b dead" style="border-bottom: 0;">
         <p class="tit">보조금 마감 지역 찾기</p>
         <div class="select">
-          <button class="label">전북</button>
+          <button class="label">{{sido}}</button>
           <ul class="option">
             <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
           </ul>
         </div>
         <div class="select">
-          <button class="label">완주군</button>
+          <button class="label">{{region}}</button>
           <ul class="option">
             <li class="item" v-for="(item, i) in regions" :key="i" @click="changeSido(item.region)">{{item.region}}</li>
           </ul>
@@ -169,23 +169,35 @@ export default {
     regions: Array,
   },
   setup(props){
-    console.log("setup child")
     let sido = ref('서울');
+    let region = ref('서울특별시');
+    let closing_area_data = ref({})
     console.log(urlTemplates, fetch_api, props.sidos)
     console.log('sidos:',props.sidos)
     console.log('regions:',props.regions)
 
     const changeSido = pSido =>{
       sido.value = pSido;
-      // let url = urlTemplates.region(sido.value)
-      // fetch_api(url,(data) => {
-      //   regions.value = data;
-      //   region.value = data[0].region;
-      //   console.log('select sido', regions.value, region.value)
-      // });
+      let url = urlTemplates.region(sido.value)
+      fetch_api(url,(data) => {
+        // regions.value = data;
+        region.value = data[0].region;
+        // console.log('select sido', regions.value, region.value)
+      });
     }
 
-    return {changeSido, }
+    const callClosingArea = (pSido, pRegion, pCategory2, pDate) => {
+      let url = urlTemplates.subsidy_closing_area(pSido, pRegion, pCategory2, pDate)
+      fetch_api(url, (data) =>{
+        // console.log('url:', url)
+        console.log('closing_area:', data, url);
+        // console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
+
+      });
+    }
+    closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+
+    return {changeSido, closing_area_data, sido, region}
 
   }
 }

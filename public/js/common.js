@@ -4,10 +4,11 @@ $(function () {
 
   const label = document.querySelectorAll('.label');
   label.forEach(function(lb){
+    // 이벤드 바인딩 vue로 모두 옮겨야함.
     lb.addEventListener('click', e => {
-        let optionList = lb.nextElementSibling;
-        let optionItems = optionList.querySelectorAll('.item');
-        clickLabel(lb, optionItems);
+      let optionList = lb.nextElementSibling;
+      let optionItems = optionList.querySelectorAll('.item');
+      clickLabel(lb, optionItems);
     })
   });
 const clickLabel = (lb, optionItems) => {
@@ -32,9 +33,4 @@ const handleSelect = (label, item) => {
     label.parentNode.classList.remove('active');
 }
 
-$(".select").each(function(){
-  if($(this).find(".option li").length > 5){
-    $(this).find(".option").css("overflow-y","scroll");
-  }
-})
 });

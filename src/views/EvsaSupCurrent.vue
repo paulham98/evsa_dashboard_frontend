@@ -14,16 +14,16 @@
               <!--<select class="label" @change="changeSido(sido)" v-model="sido">-->
                 <!--<option  v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>-->
               <!--</select>-->
-              <button class="label">{{sido}}</button>
+              <button class="label" @click="click_button(1)">{{sido}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
               </ul>
             </div>
-            <div :class="isClick_right?'select active second':'select second'">
+            <div :class="is_click_right?'select active second':'select second'">
               <!--<select class="label" @change="changeRegion">-->
                 <!--<option  v-for="(item, i) in regions" :key="i">{{item.region}}</option>-->
               <!--</select>-->
-              <button class="label">{{region}}</button>
+              <button class="label" @click="click_button(2)">{{region}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>
               </ul>
@@ -38,7 +38,7 @@
               <input v-model="click_check_right"  type="checkbox" name="ck" id="agree1_2" @change="clickCheckboxCategory2('우선')" >
               <label for="agree1_2">우선 차량</label>
             </div>
-            <div :class="isClick_third?'select active':'select'">
+            <div :class="is_click_third?'select active':'select'">
               <button class="label" @click="click_button(3)">{{category2}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in third_select_options" :key="i" @click="changeSelectCategory2">{{item}}</li>
@@ -49,12 +49,12 @@
       </div>
       <EvsaInfo :info_recept="info_recept" :info_notice="info_notice" :info_accepted_rate="info_accepted_rate"
                 :info_remain="info_remain" :info_remain_rate="info_remain_rate" :info_available_ratio_unit="info_available_ratio_unit"
-                :style="{'display':'none'}"
+                :style="{'display':'block'}"
       ></EvsaInfo>
     </div>
   </div>
 
-  <SupTrend :sido="sido" :region="region" :category="category2"  :style="{'display':'none'}"></SupTrend>
+  <SupTrend :sido="sido" :region="region" :category="category2"  :style="{'display':'block'}"></SupTrend>
   <EvsaClosingArea :sidos="sidos" :regions="regions"></EvsaClosingArea>
   <a href="#" class="banner"><img src="images/bot_banner.png" alt=""></a>
 </template>
@@ -139,16 +139,16 @@ export default {
       });
     }
     let is_click_left = ref(false);
-    let isClick_right = ref(false);
-    let isClick_third = ref(false);
+    let is_click_right = ref(false);
+    let is_click_third = ref(false);
     function click_button(lr){
+      console.log('eeeeeeeeeeee')
       if(!is_click_left.value && lr === 1)is_click_left.value = true;
       else is_click_left.value = false;
-      if(!isClick_right.value && lr === 2)isClick_right.value = true;
-      else isClick_right.value = false;
-      if(!isClick_third.value && lr === 3)isClick_third.value = true;
-      else isClick_third.value = false;
-      // console.log(isClick.value)
+      if(!is_click_right.value && lr === 2)is_click_right.value = true;
+      else is_click_right.value = false;
+      if(!is_click_third.value && lr === 3)is_click_third.value = true;
+      else is_click_third.value = false;
     }
     const changeSido = (pSido) => {
       sido.value = pSido;
@@ -217,7 +217,7 @@ export default {
     callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
 
     return{
-      is_click_left,isClick_right,isClick_third,click_button,
+      is_click_left,is_click_right,is_click_third,click_button,
       third_select_options,
       click_check_left, click_check_right,
       infoDate, info_available_ratio_unit,
