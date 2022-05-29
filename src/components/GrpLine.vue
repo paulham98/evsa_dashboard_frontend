@@ -9,7 +9,6 @@
           <span>{{info_recept}}대</span>
           <p>{{info_accepted_rate}}%</p>
         </div>
-        <span>{{info_notice - info_recept}}대</span>
       </div>
       <div class="tar">
         <p>접수대수</p>
