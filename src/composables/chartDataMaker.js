@@ -1,4 +1,4 @@
-const mixed_chart_options = () => {
+const mixed_chart_options = (dates) => {
   return {
     chart: {
       width: '100%',
@@ -18,7 +18,7 @@ const mixed_chart_options = () => {
       width: [1, 1, 4]
     },
     xaxis: {
-      categories: [1, 2, 3]
+      categories: dates
     },
     yaxis: [
       {

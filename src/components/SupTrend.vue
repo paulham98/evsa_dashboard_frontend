@@ -27,8 +27,8 @@
 
 <script>
 import urlTemplates from "@/composables/urlTemplates";
-import {onMounted,onUpdated, ref} from 'vue'
-import getInfoDate from "@/composables/getInfoDate";
+import {ref} from 'vue'
+import {getInfoDate} from "@/composables/getInfoDate";
 import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
 import {fetch_api} from "../plugin.js"
   export default {
@@ -39,156 +39,31 @@ import {fetch_api} from "../plugin.js"
       category: String
     },
     setup(props){
-      let trend_date = getInfoDate
-      let url2 = urlTemplates.subsidy_trend(props.category, props.region, props.sido, '2022-05-13', '2022-05-20')
-      let trend_chart_date = [];
-      let trend_chart_accepted = [];
-      let trend_chart_release = [];
-      let trend_chart_recept = [];
       let mixed_chart_options = ref({});
-      let mixed_series = ref([]);
-      // mixed_chart_options.value = chartDataMaker.mixed_chart_options();
+      let mixed_series = ref([
+        {name: '접수대수(누적)', type: 'column', data: [],},
+        {name: '출고대수(누적)', type: 'column', data: [],},
+        {name: '접수대수(일별)', type: 'line', data: []}
+        ]);
 
-
-      onUpdated(()=>{
-        console.log('onUpdated')
-      });
-      onMounted(() =>{
-        console.log('onMounted')
-      });
-      mixed_chart_options.value = get_chart_options()
-      mixed_series.value = get_mixed_series(trend_chart_accepted, trend_chart_release, trend_chart_recept);
-
-      console.log('chart data:', mixed_chart_options.value, mixed_series.value)
-      console.log('sup trend data', props.sido, props.region, props.category);
       const call_api = () => {
+        // let start_date = getInfoDate()
+        let end_date = getInfoDate()
+        let url2 = urlTemplates.subsidy_trend(props.category, props.region, props.sido, '2022-05-13', end_date)
+        fetch_api(url2, (data) =>{
+          // trend_data.value = data;
+          console.log('트렌드 data', data);
 
+          let trend_chart_date = data[0].slice(1)
+          let trend_chart_accepted = data[2].slice(1).map(item=>parseInt(item))
+          let trend_chart_release = data[3].slice(1).map(item=>parseInt(item))
+          let trend_chart_recept =  data[4].slice(1).map(item=>parseInt(item))
+          mixed_series.value = get_mixed_series(trend_chart_accepted, trend_chart_release, trend_chart_recept)
+          mixed_chart_options.value = get_chart_options(trend_chart_date)
+        });
       }
       call_api()
-      fetch_api(url2, (data) =>{
-        // trend_data.value = data;
-        console.log('트렌드 data', data);
-        for(let item of data[0].slice(1)){
-          trend_chart_date.push(item)
-          // console.log(item, parseInt(item))
-        }
-        for(let item of data[2].slice(1)){
-          trend_chart_accepted.push(parseInt(item))
-        }
-        for(let item of data[3].slice(1)){
-          trend_chart_release.push(parseInt(item))
-        }
-        for(let item of data[4].slice(1)){
-          trend_chart_recept.push(parseInt(item))
-        }
-        console.log(trend_chart_date, trend_chart_accepted, trend_chart_release, trend_chart_recept)
-      });
-      mixed_chart_options.value = {
-        chart: {
-          width: '130%',
-          type: 'line',
-          stacked: false,
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            borderRadius: 7,
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          width: [1, 1, 4]
-        },
-        xaxis: {
-          categories: trend_chart_date
-        },
-        yaxis: [
-          {
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: '#008FFB',
-            },
-            labels: {
-              style: {
-                colors: '#008FFB',
-              }
-            },
-            tooltip: {
-              enabled: true
-            }
-          },
-          {
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: '#00E396',
-            },
-            labels: {
-              offsetX: -55,
-              style: {
-                colors: '#00E396',
-              }
-            },
-          },
-          {
-            opposite: true,
-            axisTicks: {
-              show: true,
-            },
-            axisBorder: {
-              show: true,
-              color: '#FEB019'
-            },
-            labels: {
-              offsetX: 10,
-              style: {
-                colors: '#FEB019',
-              },
-            },
-          },
-        ],
-        tooltip: {
-          fixed: {
-            enabled: true,
-            position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
-            offsetY: 30,
-            offsetX: 60
-          },
-        },
-        legend: {
-          horizontalAlign: 'left',
-          offsetX: 40
-        },
-        responsive:[{
-          breakpoint: 450,
-          options:{
-          }
 
-        }]
-      };
-      mixed_series.value = [{
-        name: '접수대수(누적)',
-        type: 'column',
-        data: trend_chart_accepted,
-      }, {
-        name: '출고대수(누적)',
-        type: 'column',
-        data: trend_chart_release,
-      }, {
-        name: '접수대수(일별)',
-        type: 'line',
-        data: trend_chart_recept
-      }];
-      console.log(mixed_chart_options.value, mixed_series.value)
-      //
       let line_series = [{
         name: "Desktops",
         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
@@ -324,9 +199,7 @@ import {fetch_api} from "../plugin.js"
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
         },
       };
-      onMounted(()=>{
-      });
-      return{trend_date,mixed_chart_options, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
+      return{mixed_chart_options, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
     }
   }
 </script>

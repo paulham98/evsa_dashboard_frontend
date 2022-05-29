@@ -61,7 +61,7 @@
 <script>
 import Top_navBar from "../components/TopNavBar"
 import SupTrend from "../components/SupTrend"
-import getInfoDate from "@/composables/getInfoDate";
+import {getInfoDate} from "@/composables/getInfoDate";
 import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "../plugin.js"
 import {ref, onMounted, onUpdated, computed} from "vue"
@@ -93,7 +93,7 @@ export default {
     let sido = ref('서울');
     let region = ref('서울특별시');
     let category2 = ref('전체');
-    let infoDate = getInfoDate
+    let infoDate = getInfoDate()
     let sidos = ref({});
     let regions = ref({});
     let info_remain = ref(0);

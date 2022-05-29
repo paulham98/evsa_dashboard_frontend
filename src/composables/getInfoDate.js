@@ -6,4 +6,4 @@ const getInfoDate = () =>{
   let info_date = yy + '-' + mm +'-' + dd;
   return info_date
 }
-export default getInfoDate()
+export {getInfoDate}
