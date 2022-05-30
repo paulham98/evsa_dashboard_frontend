@@ -1,9 +1,23 @@
-let mixed_chart_options = (dates) => {
+let mixed_chart_options = (close,dates) => {
   return {
     chart: {
       width: '100%',
       type: 'line',
       stacked: false,
+    },
+    annotations:{
+      yaxis:[{
+        y: [0, close, 0, 0],
+        borderColor: '#cd39ae',
+        label: {
+          borderColor: 'black',
+          style: {
+            color: 'black',
+            background: '#fff',
+          },
+          text: '접수 마감선',
+        }
+      }]
     },
     plotOptions: {
       bar: {
@@ -15,7 +29,8 @@ let mixed_chart_options = (dates) => {
       enabled: false
     },
     stroke: {
-      width: [1, 1, 4]
+      width: [1, 1, 1],
+      // dashArray: [0,7,0]
     },
     xaxis: {
       categories: dates
@@ -96,13 +111,21 @@ let mixed_chart_options = (dates) => {
 #bea1d8 연보라
 #efb9db 연한 핑크
      */
-let mixed_series = (trend_chart_accepted, trend_chart_release, trend_chart_recept) => {
+let mixed_series = (trend_chart_close,trend_chart_accepted, trend_chart_release, trend_chart_recept) => {
   return [{
     name: '접수대수(누적)',
     type: 'column',
     data: trend_chart_accepted,
     color: '#2c51b4'
-  }, {
+  },
+  //   {
+  //   name: '접수 마감선',
+  //   type: 'line',
+  //   data: trend_chart_close,
+  //   color: '#cd39ae',
+  //   dashArray: 2
+  // },
+    {
     name: '출고대수(누적)',
     type: 'column',
     data: trend_chart_release,

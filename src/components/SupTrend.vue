@@ -54,11 +54,12 @@ import {fetch_api} from "../plugin.js"
           console.log('트렌드 data', data);
 
           let trend_chart_date = data[0].slice(1)
+          let trend_chart_close = data[1].slice(1).map(item=>parseInt(item))
           let trend_chart_accepted = data[2].slice(1).map(item=>parseInt(item))
           let trend_chart_release = data[3].slice(1).map(item=>parseInt(item))
           let trend_chart_recept =  data[4].slice(1).map(item=>parseInt(item))
-          mixed_series.value = get_mixed_series(trend_chart_accepted, trend_chart_release, trend_chart_recept)
-          mixed_chart_options.value = get_chart_options(trend_chart_date)
+          mixed_series.value = get_mixed_series(trend_chart_close,trend_chart_accepted, trend_chart_release, trend_chart_recept)
+          mixed_chart_options.value = get_chart_options(trend_chart_close[0],trend_chart_date)
         });
       };
       call_api();
