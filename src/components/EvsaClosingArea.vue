@@ -3,25 +3,22 @@
     <div class="inner">
       <div class="border_b dead" style="border-bottom: 0;">
         <p class="tit">보조금 마감 지역 찾기</p>
-        <div class="select">
-          <button class="label">{{sido}}</button>
+        <div :class="is_click_left?'select active first':'select first'">
+          <button class="label" @click="click_button(1)">{{sido}}</button>
           <ul class="option">
             <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
           </ul>
         </div>
-        <div class="select">
-          <button class="label">{{region}}</button>
+        <div :class="is_click_right?'select active second':'select second'">
+          <button class="label" @click="click_button(2)">{{region}}</button>
           <ul class="option">
-            <li class="item" v-for="(item, i) in regions" :key="i" @click="changeSido(item.region)">{{item.region}}</li>
+            <li class="item" v-for="(item, i) in closing_regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>
           </ul>
         </div>
-        <div class="select">
-          <button class="label">전체</button>
+        <div :class="is_click_third?'select active':'select'">
+          <button class="label" @click="click_button(3)">{{category2}}</button>
           <ul class="option">
-            <li class="item">전체1</li>
-            <li class="item">전체2</li>
-            <li class="item">전체3</li>
-            <li class="item">전체4</li>
+            <li class="item" v-for="(item, i) in third_select_options" :key="i" @click="changeSelectCategory2(item)">{{item}}</li>
           </ul>
         </div>
         <div class="table_wrap">
@@ -171,20 +168,18 @@ export default {
   setup(props){
     let sido = ref('서울');
     let region = ref('서울특별시');
+    let category2 = ref('선택해주세요');
+    let third_select_options = ref(['전체', '법인', '택시', '기타']);
     let closing_area_data = ref({})
+    let closing_area_dtos = ref([])
+    let capital_text_dto = ref({})
+    let is_click_left = ref(false);
+    let is_click_right = ref(false);
+    let is_click_third = ref(false);
+    let closing_regions = ref(props.regions)
     console.log(urlTemplates, fetch_api, props.sidos)
     console.log('sidos:',props.sidos)
     console.log('regions:',props.regions)
-
-    const changeSido = pSido =>{
-      sido.value = pSido;
-      let url = urlTemplates.region(sido.value)
-      fetch_api(url,(data) => {
-        // regions.value = data;
-        region.value = data[0].region;
-        // console.log('select sido', regions.value, region.value)
-      });
-    }
 
     const callClosingArea = (pSido, pRegion, pCategory2, pDate) => {
       let url = urlTemplates.subsidy_closing_area(pSido, pRegion, pCategory2, pDate)
@@ -192,12 +187,54 @@ export default {
         // console.log('url:', url)
         console.log('closing_area:', data, url);
         // console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
-
+        closing_area_dtos.value = data.closingAreaDtos
+        capital_text_dto.value = data.capitalTextDto
       });
     }
     closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
 
-    return {changeSido, closing_area_data, sido, region}
+    function click_button(lr){
+      if(!is_click_left.value && lr === 1)is_click_left.value = true;
+      else is_click_left.value = false;
+      if(!is_click_right.value && lr === 2)is_click_right.value = true;
+      else is_click_right.value = false;
+      if(!is_click_third.value && lr === 3)is_click_third.value = true;
+      else is_click_third.value = false;
+    }
+    // 1
+    const changeSido = pSido =>{
+      sido.value = pSido;
+      let url = urlTemplates.region(sido.value)
+      fetch_api(url,(data) => {
+        closing_regions.value = data;
+        region.value = data[0].region;
+        console.log(data)
+        // console.log('select sido', regions.value, region.value)
+      });
+      // if(category2 !== '선택해주세요'){
+      //
+      // }
+      is_click_left.value = false
+    };
+    // 2
+    function changeRegion(event){
+      console.log('region:',event)
+      region.value = event;
+      is_click_right.value = false
+    }
+    // 3
+    function changeSelectCategory2(event) {
+      if(event === '전체' || event === '법인' || event === '택시'){
+        third_select_options.value = ['전체', '법인', '택시'];
+      }
+      category2.value = event;
+      callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+      is_click_third.value = false
+    }
+
+    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,
+      click_button, changeSido,changeRegion, changeSelectCategory2,
+      closing_area_data, }
 
   }
 }

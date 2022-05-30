@@ -11,7 +11,8 @@
         </div>
       </div>
       <div class="tar">
-        <p>접수대수</p>
+        <p v-if="isLeft">접수대수</p>
+        <p v-if="!isLeft">잔여대수</p>
         <p>공고대수</p>
       </div>
     </div>

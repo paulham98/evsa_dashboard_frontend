@@ -11,18 +11,12 @@
         <div class="right">
           <div>
             <div :class="is_click_left?'select active first':'select first'">
-              <!--<select class="label" @change="changeSido(sido)" v-model="sido">-->
-                <!--<option  v-for="(item, i) in sidos" :key="i" >{{item.name}}</option>-->
-              <!--</select>-->
               <button class="label" @click="click_button(1)">{{sido}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
               </ul>
             </div>
             <div :class="is_click_right?'select active second':'select second'">
-              <!--<select class="label" @change="changeRegion">-->
-                <!--<option  v-for="(item, i) in regions" :key="i">{{item.region}}</option>-->
-              <!--</select>-->
               <button class="label" @click="click_button(2)">{{region}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in regions" :key="i" @click="changeRegion(item.region)">{{item.region}}</li>
@@ -104,7 +98,9 @@ export default {
     let info_accepted_rate = ref(0);
     let info_notice = ref(0);
     let info_available_ratio_unit = ref('');
-
+    let click_check_left = ref(true);
+    let click_check_right = ref(false);
+    let third_select_options = ref(['전체', '법인', '택시', '기타']);
     // 시도 구하는 데이터
     const callSido = () => {
       fetch_api(urlTemplates.sido(),(data) => {
@@ -142,7 +138,7 @@ export default {
     let is_click_right = ref(false);
     let is_click_third = ref(false);
     function click_button(lr){
-      console.log('eeeeeeeeeeee')
+      console.log('eeeeee')
       if(!is_click_left.value && lr === 1)is_click_left.value = true;
       else is_click_left.value = false;
       if(!is_click_right.value && lr === 2)is_click_right.value = true;
@@ -158,30 +154,32 @@ export default {
         region.value = data[0].region;
         console.log('select sido', regions.value, region.value)
       });
+      is_click_left.value = false
     }
 
     function changeRegion(event){
       console.log('region:',event)
       region.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+      is_click_right.value = false
     }
-    let click_check_left = ref(true);
-    let click_check_right = ref(false);
-    let third_select_options = ref(['전체', '법인', '택시', '기타']);
+
     function clickCheckboxCategory2(pCategory2) {
       if(pCategory2 === '일반'){
         click_check_left.value = true
         click_check_right.value = false
+        callSubsidyInfo(sido.value, region.value, pCategory2, '2022-05-20')
       }else if(pCategory2 === '우선'){
         click_check_left.value = false
         click_check_right.value = true
+        callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')
       }
       if(third_select_options.value.length === 3){
         third_select_options.value = ['전체', '법인', '택시', '기타']
       }
-      category2.value = pCategory2
+
       console.log('clickCheckboxCategory2', category2.value)
-      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+
 
     }
     function changeSelectCategory2(event) {
@@ -189,10 +187,11 @@ export default {
         third_select_options.value = ['전체', '법인', '택시'];
         click_check_left.value = false;
         click_check_right.value = false
+        is_click_third.value = false
       }
 
-      console.log('clickCheckboxCategory2', event.target.value, region.value);
-      category2.value = event.target.value;
+      console.log('clickCheckboxCategory2', event, region.value);
+      category2.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
     }
 
