@@ -41,7 +41,7 @@
             <div :class="is_click_third?'select active':'select'">
               <button class="label" @click="click_button(3)">{{category2}}</button>
               <ul class="option">
-                <li class="item" v-for="(item, i) in third_select_options" :key="i" @click="changeSelectCategory2">{{item}}</li>
+                <li class="item" v-for="(item, i) in third_select_options" :key="i" @click="changeSelectCategory2(item)">{{item}}</li>
               </ul>
             </div>
           </div>
@@ -161,8 +161,8 @@ export default {
     }
 
     function changeRegion(event){
-      console.log('region:',event.target.value)
-      region.value = event.target.value;
+      console.log('region:',event)
+      region.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
     }
     let click_check_left = ref(true);
@@ -185,7 +185,7 @@ export default {
 
     }
     function changeSelectCategory2(event) {
-      if(event.target.value === '전체' || event.target.value === '법인' || event.target.value === '택시'){
+      if(event === '전체' || event === '법인' || event === '택시'){
         third_select_options.value = ['전체', '법인', '택시'];
         click_check_left.value = false;
         click_check_right.value = false

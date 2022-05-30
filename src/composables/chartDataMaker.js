@@ -1,4 +1,4 @@
-const mixed_chart_options = (dates) => {
+let mixed_chart_options = (dates) => {
   return {
     chart: {
       width: '100%',
@@ -27,11 +27,11 @@ const mixed_chart_options = (dates) => {
         },
         axisBorder: {
           show: true,
-          color: '#008FFB',
+          color: '#2c51b4',
         },
         labels: {
           style: {
-            colors: '#008FFB',
+            colors: '#2c51b4',
           }
         },
         tooltip: {
@@ -45,12 +45,12 @@ const mixed_chart_options = (dates) => {
         },
         axisBorder: {
           show: true,
-          color: '#00E396',
+          color: '#cd39ae',
         },
         labels: {
-          offsetX: -55,
+          offsetX: -65,
           style: {
-            colors: '#00E396',
+            colors: '#cd39ae',
           }
         },
       },
@@ -61,12 +61,12 @@ const mixed_chart_options = (dates) => {
         },
         axisBorder: {
           show: true,
-          color: '#FEB019'
+          color: '#bea1d8'
         },
         labels: {
-          offsetX: 10,
+          offsetX: 55,
           style: {
-            colors: '#FEB019',
+            colors: '#bea1d8',
           },
         },
       },
@@ -83,27 +83,35 @@ const mixed_chart_options = (dates) => {
       horizontalAlign: 'left',
       offsetX: 40
     },
-    responsive: [{
-      breakpoint: 450,
-      options: {}
-
-    }]
+    // responsive: [{
+    //   breakpoint: 450,
+    //   options: {}
+    //
+    // }]
   }
 }
-
-const mixed_series = (trend_chart_accepted, trend_chart_release, trend_chart_recept) => {
+/*
+#2c51b4 남색
+#cd39ae 진한 핑크
+#bea1d8 연보라
+#efb9db 연한 핑크
+     */
+let mixed_series = (trend_chart_accepted, trend_chart_release, trend_chart_recept) => {
   return [{
     name: '접수대수(누적)',
     type: 'column',
     data: trend_chart_accepted,
+    color: '#2c51b4'
   }, {
     name: '출고대수(누적)',
     type: 'column',
     data: trend_chart_release,
+    color: '#bea1d8'
   }, {
     name: '접수대수(일별)',
     type: 'line',
-    data: trend_chart_recept
+    data: trend_chart_recept,
+    color: '#cd39ae'
   }];
 }
 

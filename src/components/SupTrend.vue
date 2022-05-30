@@ -26,7 +26,7 @@
 
 <script>
 import urlTemplates from "@/composables/urlTemplates";
-import {ref} from 'vue'
+import {ref, onBeforeUpdate, onRenderTriggered, watchEffect,} from 'vue'
 import {getInfoDate} from "@/composables/getInfoDate";
 import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
 import {fetch_api} from "../plugin.js"
@@ -60,8 +60,8 @@ import {fetch_api} from "../plugin.js"
           mixed_series.value = get_mixed_series(trend_chart_accepted, trend_chart_release, trend_chart_recept)
           mixed_chart_options.value = get_chart_options(trend_chart_date)
         });
-      }
-      call_api()
+      };
+      call_api();
 
       let line_series = [{
         name: "Desktops",
@@ -72,104 +72,7 @@ import {fetch_api} from "../plugin.js"
           data: [79, 101, 158]
         }
       ];
-      let bar1_series= [{
-        name: 'Marine Sprite',
-        data: [44,]
-      }, {
-        name: 'Striking Calf',
-        data: [53,]
-      }
-      ];
-      let bar1_chartOptions = {
-        chart: {
-          type: 'bar',
-          height: 350,
-          stacked: true,
-          stackType: '100%',
-          width: 200
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true,
-            borderRadius:5
-          },
-        },
-        stroke: {
-          width: 1,
-          colors: ['#fff']
-        },
-        title: {
-          text: '100% Stacked Bar'
-        },
-        xaxis: {
-          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return val + "K"
-            }
-          }
-        },
-        fill: {
-          opacity: 1
 
-        },
-        legend: {
-          position: 'top',
-          horizontalAlign: 'left',
-          offsetX: 40
-        }
-      };
-      let bar2_series = [{
-        name: 'Marine Sprite',
-        data: [44,]
-      }, {
-        name: 'Striking Calf',
-        data: [53,]
-      }
-      ];
-      let bar2_chartOptions = {
-        chart: {
-          type: 'bar',
-          height: 350,
-          stacked: true,
-          stackType: '100%',
-          width: 200
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true,
-            borderRadius:5
-          },
-        },
-        stroke: {
-          width: 1,
-          colors: ['#fff']
-        },
-        title: {
-          text: '100% Stacked Bar'
-        },
-        xaxis: {
-          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return val + "K"
-            }
-          }
-        },
-        fill: {
-          opacity: 1
-
-        },
-        legend: {
-          position: 'top',
-          horizontalAlign: 'left',
-          offsetX: 40
-        }
-      };
       let line_chartOptions = {
         chart: {
           height: 350,
@@ -198,7 +101,15 @@ import {fetch_api} from "../plugin.js"
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
         },
       };
-      return{mixed_chart_options, mixed_series, line_series, line_chartOptions, bar1_chartOptions, bar1_series, bar2_chartOptions,bar2_series}
+      watchEffect(()=>{
+        mixed_chart_options.value
+        mixed_series
+      })
+      onBeforeUpdate(()=>{
+      });
+      onRenderTriggered(()=>{
+      })
+      return{mixed_chart_options, mixed_series, line_series, line_chartOptions}
     }
   }
 </script>
