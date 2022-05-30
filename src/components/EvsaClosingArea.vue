@@ -33,12 +33,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>전라북도</td>
-              <td>완주군</td>
-              <td>1400</td>
-              <td>560%</td>
-              <td class="color_red">마감위험</td>
+            <tr v-for="(item, i) in closing_area_dtos" :key="i">
+              <td>{{item.sido}}</td>
+              <td>{{item.region}}</td>
+              <td>{{}}</td>
+              <td>{{item.accepted_rate +item.accepted_rate_unit}}</td>
+              <td class="color_red">{{item.is_deadline}}</td>
             </tr>
             </tbody>
           </table>
@@ -48,20 +48,20 @@
       </div>
     </div>
     <!-- 아래 hidden 클래스 div에 클래스 active가 추가되면 위로올라오도록 애니매이션 처리해둠 (active가 없다가 해당값이되면 addClass(active)처리 필요) -->
-    <div class="hidden active">
+    <div :class="addClass?'hidden active':'hidden'">
       <div class="inner">
         <div class="txt3">
-          <h1>잠깐</h1>
-          <h2>거주하고 계신 지역 보조금 <br class="v800">신청이 마감될까봐<br>걱정이신가요?</h2>
+          <h1>{{capital_text_arr1[0]}}</h1>
+          <h2>{{capital_text_arr1[1] +" "+ capital_text_arr1[2] +" "+ capital_text_arr1[3] +" "}}
+            <br class="v800">{{capital_text_arr1[4] +" "+ capital_text_arr1[5]}}
+            <br>{{capital_text_arr1[6]}}</h2>
         </div>
       </div>
       <div class="txt_bg">
         <div class="inner">
-          <h1>캐피탈 리스(법인)로</h1>
-          <h2>신청하시면 보조금을 <br class="v800"><em class="color_sky">최</em><em class="color_sky">대</em><em class="color_sky">한</em> <br class="v800">받을 수 있습니다.</h2>
-          <p>* 캐피탈 지점별 최대 보조금은 제조사 및 모델에 따라 금액이 달라질 수 있습니다.</p>
-          <p>* 캐피탈 리스이용은 리스사 명의로 보조금 신청 분류 중 법인에 해당합니다.</p>
-          <p>* 자세한 보조금 신청 상담은 캐피탈 리스사에 문의해주세요.</p>
+          <h1>{{capital_text_arr2[0]+" "+capital_text_arr2[1]}}</h1>
+          <h2>{{capital_text_arr2[2]+" "+capital_text_arr2[3]}}<br class="v800"><em class="color_sky">최</em><em class="color_sky">대</em><em class="color_sky">한</em> <br class="v800">받을 수 있습니다.</h2>
+          <p class="color_gray tac" v-for="(item, i) in capital_text_arr3" :key="i">{{item}}</p>
         </div>
       </div>
       <div class="inner">
@@ -102,9 +102,7 @@
           </li>
         </ul>
         <button class="more">더보기</button>
-        <p class="color_gray tac">*캐피탈 지점별 최대 보조금은 제조사 및 모델에 따라 금액이 달라질 수 있습니다.</p>
-        <p class="color_gray tac">*캐피탈 리스이용은 리스사 명의로 보조금 신청 분류 중 법인에 해당합니다. </p>
-        <p class="color_gray tac">*자세한 보조금 신청 상담은 캐피탈 리스사에 문의해주세요.</p>
+        <p class="color_gray tac" v-for="(item, i) in capital_text_arr3" :key="i">{{item}}</p>
       </div>
     </div>
     <div class="inner last">
@@ -177,7 +175,11 @@ export default {
     let is_click_right = ref(false);
     let is_click_third = ref(false);
     let closing_regions = ref(props.regions)
-    console.log(urlTemplates, fetch_api, props.sidos)
+    let addClass = ref(false)
+    let capital_text_arr1 = ref([])
+    let capital_text_arr2 = ref([])
+    let capital_text_arr3 = ref([])
+    //console.log(urlTemplates, fetch_api, props.sidos)
     console.log('sidos:',props.sidos)
     console.log('regions:',props.regions)
 
@@ -186,9 +188,19 @@ export default {
       fetch_api(url, (data) =>{
         // console.log('url:', url)
         console.log('closing_area:', data, url);
+        capital_text_arr1.value = []
+        capital_text_arr2.value = []
         // console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
         closing_area_dtos.value = data.closingAreaDtos
         capital_text_dto.value = data.capitalTextDto
+        for(let item of capital_text_dto.value.text1.split(' ')){
+          capital_text_arr1.value.push(item)
+        }
+        for(let item of capital_text_dto.value.text2.split(' ')){
+          capital_text_arr2.value.push(item)
+        }
+        console.log(capital_text_arr2.value)
+        capital_text_arr3.value = capital_text_dto.value.description.split('\\n')
       });
     }
     closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
@@ -211,15 +223,18 @@ export default {
         console.log(data)
         // console.log('select sido', regions.value, region.value)
       });
-      // if(category2 !== '선택해주세요'){
-      //
-      // }
+      if(category2.value !== '선택해주세요'){
+        closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+      }
       is_click_left.value = false
     };
     // 2
     function changeRegion(event){
       console.log('region:',event)
       region.value = event;
+      if(category2.value !== '선택해주세요'){
+        closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+      }
       is_click_right.value = false
     }
     // 3
@@ -228,13 +243,19 @@ export default {
         third_select_options.value = ['전체', '법인', '택시'];
       }
       category2.value = event;
-      callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+      // callClosingArea(sido.value, region.value, '전체', '2022-05-28')
       is_click_third.value = false
+      if(category2.value !== '선택해주세요'){
+        addClass.value = true
+      }
+      if(category2.value !== '선택해주세요'){
+        closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+      }
     }
 
-    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,
+    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,
       click_button, changeSido,changeRegion, changeSelectCategory2,
-      closing_area_data, }
+      closing_area_data, closing_area_dtos, capital_text_dto,capital_text_arr1,capital_text_arr2, capital_text_arr3}
 
   }
 }
