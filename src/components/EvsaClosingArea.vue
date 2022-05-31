@@ -33,12 +33,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, i) in closing_area_dtos" :key="i">
-              <td>{{item.sido}}</td>
-              <td>{{item.region}}</td>
-              <td>{{}}</td>
-              <td>{{item.accepted_rate +item.accepted_rate_unit}}</td>
-              <td class="color_red">{{item.is_deadline}}</td>
+            <tr>
+              <td>{{closing_area_data.sido}}</td>
+              <td>{{closing_area_data.region}}</td>
+              <td>{{closing_area_data.subsidy +" "+ closing_area_data.subsidy_unit}}</td>
+              <td>{{closing_area_data.accepted_rate +closing_area_data.accepted_rate_unit}}</td>
+              <td class="color_red">{{capital_text_dto.is_deadline}}</td>
             </tr>
             </tbody>
           </table>
@@ -66,42 +66,33 @@
       </div>
       <div class="inner">
         <p class="tit">최대 보조금 받기</p>
-        <ul class="list">
-          <li>
+        <ul class="list" v-if="!show_more">
+          <li v-for="(item, i) in capital_data_default" :key="i">
             <div>
-              <span>KB캐피탈</span>
-              <p>1,400만원</p>
+              <span>{{item.capital_name}}</span>
+              <p>{{item.subsidy + item.subsidy_unit}}</p>
             </div>
             <div>
-              <p>충남 공주시</p>
-              <p>접수대수 <em class="color_sky">19</em> <span><em>/ 45</em> 대</span></p>
-            </div>
-            <a href="#">문의하기</a>
-          </li>
-          <li>
-            <div>
-              <span>KB캐피탈</span>
-              <p>1,400만원</p>
-            </div>
-            <div>
-              <p>충남 아산시</p>
-              <p>접수대수 <em class="color_sky">108</em> <span><em>/ 120</em> 대</span></p>
-            </div>
-            <a href="#">문의하기</a>
-          </li>
-          <li>
-            <div>
-              <span>KB캐피탈</span>
-              <p>900만원</p>
-            </div>
-            <div>
-              <p>세종 세종특별자치시</p>
-              <p>접수대수 <em class="color_sky">52</em> <span><em>/ 141</em> 대</span></p>
+              <p>{{item.sido +" "+ item.region}}</p>
+              <p>접수대수 <em class="color_sky">{{item.accept}}</em> <span><em>/ {{item.total}}</em> {{item.total_unit}}</span></p>
             </div>
             <a href="#">문의하기</a>
           </li>
         </ul>
-        <button class="more">더보기</button>
+        <ul class="list" v-if="show_more">
+          <li v-for="(item, i) in capital_data" :key="i" >
+            <div>
+              <span>{{item.capital_name}}</span>
+              <p>{{item.subsidy + item.subsidy_unit}}</p>
+            </div>
+            <div>
+              <p>{{item.sido +" "+ item.region}}</p>
+              <p>접수대수 <em class="color_sky">{{item.accept}}</em> <span><em>/ {{item.total}}</em> {{item.total_unit}}</span></p>
+            </div>
+            <a href="#">문의하기</a>
+          </li>
+        </ul>
+        <button class="more" @click="click_more">더보기</button>
         <p class="color_gray tac" v-for="(item, i) in capital_text_arr3" :key="i">{{item}}</p>
       </div>
     </div>
@@ -119,29 +110,11 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>충청북도</td>
-            <td>단양군</td>
-            <td>97%</td>
-            <td class="color_red">마감예정</td>
-          </tr>
-          <tr>
-            <td>경기도</td>
-            <td>용인시</td>
-            <td>97%</td>
-            <td class="color_red">마감예정</td>
-          </tr>
-          <tr>
-            <td>충청북도</td>
-            <td>충주시</td>
-            <td>97%</td>
-            <td class="color_red">마감예정</td>
-          </tr>
-          <tr>
-            <td>경기도</td>
-            <td>시흥시</td>
-            <td>97%</td>
-            <td class="color_red">마감위험</td>
+          <tr v-for="(item, i) in closing_area_dtos" :key="i">
+            <td>{{item.sido}}</td>
+            <td>{{item.region}}</td>
+            <td>{{item.accepted_rate+item.accepted_rate_unit}}</td>
+            <td class="color_red">{{item.is_deadline}}</td>
           </tr>
           </tbody>
         </table>
@@ -179,6 +152,9 @@ export default {
     let capital_text_arr1 = ref([])
     let capital_text_arr2 = ref([])
     let capital_text_arr3 = ref([])
+    let capital_data = ref([])
+    let capital_data_default = ref([])
+    let show_more = ref(false)
     //console.log(urlTemplates, fetch_api, props.sidos)
     console.log('sidos:',props.sidos)
     console.log('regions:',props.regions)
@@ -187,11 +163,17 @@ export default {
       let url = urlTemplates.subsidy_closing_area(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
         // console.log('url:', url)
-        console.log('closing_area:', data, url);
+        closing_area_data.value = data
         capital_text_arr1.value = []
         capital_text_arr2.value = []
         // console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
-        closing_area_dtos.value = data.closingAreaDtos
+        if(data.closingAreaDtos.length <= 5){
+          closing_area_dtos.value = data.closingAreaDtos
+        }else if(data.closingAreaDtos.length >5){
+          for(let i = 0; i< 5; i++){
+            closing_area_dtos.value.push(data.closingAreaDtos[i])
+          }
+        }
         capital_text_dto.value = data.capitalTextDto
         for(let item of capital_text_dto.value.text1.split(' ')){
           capital_text_arr1.value.push(item)
@@ -199,12 +181,27 @@ export default {
         for(let item of capital_text_dto.value.text2.split(' ')){
           capital_text_arr2.value.push(item)
         }
-        console.log(capital_text_arr2.value)
+        // console.log(capital_text_arr2.value)
         capital_text_arr3.value = capital_text_dto.value.description.split('\\n')
+        console.log('closing_area:', closing_area_data.value, url);
       });
     }
-    closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+    const callCapitalData = (pDate) =>{
+      let url = urlTemplates.subsidy_capital(pDate)
+      fetch_api(url, (data) =>{
+        for(let i =0; i < 3; i++){
+          capital_data_default.value.push(data[i])
+        }
+        capital_data.value = data
+      })
+    }
+    callCapitalData('2022-05-28')
+    callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+    console.log('마감 지역 전체 데이터',closing_area_data.value)
 
+    function click_more(){
+      if (show_more.value === false) return show_more.value = true
+    }
     function click_button(lr){
       if(!is_click_left.value && lr === 1)is_click_left.value = true;
       else is_click_left.value = false;
@@ -224,7 +221,7 @@ export default {
         // console.log('select sido', regions.value, region.value)
       });
       if(category2.value !== '선택해주세요'){
-        closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+        callClosingArea(sido.value, region.value, '전체', '2022-05-28')
       }
       is_click_left.value = false
     };
@@ -233,7 +230,7 @@ export default {
       console.log('region:',event)
       region.value = event;
       if(category2.value !== '선택해주세요'){
-        closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+        callClosingArea(sido.value, region.value, '전체', '2022-05-28')
       }
       is_click_right.value = false
     }
@@ -249,13 +246,14 @@ export default {
         addClass.value = true
       }
       if(category2.value !== '선택해주세요'){
-        closing_area_data.value = callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+        callClosingArea(sido.value, region.value, '전체', '2022-05-28')
       }
     }
 
-    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,
-      click_button, changeSido,changeRegion, changeSelectCategory2,
-      closing_area_data, closing_area_dtos, capital_text_dto,capital_text_arr1,capital_text_arr2, capital_text_arr3}
+    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,show_more,
+      click_button, click_more, changeSido,changeRegion, changeSelectCategory2,
+      closing_area_data, closing_area_dtos, capital_text_dto,capital_text_arr1,capital_text_arr2, capital_text_arr3,
+      capital_data, capital_data_default}
 
   }
 }
