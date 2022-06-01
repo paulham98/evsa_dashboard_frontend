@@ -6,13 +6,13 @@
       <div :class="is_click_first_left?'select active first':'select first'" style="z-index: 2">
         <button class="label" @click="click_button(1)">{{sido}}</button>
         <ul class="option">
-          <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
+          <li class="item" v-for="(item, i) in sidos" :key="i" @click="change_cal_sido(item.name)">{{item.name}}</li>
         </ul>
       </div>
       <div :class="is_click_first_right?'select active second':'select second'" style="z-index: 2">
         <button class="label" @click="click_button(2)">{{region}}</button>
         <ul class="option">
-          <li class="item" v-for="(item, i) in regions" :key="i">{{item.region}}</li>
+          <li class="item" v-for="(item, i) in regions" :key="i" @click="change_cal_region(item.region)">{{item.region}}</li>
         </ul>
       </div>
     </div>
@@ -21,33 +21,33 @@
       <div :class="is_click_sec_left?'select active first':'select first'" style="z-index: 1">
         <button class="label" @click="click_button(3)">{{car_brand}}</button>
         <ul class="option">
-          <li class="item" v-for="(item, i) in car_brand_data" :key="i">{{item.category}}</li>
+          <li class="item" v-for="(item, i) in car_brand_data" :key="i" @click="change_cal_car_brand(item.category)">{{item.category}}</li>
         </ul>
       </div>
       <div :class="is_click_sec_right?'select active second':'select second'" style="z-index: 1">
         <button class="label" @click="click_button(4)">{{car_name}}</button>
         <ul class="option">
-          <li class="item" v-for="(item, i) in car_name_data" :key="i">{{item.category2}}</li>
+          <li class="item" v-for="(item, i) in car_name_data" :key="i" @click="change_cal_car_name(item.category2)">{{item.category2}}</li>
         </ul>
       </div>
     </div>
     <img src="images/car.png" alt="" class="car">
     <ul class="price">
       <li>
-        <div>보조금 잔여대수 <em>2,200 / 3,000</em> 대</div>
-        <div>접수율 <span class="percent color_blue">72%</span></div>
+        <div>보조금 잔여대수 <em>{{ev_cal_data.num_remain_all}} / {{ev_cal_data.num_notice_all}}</em> {{ev_cal_data.num_notice_all_unit}}</div>
+        <div>접수율 <span class="percent color_blue">{{ev_cal_data.accept_rate +' '+ev_cal_data.accept_rate_unit}}</span></div>
       </li>
       <li>
         <div>차량 가격</div>
-        <div><em>5,039</em> 만원</div>
+        <div><em>{{ev_cal_data.car_price}}</em> {{ev_cal_data.car_price_unit}}</div>
       </li>
       <li>
         <div>차량 가격</div>
-        <div><em>-900</em> 만원</div>
+        <div><em>-{{ev_cal_data.subsidy}}</em> {{ev_cal_data.subsidy_unit}}</div>
       </li>
       <li>
         <div>구매 가격</div>
-        <div><span class="color_blue">4,139</span> 만원</div>
+        <div><span class="color_blue">{{ev_cal_data.sum_price}}</span> {{ev_cal_data.sum_price_unit}}</div>
       </li>
     </ul>
     <div class="area4">
@@ -79,7 +79,7 @@ export default {
     let car_name = ref('아이오닉5 2WD 롱레인지 20인치');
     let car_brand_data = ref([]);
     let car_name_data = ref([]);
-    let cal_data = ref({});
+    let ev_cal_data = ref({});
     let cal_date = getInfoDate();
     let is_click_first_left = ref(false);
     let is_click_first_right = ref(false);
@@ -112,7 +112,7 @@ export default {
         console.log('car name', car_name_data.value)
       })
     }
-    const changeSido = (pSido) => {
+    const change_cal_sido = (pSido) => {
       sido.value = pSido;
       let url = urlTemplates.region(sido.value)
       fetch_api(url,(data) => {
@@ -120,13 +120,29 @@ export default {
         region.value = data[0].region;
         console.log('select sido', regions.value, region.value)
       });
+      call_ev_subsidy_calculator(pSido, region.value, car_brand.value, car_name.value, '2022-06-01');
       is_click_first_left.value = false
+    }
+    function change_cal_region(event){
+      region.value = event;
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01');
+      is_click_first_right.value = false
+    }
+    function change_cal_car_brand(event){
+      car_brand.value = event;
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01');
+      is_click_sec_left.value = false
+    }
+    function change_cal_car_name(event){
+      car_name.value = event;
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01');
+      is_click_sec_right.value = false
     }
     const call_ev_subsidy_calculator = (pSido, pRegion, pCategory, pCategory2, pDate) =>{
       let url = urlTemplates.ev_subsidy_calculator(pSido, pRegion, pCategory,pCategory2, pDate)
       fetch_api(url, (data) =>{
-        cal_data.value = data;
-        console.log('cal data', cal_data.value)
+        ev_cal_data.value = data;
+        console.log('cal data', ev_cal_data.value)
       })
     }
     function click_button(lr){
@@ -139,11 +155,11 @@ export default {
     call_cal_region(sido.value);
     call_car_brand();
     call_car_name(car_brand.value);
-    call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date)
+    call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01')
     return{
-      sido, sidos, region, regions,is_click_first_left,is_click_first_right, is_click_sec_left, is_click_sec_right,
-      car_brand,car_name,car_brand_data, car_name_data, cal_data,
-      click_button, changeSido}
+      sido, sidos, region, regions,is_click_first_left,is_click_first_right, is_click_sec_left, is_click_sec_right,cal_date,
+      car_brand,car_name,car_brand_data, car_name_data, ev_cal_data,
+      click_button, change_cal_sido, change_cal_region, change_cal_car_brand, change_cal_car_name}
   }
 }
 </script>
