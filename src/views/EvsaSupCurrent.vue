@@ -10,7 +10,7 @@
         </div>
         <div class="right">
           <div>
-            <div :class="is_click_left?'select active first':'select first'">
+            <div :class="is_click_left?'select active first':'select first'" >
               <button class="label" @click="click_button(1)">{{sido}}</button>
               <ul class="option">
                 <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
@@ -114,7 +114,7 @@ export default {
         regions.value = data;
         region.value = data[0].region;
         // console.log('시도 고른 후 원본',data);
-        // console.log('select sido', regions.value)
+        console.log('select sido', regions.value)
       });
     }
 

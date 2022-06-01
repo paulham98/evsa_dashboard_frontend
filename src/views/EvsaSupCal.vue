@@ -3,64 +3,31 @@
   <div class="inner">
     <p class="tit mt100">전기차 보조금 계산기</p>
     <div class="area3">
-      <div class="select">
-        <button class="label">서울특별시</button>
+      <div :class="is_click_first_left?'select active first':'select first'" style="z-index: 2">
+        <button class="label" @click="click_button(1)">{{sido}}</button>
         <ul class="option">
-          <li class="item">서울특별시1</li>
-          <li class="item">서울특별시2</li>
-          <li class="item">서울특별시3</li>
-          <li class="item">서울특별시4</li>
+          <li class="item" v-for="(item, i) in sidos" :key="i" @click="changeSido(item.name)">{{item.name}}</li>
         </ul>
       </div>
-      <div class="select">
-        <button class="label">서울특별시</button>
+      <div :class="is_click_first_right?'select active second':'select second'" style="z-index: 2">
+        <button class="label" @click="click_button(2)">{{region}}</button>
         <ul class="option">
-          <li class="item">서울특별시1</li>
-          <li class="item">서울특별시2</li>
-          <li class="item">서울특별시3</li>
-          <li class="item">서울특별시4</li>
+          <li class="item" v-for="(item, i) in regions" :key="i">{{item.region}}</li>
         </ul>
       </div>
     </div>
-    <div class="table_wrap">
-      <table>
-        <thead>
-        <tr>
-          <th>시·도</th>
-          <th>지 역</th>
-          <th>보조금(승용)</th>
-          <th>보조금(초소형)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>전라북도</td>
-          <td>완주군</td>
-          <td>1400</td>
-          <td>560%</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="color_gray mt10">*  전기차 지자체 보조금은 국비와 지방비를 합산한 총 금액입니다.</p>
     <p class="tit mt100">차량별 보조금 확인</p>
     <div class="area3">
-      <div class="select">
-        <button class="label">서울특별시</button>
+      <div :class="is_click_sec_left?'select active first':'select first'" style="z-index: 1">
+        <button class="label" @click="click_button(3)">{{car_brand}}</button>
         <ul class="option">
-          <li class="item">서울특별시1</li>
-          <li class="item">서울특별시2</li>
-          <li class="item">서울특별시3</li>
-          <li class="item">서울특별시4</li>
+          <li class="item" v-for="(item, i) in car_brand_data" :key="i">{{item.category}}</li>
         </ul>
       </div>
-      <div class="select">
-        <button class="label">서울특별시</button>
+      <div :class="is_click_sec_right?'select active second':'select second'" style="z-index: 1">
+        <button class="label" @click="click_button(4)">{{car_name}}</button>
         <ul class="option">
-          <li class="item">서울특별시1</li>
-          <li class="item">서울특별시2</li>
-          <li class="item">서울특별시3</li>
-          <li class="item">서울특별시4</li>
+          <li class="item" v-for="(item, i) in car_name_data" :key="i">{{item.category2}}</li>
         </ul>
       </div>
     </div>
@@ -93,13 +60,92 @@
 </template>
 
 <script>
-  import Top_navBar from "../components/TopNavBar"
-  export default {
-    name: "Evsa_sup_cal",
-    components: {
-      Top_navBar,
+import Top_navBar from "../components/TopNavBar"
+import urlTemplates from "@/composables/urlTemplates";
+import {fetch_api} from "@/plugin";
+import {getInfoDate} from "@/composables/getInfoDate";
+import {ref} from "vue";
+export default {
+  name: "Evsa_sup_cal",
+  components: {
+    Top_navBar,
+  },
+  setup(){
+    let sido = ref('서울');
+    let region = ref('서울특별시');
+    let sidos = ref([]);
+    let regions = ref([]);
+    let car_brand = ref('현대');
+    let car_name = ref('아이오닉5 2WD 롱레인지 20인치');
+    let car_brand_data = ref([]);
+    let car_name_data = ref([]);
+    let cal_data = ref({});
+    let cal_date = getInfoDate();
+    let is_click_first_left = ref(false);
+    let is_click_first_right = ref(false);
+    let is_click_sec_left = ref(false);
+    let is_click_sec_right = ref(false);
+    // 시도 구하는 데이터
+    const call_cal_sido = () => {
+      fetch_api(urlTemplates.sido(),(data) => {
+        sidos.value = data;
+      });
     }
+    // 시도 고른 후 데이터
+    const call_cal_region = pSido => {
+      fetch_api(urlTemplates.region(pSido),(data) => {
+        regions.value = data;
+        region.value = data[0].region;
+      });
+    }
+    const call_car_brand = ()=>{
+      let url = urlTemplates.car_brand();
+      fetch_api(url, (data) =>{
+        car_brand_data.value = data;
+        console.log('car brand', car_brand_data.value)
+      })
+    }
+    const call_car_name = pName =>{
+      let url = urlTemplates.car_name(pName);
+      fetch_api(url, (data) =>{
+        car_name_data.value = data;
+        console.log('car name', car_name_data.value)
+      })
+    }
+    const changeSido = (pSido) => {
+      sido.value = pSido;
+      let url = urlTemplates.region(sido.value)
+      fetch_api(url,(data) => {
+        regions.value = data;
+        region.value = data[0].region;
+        console.log('select sido', regions.value, region.value)
+      });
+      is_click_first_left.value = false
+    }
+    const call_ev_subsidy_calculator = (pSido, pRegion, pCategory, pCategory2, pDate) =>{
+      let url = urlTemplates.ev_subsidy_calculator(pSido, pRegion, pCategory,pCategory2, pDate)
+      fetch_api(url, (data) =>{
+        cal_data.value = data;
+        console.log('cal data', cal_data.value)
+      })
+    }
+    function click_button(lr){
+      is_click_first_left.value = !is_click_first_left.value && lr === 1;
+      is_click_first_right.value = !is_click_first_right.value && lr === 2;
+      is_click_sec_left.value = !is_click_sec_left.value && lr === 3;
+      is_click_sec_right.value = !is_click_sec_right.value && lr === 4;
+    }
+    call_cal_sido();
+    call_cal_region(sido.value);
+    call_car_brand();
+    call_car_name(car_brand.value);
+    call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date)
+    return{
+      sido, sidos, region, regions,is_click_first_left,is_click_first_right, is_click_sec_left, is_click_sec_right,
+      car_brand,car_name,car_brand_data, car_name_data, cal_data,
+      click_button, changeSido}
   }
+}
 </script>
 
 <style scoped>
