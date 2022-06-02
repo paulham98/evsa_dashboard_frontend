@@ -120,22 +120,22 @@ export default {
         region.value = data[0].region;
         console.log('select sido', regions.value, region.value)
       });
-      call_ev_subsidy_calculator(pSido, region.value, car_brand.value, car_name.value, '2022-06-01');
+      call_ev_subsidy_calculator(pSido, region.value, car_brand.value, car_name.value, cal_date);
       is_click_first_left.value = false
     }
     function change_cal_region(event){
       region.value = event;
-      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01');
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date);
       is_click_first_right.value = false
     }
     function change_cal_car_brand(event){
       car_brand.value = event;
-      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01');
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date);
       is_click_sec_left.value = false
     }
     function change_cal_car_name(event){
       car_name.value = event;
-      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01');
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date);
       is_click_sec_right.value = false
     }
     const call_ev_subsidy_calculator = (pSido, pRegion, pCategory, pCategory2, pDate) =>{
@@ -155,7 +155,7 @@ export default {
     call_cal_region(sido.value);
     call_car_brand();
     call_car_name(car_brand.value);
-    call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, '2022-06-01')
+    call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date)
     return{
       sido, sidos, region, regions,is_click_first_left,is_click_first_right, is_click_sec_left, is_click_sec_right,cal_date,
       car_brand,car_name,car_brand_data, car_name_data, ev_cal_data,
