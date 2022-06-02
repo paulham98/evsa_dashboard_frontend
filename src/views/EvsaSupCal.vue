@@ -109,18 +109,26 @@ export default {
       let url = urlTemplates.car_name(pName);
       fetch_api(url, (data) =>{
         car_name_data.value = data;
+        car_name.value = data[0].category2
         console.log('car name', car_name_data.value)
       })
     }
-    const change_cal_sido = (pSido) => {
-      sido.value = pSido;
+    const call_ev_subsidy_calculator = (pSido, pRegion, pCategory, pCategory2, pDate) =>{
+      let url = urlTemplates.ev_subsidy_calculator(pSido, pRegion, pCategory,pCategory2, pDate)
+      fetch_api(url, (data) =>{
+        ev_cal_data.value = data;
+        console.log('cal data', ev_cal_data.value)
+      })
+    }
+    function change_cal_sido(event){
+      sido.value = event;
       let url = urlTemplates.region(sido.value)
       fetch_api(url,(data) => {
         regions.value = data;
         region.value = data[0].region;
         console.log('select sido', regions.value, region.value)
       });
-      call_ev_subsidy_calculator(pSido, region.value, car_brand.value, car_name.value, cal_date);
+      call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date);
       is_click_first_left.value = false
     }
     function change_cal_region(event){
@@ -130,6 +138,7 @@ export default {
     }
     function change_cal_car_brand(event){
       car_brand.value = event;
+      call_car_name(car_brand.value)
       call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date);
       is_click_sec_left.value = false
     }
@@ -138,13 +147,7 @@ export default {
       call_ev_subsidy_calculator(sido.value, region.value, car_brand.value, car_name.value, cal_date);
       is_click_sec_right.value = false
     }
-    const call_ev_subsidy_calculator = (pSido, pRegion, pCategory, pCategory2, pDate) =>{
-      let url = urlTemplates.ev_subsidy_calculator(pSido, pRegion, pCategory,pCategory2, pDate)
-      fetch_api(url, (data) =>{
-        ev_cal_data.value = data;
-        console.log('cal data', ev_cal_data.value)
-      })
-    }
+
     function click_button(lr){
       is_click_first_left.value = !is_click_first_left.value && lr === 1;
       is_click_first_right.value = !is_click_first_right.value && lr === 2;
