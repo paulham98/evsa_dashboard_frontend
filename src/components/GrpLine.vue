@@ -5,7 +5,7 @@
     <div :class="isLeft?'line_grp purple':'line_grp blue'">
       <h1><em>{{info_recept}}</em> / {{info_notice}} <span>Total</span></h1>
       <div class="wrap active">
-        <div class="line1" :style="{'width':`${info_accepted_rate>=100 ? 100 : info_accepted_rate}%`}">
+        <div class="line1" :style="{'width':`${info_accepted_rate>=100 ? 100 : info_accepted_rate<=10 ? 10:info_accepted_rate}%`}">
           <span>{{info_recept}}대</span>
           <p>{{info_accepted_rate}}%</p>
         </div>
@@ -29,7 +29,6 @@ export default {
     isLeft: Boolean
   },
   setup(){
-
   }
 }
 </script>
@@ -45,7 +44,7 @@ export default {
 .grp .line_grp .wrap{background: #d6d4f0;border-radius: 500px;position: relative;height: 45px;margin-bottom: 30px;}
 .grp .line_grp .wrap .line1{background: #8259d9;border-radius: 500px;height: 100%;position: absolute;width: 0;transition: width 0.5s;transition-delay: 0.2s;}
 .grp .line_grp .wrap .line1 span{position:absolute;width:100%;color:#fff;text-align: center;display: flex;align-items: center;justify-content: center;height: 100%;opacity: 0;transition: opacity 1s;transition-delay: 0.6s;}
-.grp .line_grp .wrap .line1 p{position:absolute;background:#fff;border-radius:5px;padding:5px;font-weight: 600;width: 60px;box-sizing: border-box;text-align: center;box-shadow: 0px 0px 10px rgba(0,0,0,0.2);right: 15px;top: -19px;opacity: 0;transition: opacity 1s;transition-delay: 0.6s;}
+.grp .line_grp .wrap .line1 p{position:absolute;background:#fff;border-radius:5px;padding:5px;font-weight: 600;width: 60px;box-sizing: border-box;text-align: center;box-shadow: 0px 0px 10px rgba(0,0,0,0.2);right: -15px;top: -29px;opacity: 0;transition: opacity 1s;transition-delay: 0.6s;}
 
 .grp .line_grp .wrap .line1 p:before{content:"";width: 0px;height: 0px;border-top: 7px solid white;border-bottom: 7px solid none;border-right: 7px solid transparent;border-left: 7px solid  transparent;position:absolute;bottom: -7px;left: 50%;transform: translateX(-50%);}
 .grp .line_grp .wrap>span{position:absolute;color:#fff;text-align: center;display: flex;align-items: center;justify-content: center;height: 100%;right: 0;opacity: 0;transition: opacity 1s;transition-delay: 0.6s;}
