@@ -1,5 +1,5 @@
 <template>
-  <Top_navBar></Top_navBar>
+  <Top_navBar :page="2"></Top_navBar>
   <div class="inner">
     <p class="tit mt100">전기차 보조금 계산기</p>
     <div class="area3">

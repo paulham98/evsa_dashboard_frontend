@@ -8,13 +8,13 @@
         <h1>우리 지역 한눈에</h1>
         <div>
           <ul>
-            <li><router-link :to="{name:'Evsa_sup_current'}"><a class="active">전기차 보조금 현황</a></router-link></li>
-            <li><router-link :to="{name:'Evsa_sup_cal'}"><a class="active">전기차 보조금 계산기</a></router-link></li>
-            <li><a @click="this.open_new_window()" class="active">보조금 신청 가이드</a></li>
+            <li><router-link :to="{name:'Evsa_sup_current'}"><a :class="page_current?'active':'inactive'" @click="change_page(1)">전기차 보조금 현황</a></router-link></li>
+            <li><router-link :to="{name:'Evsa_sup_cal'}"><a :class="page_calculator?'active':'inactive'" @click="change_page(2)">전기차 보조금 계산기</a></router-link></li>
+            <li><a style="cursor: pointer" @click="this.open_new_window(3)" :class="page_guide?'active':'inactive'">보조금 신청 가이드</a></li>
           </ul>
         </div>
         <router-link :to="{name: 'Sign_in'}">
-          <a href="#" class="login"><img src="images/login.png" @click="openModal" alt=""></a>
+          <a href="#" class="login"><img src="images/login.png" @click="openModal" alt="" ></a>
         </router-link>
         <!--<button @click="openModal()">-->
           <!---->
@@ -28,19 +28,43 @@
 import { ref, inject} from 'vue'
   export default{
     name: "Top_navBar",
-    setup(){
+    props:{
+      page: Number
+    },
+    setup(props){
+      let page_current = ref(true)
+      let page_calculator = ref(false)
+      let page_guide = ref(false)
 
-      function open_new_window(){
+      function change_page(num){
+        console.log(num)
+        if(num === 1){
+          page_current.value = true
+          page_calculator.value = false
+          page_guide.value = false
+        }else if(num === 2){
+          page_current.value = false
+          page_calculator.value = true
+          page_guide.value = false
+        }else if(num === 3){
+          page_current.value = false
+          page_calculator.value = false
+          page_guide.value = true
+        }
+      }
+      function open_new_window(num){
         let api = `http://www.easyplug.co.kr`;
         window.open(api,"_blank")
+        change_page(num)
       }
       let isShow = ref(false);
       let emitter = inject("emitter");
       let openModal = () => {
         emitter.emit("open", 100)
       };
-
-      return{ open_new_window, isShow, openModal}
+      change_page(props.page)
+      return{page_calculator,page_current,page_guide,change_page,
+        open_new_window, isShow, openModal}
     },
     methods:{
       // openModal(){

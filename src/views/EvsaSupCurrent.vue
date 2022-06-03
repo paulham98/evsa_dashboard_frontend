@@ -1,5 +1,5 @@
 <template>
-  <Top_navBar></Top_navBar>
+  <Top_navBar :page="1"></Top_navBar>
   <p></p>
   <div class="border_b">
     <div class="inner">
