@@ -24,7 +24,7 @@
         <div class="table_wrap">
           <table>
             <thead>
-            <tr>
+            <tr style="text-align: center">
               <th>시·도</th>
               <th>지 역</th>
               <th>보조금</th>
@@ -97,12 +97,13 @@
       </div>
     </div>
     <div class="inner last">
-      <p class="tit">마감 예정 지역 TOP 5</p>
+      <p class="tit" v-if="!top_list">마감 예정 지역 TOP 5</p>
+      <p class="tit" v-if="top_list">마감 예정 지역 List</p>
       <p class="color_gray">*마감 예정 지역은 보조금 접수율 90%이상 지역으로 접수 지원시 마감 위험이 있는 지역입니다.</p>
       <div class="table_wrap">
         <table>
           <thead>
-          <tr>
+          <tr style="text-align: center">
             <th>시·도</th>
             <th>지 역</th>
             <th>접수율</th>
@@ -155,6 +156,7 @@ export default {
     let capital_data = ref([])
     let capital_data_default = ref([])
     let show_more = ref(false)
+    let top_list = ref(false)
     //console.log(urlTemplates, fetch_api, props.sidos)
     console.log('sidos:',props.sidos)
     console.log('regions:',props.regions)
@@ -168,6 +170,7 @@ export default {
         capital_text_arr2.value = []
         // console.log(info_available_ratio_unit.value, info_notice.value, info_remain.value, info_release.value, info_recept.value,info_accepted_rate.value, info_remain_rate.value);
         if(data.closingAreaDtos.length <= 5){
+          top_list.value = data.closingAreaDtos.length !== 5;
           closing_area_dtos.value = data.closingAreaDtos
         }else if(data.closingAreaDtos.length >5){
           for(let i = 0; i< 5; i++){
@@ -183,7 +186,7 @@ export default {
         }
         // console.log(capital_text_arr2.value)
         capital_text_arr3.value = capital_text_dto.value.description.split('\\n')
-        console.log('closing_area:', closing_area_data.value, url);
+        console.log('closing_area:', closing_area_data.value, closing_area_dtos.value);
       });
     }
     const callCapitalData = (pDate) =>{
@@ -250,7 +253,7 @@ export default {
       }
     }
 
-    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,show_more,
+    return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,show_more,top_list,
       click_button, click_more, changeSido,changeRegion, changeSelectCategory2,
       closing_area_data, closing_area_dtos, capital_text_dto,capital_text_arr1,capital_text_arr2, capital_text_arr3,
       capital_data, capital_data_default}
