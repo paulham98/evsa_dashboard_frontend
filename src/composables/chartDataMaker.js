@@ -22,14 +22,14 @@ let mixed_chart_options = (close,dates) => {
     plotOptions: {
       bar: {
         horizontal: false,
-        borderRadius: 7,
+        borderRadius: 5,
       },
     },
     dataLabels: {
       enabled: false
     },
     stroke: {
-      width: [1, 1, 1],
+      width: [1, 1, 4],
       // dashArray: [0,7,0]
     },
     xaxis: {

@@ -121,6 +121,7 @@ export default {
     function callSubsidyInfo(pSido, pRegion, pCategory2, pDate) {
       let url = urlTemplates.subsidy_info(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
+        // console.log('subsidy info', data)
         info_remain.value = data.remains;
         info_recept.value = data.recept;
         info_remain_rate.value = data.remain_rate;
