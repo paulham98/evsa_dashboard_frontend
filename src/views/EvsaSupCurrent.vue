@@ -87,7 +87,7 @@ export default {
 
     let sido = ref('서울');
     let region = ref('서울특별시');
-    let category2 = ref('전체');
+    let category2 = ref('선택해주세요');
     let infoDate = getInfoDate()
     let sidos = ref([]);
     let regions = ref([]);
@@ -100,7 +100,7 @@ export default {
     let info_available_ratio_unit = ref('');
     let click_check_left = ref(true);
     let click_check_right = ref(false);
-    let third_select_options = ref(['전체', '법인', '택시', '기타']);
+    let third_select_options = ref(['선택해주세요', '전체', '법인', '택시', '기타']);
     // 시도 구하는 데이터
     const callSido = () => {
       fetch_api(urlTemplates.sido(),(data) => {
@@ -121,7 +121,7 @@ export default {
     function callSubsidyInfo(pSido, pRegion, pCategory2, pDate) {
       let url = urlTemplates.subsidy_info(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
-        // console.log('subsidy info', data)
+        console.log('subsidy info', data)
         info_remain.value = data.remains;
         info_recept.value = data.recept;
         info_remain_rate.value = data.remain_rate;
@@ -214,7 +214,7 @@ export default {
 
     callSido();
     callRegion(sido.value);
-    callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+    callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
 
     return{
       is_click_left,is_click_right,is_click_third,click_button,
