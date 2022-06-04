@@ -141,7 +141,7 @@ export default {
     let sido = ref('서울');
     let region = ref('서울특별시');
     let category2 = ref('선택해주세요');
-    let third_select_options = ref(['전체', '법인', '택시', '기타']);
+    let third_select_options = ref(['전체', '법인', '택시']);
     let closing_area_data = ref({})
     let closing_area_dtos = ref([])
     let capital_text_dto = ref({})
