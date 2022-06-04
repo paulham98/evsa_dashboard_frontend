@@ -60,7 +60,7 @@
       <div class="txt_bg">
         <div class="inner">
           <h1>{{capital_text_arr2[0]+" "+capital_text_arr2[1]}}</h1>
-          <h2>{{capital_text_arr2[2]+" "+capital_text_arr2[3]}}<br class="v800"><em class="color_sky">최</em><em class="color_sky">대</em><em class="color_sky">한</em> <br class="v800">받을 수 있습니다.</h2>
+          <h2>{{capital_text_arr2[2]+" "+capital_text_arr2[3]}}<br class="v800"><em class="color_sky" v-for="(item, i) of highlight_words" :key="i">{{item}}</em><br class="v800">{{capital_text_arr2[5]+" "+capital_text_arr2[6]+" "+capital_text_arr2[7]}}</h2>
           <p class="color_gray tac" v-for="(item, i) in capital_text_arr3" :key="i">{{item}}</p>
         </div>
       </div>
@@ -157,6 +157,7 @@ export default {
     let capital_data_default = ref([])
     let show_more = ref(false)
     let top_list = ref(false)
+    let highlight_words = ref([])
     //console.log(urlTemplates, fetch_api, props.sidos)
     console.log('sidos:',props.sidos)
     console.log('regions:',props.regions)
@@ -165,6 +166,7 @@ export default {
       let url = urlTemplates.subsidy_closing_area(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
         // console.log('url:', url)
+        console.log('마감지역 최초 데이터', data)
         closing_area_data.value = data
         capital_text_arr1.value = []
         capital_text_arr2.value = []
@@ -184,14 +186,21 @@ export default {
         for(let item of capital_text_dto.value.text2.split(' ')){
           capital_text_arr2.value.push(item)
         }
+        // 강조된 글씨 걸러내는 과정
+        let tmp = capital_text_dto.value.text2.match('\\<b\\>[a-zA-Z가-힣0-9]+\\<\\/b\\>')[0]
+        highlight_words.value = tmp.split('<b>')[1]
+        highlight_words.value = highlight_words.value.split('</b>')[0]
+        console.log(highlight_words.value)
         // console.log(capital_text_arr2.value)
         capital_text_arr3.value = capital_text_dto.value.description.split('\\n')
         console.log('closing_area:', closing_area_data.value, closing_area_dtos.value);
+        console.log('text data', capital_text_arr2.value)
       });
     }
     const callCapitalData = (pDate) =>{
       let url = urlTemplates.subsidy_capital(pDate)
       fetch_api(url, (data) =>{
+        // console.log('최대 보조금 받기 data', data)
         for(let i =0; i < 3; i++){
           capital_data_default.value.push(data[i])
         }
@@ -256,7 +265,7 @@ export default {
     return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,show_more,top_list,
       click_button, click_more, changeSido,changeRegion, changeSelectCategory2,
       closing_area_data, closing_area_dtos, capital_text_dto,capital_text_arr1,capital_text_arr2, capital_text_arr3,
-      capital_data, capital_data_default}
+      capital_data, capital_data_default,highlight_words}
 
   }
 }
