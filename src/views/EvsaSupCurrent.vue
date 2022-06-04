@@ -100,7 +100,7 @@ export default {
     let info_available_ratio_unit = ref('');
     let click_check_left = ref(true);
     let click_check_right = ref(false);
-    let third_select_options = ref(['선택해주세요', '전체', '법인', '택시', '기타']);
+    let third_select_options = ref(['전체', '법인', '택시', '기타']);
     // 시도 구하는 데이터
     const callSido = () => {
       fetch_api(urlTemplates.sido(),(data) => {
