@@ -100,7 +100,7 @@ export default {
     let info_available_ratio_unit = ref('');
     let click_check_left = ref(true);
     let click_check_right = ref(false);
-    let third_select_options = ref(['전체', '법인', '택시', '기타']);
+    let third_select_options = ref(['전체', '법인', '택시']);
     // 시도 구하는 데이터
     const callSido = () => {
       fetch_api(urlTemplates.sido(),(data) => {
@@ -176,7 +176,7 @@ export default {
         callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')
       }
       if(third_select_options.value.length === 3){
-        third_select_options.value = ['전체', '법인', '택시', '기타']
+        third_select_options.value = ['전체', '법인', '택시']
       }
 
       console.log('clickCheckboxCategory2', category2.value)
