@@ -26,7 +26,7 @@
 
 <script>
 import urlTemplates from "@/composables/urlTemplates";
-import {ref, onBeforeUpdate, onRenderTriggered, watchEffect,} from 'vue'
+import {ref,inject, onBeforeUpdate, onRenderTriggered, watchEffect,} from 'vue'
 import {getInfoDate} from "@/composables/getInfoDate";
 import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
 import {fetch_api} from "../plugin.js"
@@ -38,17 +38,18 @@ import {fetch_api} from "../plugin.js"
       category: String
     },
     setup(props){
+      console.log(props.sido, props.category)
       let mixed_chart_options = ref({});
       let mixed_series = ref([
         {name: '접수대수(누적)', type: 'column', data: [],},
         {name: '출고대수(누적)', type: 'column', data: [],},
         {name: '접수대수(일별)', type: 'line', data: []}
         ]);
-
-      const call_api = () => {
+      let emitter = inject("emitter")
+      const call_api = (pCategory, pRegion, pSido) => {
         // let start_date = getInfoDate()
         let end_date = getInfoDate()
-        let url2 = urlTemplates.subsidy_trend(props.category, props.region, props.sido, '2022-05-13', end_date)
+        let url2 = urlTemplates.subsidy_trend(pCategory, pRegion, pSido, '2022-05-13', end_date)
         fetch_api(url2, (data) =>{
           // trend_data.value = data;
           console.log('트렌드 data', data);
@@ -70,8 +71,31 @@ import {fetch_api} from "../plugin.js"
           mixed_chart_options.value = get_chart_options(trend_chart_close.value,trend_chart_date.value)
         });
       };
-      call_api();
-
+      call_api('일반', props.region, props.sido);
+      emitter.on("change_sido", (data) =>{
+        console.log("change sido", data)
+        if(data[2] === '선택해주세요'){
+          call_api('일반', data[1], data[0]);
+        }else{
+          call_api(data[2], data[1],data[0])
+        }
+      })
+      emitter.on("change_region", (data) =>{
+        console.log("change sido", data)
+        if(data[2] === '선택해주세요'){
+          call_api('일반', data[1], data[0]);
+        }else{
+          call_api(data[2], data[1],data[0])
+        }
+      })
+      emitter.on("change_category", (data) =>{
+        console.log("change sido", data)
+        if(data[2] === '선택해주세요'){
+          call_api('일반', data[1], data[0]);
+        }else{
+          call_api(data[2], data[1],data[0])
+        }
+      })
       let line_series = [{
         name: "Desktops",
         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]

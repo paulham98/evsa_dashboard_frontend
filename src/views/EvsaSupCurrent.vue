@@ -59,7 +59,7 @@ import SupTrend from "../components/SupTrend"
 import {getInfoDate} from "@/composables/getInfoDate";
 import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "../plugin.js"
-import {ref, onMounted, onUpdated, computed} from "vue"
+import {ref,inject, onMounted, onUpdated, computed} from "vue"
 import EvsaClosingArea from "@/components/EvsaClosingArea";
 import EvsaInfo from "@/components/EvsaInfo";
 export default {
@@ -101,6 +101,7 @@ export default {
     let click_check_left = ref(true);
     let click_check_right = ref(false);
     let third_select_options = ref(['전체', '법인', '택시']);
+    let emitter = inject("emitter")
     // 시도 구하는 데이터
     const callSido = () => {
       fetch_api(urlTemplates.sido(),(data) => {
@@ -156,6 +157,8 @@ export default {
         console.log('select sido', regions.value, region.value)
       });
       is_click_left.value = false
+      let emit_data = [sido.value, region.value, category2.value]
+      emitter.emit("change_sido", emit_data)
     }
 
     function changeRegion(event){
@@ -163,17 +166,22 @@ export default {
       region.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
       is_click_right.value = false
+      let emit_data = [sido.value, region.value, category2.value]
+      emitter.emit("change_region", emit_data)
     }
 
     function clickCheckboxCategory2(pCategory2) {
+      let emit_data = [sido.value, region.value, pCategory2]
       if(pCategory2 === '일반'){
         click_check_left.value = true
         click_check_right.value = false
         callSubsidyInfo(sido.value, region.value, pCategory2, '2022-05-20')
+        emitter.emit("change_category", emit_data)
       }else if(pCategory2 === '우선'){
         click_check_left.value = false
         click_check_right.value = true
         callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')
+        emitter.emit("change_category", emit_data)
       }
       if(third_select_options.value.length === 3){
         third_select_options.value = ['전체', '법인', '택시']
@@ -194,6 +202,8 @@ export default {
       console.log('clickCheckboxCategory2', event, region.value);
       category2.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
+      let emit_data = [sido.value, region.value, category2.value]
+      emitter.emit("change_category", emit_data)
     }
 
     const clickBtn = ()=>{

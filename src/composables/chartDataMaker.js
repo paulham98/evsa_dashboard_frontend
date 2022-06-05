@@ -63,7 +63,7 @@ let mixed_chart_options = (close,dates) => {
           color: '#cd39ae',
         },
         labels: {
-          offsetX: -65,
+          offsetX: -55,
           style: {
             colors: '#cd39ae',
           }
@@ -79,7 +79,7 @@ let mixed_chart_options = (close,dates) => {
           color: '#bea1d8'
         },
         labels: {
-          offsetX: 55,
+          offsetX: 45,
           style: {
             colors: '#bea1d8',
           },
