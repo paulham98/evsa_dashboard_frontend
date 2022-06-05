@@ -72,24 +72,8 @@ import {fetch_api} from "../plugin.js"
         });
       };
       call_api('일반', props.region, props.sido);
-      emitter.on("change_sido", (data) =>{
-        console.log("change sido", data)
-        if(data[2] === '선택해주세요'){
-          call_api('일반', data[1], data[0]);
-        }else{
-          call_api(data[2], data[1],data[0])
-        }
-      })
-      emitter.on("change_region", (data) =>{
-        console.log("change sido", data)
-        if(data[2] === '선택해주세요'){
-          call_api('일반', data[1], data[0]);
-        }else{
-          call_api(data[2], data[1],data[0])
-        }
-      })
-      emitter.on("change_category", (data) =>{
-        console.log("change sido", data)
+      emitter.on("change_trend_pData", (data) =>{
+        console.log("change trend pData", data)
         if(data[2] === '선택해주세요'){
           call_api('일반', data[1], data[0]);
         }else{

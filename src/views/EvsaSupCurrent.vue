@@ -158,7 +158,7 @@ export default {
       });
       is_click_left.value = false
       let emit_data = [sido.value, region.value, category2.value]
-      emitter.emit("change_sido", emit_data)
+      emitter.emit("change_trend_pData", emit_data)
     }
 
     function changeRegion(event){
@@ -167,7 +167,7 @@ export default {
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
       is_click_right.value = false
       let emit_data = [sido.value, region.value, category2.value]
-      emitter.emit("change_region", emit_data)
+      emitter.emit("change_trend_pData", emit_data)
     }
 
     function clickCheckboxCategory2(pCategory2) {
@@ -176,12 +176,12 @@ export default {
         click_check_left.value = true
         click_check_right.value = false
         callSubsidyInfo(sido.value, region.value, pCategory2, '2022-05-20')
-        emitter.emit("change_category", emit_data)
+        emitter.emit("change_trend_pData", emit_data)
       }else if(pCategory2 === '우선'){
         click_check_left.value = false
         click_check_right.value = true
         callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')
-        emitter.emit("change_category", emit_data)
+        emitter.emit("change_trend_pData", emit_data)
       }
       if(third_select_options.value.length === 3){
         third_select_options.value = ['전체', '법인', '택시']
@@ -203,7 +203,7 @@ export default {
       category2.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
       let emit_data = [sido.value, region.value, category2.value]
-      emitter.emit("change_category", emit_data)
+      emitter.emit("change_trend_pData", emit_data)
     }
 
     const clickBtn = ()=>{
