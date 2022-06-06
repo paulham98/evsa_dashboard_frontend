@@ -155,10 +155,11 @@ export default {
         regions.value = data;
         region.value = data[0].region;
         console.log('select sido', regions.value, region.value)
+        let emit_data = [sido.value, region.value, category2.value]
+        emitter.emit("change_trend_pData", emit_data)
       });
       is_click_left.value = false
-      let emit_data = [sido.value, region.value, category2.value]
-      emitter.emit("change_trend_pData", emit_data)
+
     }
 
     function changeRegion(event){
