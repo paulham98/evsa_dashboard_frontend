@@ -29,7 +29,7 @@
               <label for="agree1_1">일반 차량</label>
             </div>
             <div class="checkbox1">
-              <input v-model="click_check_right"  type="checkbox" name="ck" id="agree1_2" @change="clickCheckboxCategory2('우선')" >
+              <input v-model="click_check_right"  type="checkbox" name="ck" id="agree1_2" @change="clickCheckboxCategory2('우선순위')" >
               <label for="agree1_2">우선 차량</label>
             </div>
             <div :class="is_click_third?'select active':'select'">
@@ -122,7 +122,7 @@ export default {
     function callSubsidyInfo(pSido, pRegion, pCategory2, pDate) {
       let url = urlTemplates.subsidy_info(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
-        console.log('subsidy info', data)
+        console.log('subsidy info', data, url)
         info_remain.value = data.remains;
         info_recept.value = data.recept;
         info_remain_rate.value = data.remain_rate;
@@ -178,7 +178,7 @@ export default {
         click_check_right.value = false
         callSubsidyInfo(sido.value, region.value, pCategory2, '2022-05-20')
         emitter.emit("change_trend_pData", emit_data)
-      }else if(pCategory2 === '우선'){
+      }else if(pCategory2 === '우선순위'){
         click_check_left.value = false
         click_check_right.value = true
         callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')

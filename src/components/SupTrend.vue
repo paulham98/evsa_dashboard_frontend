@@ -52,7 +52,7 @@ import {fetch_api} from "../plugin.js"
         let url2 = urlTemplates.subsidy_trend(pCategory, pRegion, pSido, '2022-05-13', end_date)
         fetch_api(url2, (data) =>{
           // trend_data.value = data;
-          console.log('트렌드 data', data);
+          console.log('트렌드 data', data, url2);
           let trend_chart_date = ref(data[0].slice(1))
           let trend_chart_close = ref(data[1].slice(1).map(item=>parseInt(item)))
           let trend_chart_accepted = ref(data[2].slice(1).map(item=>parseInt(item)))
