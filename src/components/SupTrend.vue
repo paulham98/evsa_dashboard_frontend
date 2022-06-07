@@ -65,7 +65,7 @@ import {fetch_api} from "../plugin.js"
               trend_chart_recept.value[i] = 0
             }
           }
-          trend_chart_recept.value = trend_chart_recept.value.filter(item => item>0)
+          // trend_chart_recept.value = trend_chart_recept.value.filter(item => item>0)
           console.log('일별 접수대수 보정 data', trend_chart_recept.value)
           mixed_series.value = get_mixed_series(trend_chart_close.value,trend_chart_accepted.value, trend_chart_release.value, trend_chart_recept.value)
           mixed_chart_options.value = get_chart_options(trend_chart_close.value,trend_chart_date.value)
