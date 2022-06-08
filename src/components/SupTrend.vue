@@ -49,6 +49,7 @@ import {fetch_api} from "../plugin.js"
       const call_api = (pCategory, pRegion, pSido) => {
         // let start_date = getInfoDate()
         let end_date = getInfoDate()
+        // let start_date = getInfoFirstDate()
         let url2 = urlTemplates.subsidy_trend(pCategory, pRegion, pSido, '2022-05-13', end_date)
         fetch_api(url2, (data) =>{
           // trend_data.value = data;

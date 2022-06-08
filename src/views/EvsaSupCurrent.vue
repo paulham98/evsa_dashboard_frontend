@@ -56,7 +56,7 @@
 <script>
 import Top_navBar from "../components/TopNavBar"
 import SupTrend from "../components/SupTrend"
-import {getInfoDate} from "@/composables/getInfoDate";
+import {getInfoDate/*,getInfoFirstDate*/} from "@/composables/getInfoDate";
 import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "../plugin.js"
 import {ref,inject, onMounted, onUpdated, computed} from "vue"
@@ -89,6 +89,7 @@ export default {
     let region = ref('서울특별시');
     let category2 = ref('선택해주세요');
     let infoDate = getInfoDate()
+    // let info_firsrt_date = getInfoFirstDate();
     let sidos = ref([]);
     let regions = ref([]);
     let info_remain = ref(0);
@@ -172,16 +173,18 @@ export default {
     }
 
     function clickCheckboxCategory2(pCategory2) {
-      let emit_data = [sido.value, region.value, pCategory2]
+
       if(pCategory2 === '일반'){
         click_check_left.value = true
         click_check_right.value = false
         callSubsidyInfo(sido.value, region.value, pCategory2, '2022-05-20')
+        let emit_data = [sido.value, region.value, pCategory2]
         emitter.emit("change_trend_pData", emit_data)
       }else if(pCategory2 === '우선순위'){
         click_check_left.value = false
         click_check_right.value = true
         callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')
+        let emit_data = [sido.value, region.value, '우선순위']
         emitter.emit("change_trend_pData", emit_data)
       }
       if(third_select_options.value.length === 3){
@@ -199,7 +202,6 @@ export default {
         click_check_right.value = false
         is_click_third.value = false
       }
-
       console.log('clickCheckboxCategory2', event, region.value);
       category2.value = event;
       callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
