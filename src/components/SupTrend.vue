@@ -27,7 +27,7 @@
 <script>
 import urlTemplates from "@/composables/urlTemplates";
 import {ref,inject, onBeforeUpdate, onRenderTriggered, watchEffect,} from 'vue'
-import {getInfoDate} from "@/composables/getInfoDate";
+import {getInfoDate,getInfoFirstDate} from "@/composables/getInfoDate";
 import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
 import {fetch_api} from "../plugin.js"
   export default {
@@ -49,8 +49,9 @@ import {fetch_api} from "../plugin.js"
       const call_api = (pCategory, pRegion, pSido) => {
         // let start_date = getInfoDate()
         let end_date = getInfoDate()
-        // let start_date = getInfoFirstDate()
-        let url2 = urlTemplates.subsidy_trend(pCategory, pRegion, pSido, '2022-05-13', end_date)
+        let start_date = getInfoFirstDate()
+        console.log(end_date, start_date)
+        let url2 = urlTemplates.subsidy_trend(pCategory, pRegion, pSido, start_date, end_date)
         fetch_api(url2, (data) =>{
           // trend_data.value = data;
           console.log('트렌드 data', data, url2);

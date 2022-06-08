@@ -158,7 +158,14 @@ export default {
         console.log('select sido', regions.value, region.value)
         let emit_data = [sido.value, region.value, category2.value]
         emitter.emit("change_trend_pData", emit_data)
+        if(category2.value === '선택해주세요'){
+          console.log('초기화면 값 확인')
+          callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
+        }else{
+          callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+        }
       });
+
       is_click_left.value = false
 
     }
@@ -166,14 +173,17 @@ export default {
     function changeRegion(event){
       console.log('region:',event)
       region.value = event;
-      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+      if(category2.value === '선택해주세요'){
+        callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
+      }else {
+        callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+      }
       is_click_right.value = false
       let emit_data = [sido.value, region.value, category2.value]
       emitter.emit("change_trend_pData", emit_data)
     }
 
     function clickCheckboxCategory2(pCategory2) {
-
       if(pCategory2 === '일반'){
         click_check_left.value = true
         click_check_right.value = false
