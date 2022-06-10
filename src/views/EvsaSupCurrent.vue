@@ -159,7 +159,7 @@ export default {
         let emit_data = [sido.value, region.value, category2.value]
         emitter.emit("change_trend_pData", emit_data)
         if(category2.value === '선택해주세요'){
-          console.log('초기화면 값 확인')
+          // console.log('초기화면 값 확인')
           callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
         }else{
           callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')

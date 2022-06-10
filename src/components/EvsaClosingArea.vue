@@ -130,7 +130,7 @@
 import urlTemplates from "@/composables/urlTemplates";
 import {fetch_api} from "@/plugin";
 import {ref} from "vue";
-
+import {getInfoDate} from "@/composables/getInfoDate";
 export default {
   name: "EvsaClosingArea",
   props: {
@@ -141,6 +141,7 @@ export default {
     let sido = ref('서울');
     let region = ref('서울특별시');
     let category2 = ref('선택해주세요');
+    let closing_date = getInfoDate();
     let third_select_options = ref(['전체', '법인', '택시']);
     let closing_area_data = ref({})
     let closing_area_dtos = ref([])
@@ -166,6 +167,7 @@ export default {
       let url = urlTemplates.subsidy_closing_area(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
         // console.log('url:', url)
+        console.log('마감 지역 파라미터',pSido, pRegion,pCategory2,pDate)
         console.log('마감지역 최초 데이터', data)
         closing_area_data.value = data
         capital_text_arr1.value = []
@@ -207,8 +209,13 @@ export default {
         capital_data.value = data
       })
     }
-    callCapitalData('2022-05-28')
-    callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+    callCapitalData(closing_date)
+    if(category2.value === '선택해주세요'){
+      callClosingArea(sido.value, region.value, '전체', closing_date)
+    }else{
+      callClosingArea(sido.value, region.value, category2.value, closing_date)
+    }
+
     console.log('마감 지역 전체 데이터',closing_area_data.value)
 
     function click_more(){
@@ -231,10 +238,11 @@ export default {
         region.value = data[0].region;
         console.log(data)
         // console.log('select sido', regions.value, region.value)
+        if(category2.value !== '선택해주세요'){
+          callClosingArea(sido.value, region.value, category2.value, closing_date)
+        }
       });
-      if(category2.value !== '선택해주세요'){
-        callClosingArea(sido.value, region.value, '전체', '2022-05-28')
-      }
+
       is_click_left.value = false
     };
     // 2
@@ -242,7 +250,7 @@ export default {
       console.log('region:',event)
       region.value = event;
       if(category2.value !== '선택해주세요'){
-        callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+        callClosingArea(sido.value, region.value, category2.value, closing_date)
       }
       is_click_right.value = false
     }
@@ -258,7 +266,7 @@ export default {
         addClass.value = true
       }
       if(category2.value !== '선택해주세요'){
-        callClosingArea(sido.value, region.value, '전체', '2022-05-28')
+        callClosingArea(sido.value, region.value, category2.value, closing_date)
       }
     }
 
