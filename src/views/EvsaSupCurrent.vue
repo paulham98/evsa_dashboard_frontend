@@ -89,7 +89,7 @@ export default {
     let region = ref('서울특별시');
     let category2 = ref('선택해주세요');
     let infoDate = getInfoDate()
-    // let info_firsrt_date = getInfoFirstDate();
+    // let info_start_date = getInfoFirstDate();
     let sidos = ref([]);
     let regions = ref([]);
     let info_remain = ref(0);
@@ -123,6 +123,7 @@ export default {
     function callSubsidyInfo(pSido, pRegion, pCategory2, pDate) {
       let url = urlTemplates.subsidy_info(pSido, pRegion, pCategory2, pDate)
       fetch_api(url, (data) =>{
+        console.log('subsidu Info date', pDate)
         console.log('subsidy info', data, url)
         info_remain.value = data.remains;
         info_recept.value = data.recept;
@@ -160,9 +161,9 @@ export default {
         emitter.emit("change_trend_pData", emit_data)
         if(category2.value === '선택해주세요'){
           // console.log('초기화면 값 확인')
-          callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
+          callSubsidyInfo(sido.value, region.value, '일반', infoDate)
         }else{
-          callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+          callSubsidyInfo(sido.value, region.value, category2.value, infoDate)
         }
       });
 
@@ -174,9 +175,9 @@ export default {
       console.log('region:',event)
       region.value = event;
       if(category2.value === '선택해주세요'){
-        callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
+        callSubsidyInfo(sido.value, region.value, '일반', infoDate)
       }else {
-        callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20')
+        callSubsidyInfo(sido.value, region.value, category2.value, infoDate)
       }
       is_click_right.value = false
       let emit_data = [sido.value, region.value, category2.value]
@@ -187,13 +188,13 @@ export default {
       if(pCategory2 === '일반'){
         click_check_left.value = true
         click_check_right.value = false
-        callSubsidyInfo(sido.value, region.value, pCategory2, '2022-05-20')
+        callSubsidyInfo(sido.value, region.value, pCategory2, infoDate)
         let emit_data = [sido.value, region.value, pCategory2]
         emitter.emit("change_trend_pData", emit_data)
       }else if(pCategory2 === '우선순위'){
         click_check_left.value = false
         click_check_right.value = true
-        callSubsidyInfo(sido.value, region.value, '우선순위', '2022-05-20')
+        callSubsidyInfo(sido.value, region.value, '우선순위', infoDate)
         let emit_data = [sido.value, region.value, '우선순위']
         emitter.emit("change_trend_pData", emit_data)
       }
@@ -214,7 +215,7 @@ export default {
       }
       console.log('clickCheckboxCategory2', event, region.value);
       category2.value = event;
-      callSubsidyInfo(sido.value, region.value, category2.value, '2022-05-20');
+      callSubsidyInfo(sido.value, region.value, category2.value, infoDate);
       let emit_data = [sido.value, region.value, category2.value]
       emitter.emit("change_trend_pData", emit_data)
     }
@@ -237,7 +238,7 @@ export default {
 
     callSido();
     callRegion(sido.value);
-    callSubsidyInfo(sido.value, region.value, '일반', '2022-05-20')
+    callSubsidyInfo(sido.value, region.value, '일반', infoDate)
 
     return{
       is_click_left,is_click_right,is_click_third,click_button,
