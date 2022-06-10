@@ -58,4 +58,9 @@ export default {
 .grp .line_grp .tar p::before{content: '';position: absolute;width: 27px;height: 5px;left: 0;top: 9px;background: #8259d9;border-radius: 500px;}
 .grp .line_grp.blue p::before{background: #0031af;}
 .grp .line_grp.blue .tar p:last-child::before{background: #d6defa;}
+@media(max-width:430px){
+  .grp>div{ display: block; width: calc(100% - 12px);}
+  .grp .right{ margin-left: 0px }
+}
+
 </style>
