@@ -46,7 +46,8 @@ import {fetch_api} from "../plugin.js"
         {name: '접수대수(일별)', type: 'line', data: []}
         ]);
       let emitter = inject("emitter")
-      const call_api = (pCategory, pRegion, pSido) => {
+      let chk_width = window.innerWidth;
+      const call_api = (isMob,pCategory, pRegion, pSido) => {
         // let start_date = getInfoDate()
         let end_date = getInfoDate()
         let start_date = getInfoFirstDate()
@@ -55,33 +56,72 @@ import {fetch_api} from "../plugin.js"
         fetch_api(url2, (data) =>{
           // trend_data.value = data;
           console.log('트렌드 data', data, url2);
-          let trend_chart_date = ref(data[0].slice(1))
-          let trend_chart_close = ref(data[1].slice(1).map(item=>parseInt(item)))
-          let trend_chart_accepted = ref(data[2].slice(1).map(item=>parseInt(item)))
-          let trend_chart_release = ref(data[3].slice(1).map(item=>parseInt(item)))
-          let trend_chart_recept =  ref(data[4].slice(1).map(item=>parseInt(item)))
-          for(let i = 0; i <trend_chart_recept.value.length; i++){
-            if(trend_chart_recept.value[i] < 0){
-              trend_chart_recept.value[i] = 0
-            }else if(isNaN(trend_chart_recept.value[i])){
-              trend_chart_recept.value[i] = 0
+          if(isMob === false){
+            let trend_chart_date = ref(data[0].slice(1))
+            let trend_chart_close = ref(data[1].slice(1).map(item=>parseInt(item)))
+            let trend_chart_accepted = ref(data[2].slice(1).map(item=>parseInt(item)))
+            let trend_chart_release = ref(data[3].slice(1).map(item=>parseInt(item)))
+            let trend_chart_recept =  ref(data[4].slice(1).map(item=>parseInt(item)))
+            for(let i = 0; i <trend_chart_recept.value.length; i++){
+              if(trend_chart_recept.value[i] < 0){
+                trend_chart_recept.value[i] = 0
+              }else if(isNaN(trend_chart_recept.value[i])){
+                trend_chart_recept.value[i] = 0
+              }
             }
+            // trend_chart_recept.value = trend_chart_recept.value.filter(item => item>0)
+            console.log('일별 접수대수 보정 data', trend_chart_recept.value)
+            mixed_series.value = get_mixed_series(trend_chart_close.value,trend_chart_accepted.value, trend_chart_release.value, trend_chart_recept.value)
+            mixed_chart_options.value = get_chart_options(trend_chart_close.value,trend_chart_date.value)
+          }else{
+            console.log('430 px 이하 일때 사이즈 변경', )
+            let trend_chart_date = ref(data[0].slice(1,6))
+            let trend_chart_close = ref(data[1].slice(1,6).map(item=>parseInt(item)))
+            let trend_chart_accepted = ref(data[2].slice(1,6).map(item=>parseInt(item)))
+            let trend_chart_release = ref(data[3].slice(1,6).map(item=>parseInt(item)))
+            let trend_chart_recept =  ref(data[4].slice(1,6).map(item=>parseInt(item)))
+            for(let i = 0; i <trend_chart_recept.value.length; i++){
+              if(trend_chart_recept.value[i] < 0){
+                trend_chart_recept.value[i] = 0
+              }else if(isNaN(trend_chart_recept.value[i])){
+                trend_chart_recept.value[i] = 0
+              }
+            }
+            mixed_series.value = get_mixed_series(trend_chart_close.value,trend_chart_accepted.value, trend_chart_release.value, trend_chart_recept.value)
+            mixed_chart_options.value = get_chart_options(trend_chart_close.value,trend_chart_date.value)
+
           }
-          // trend_chart_recept.value = trend_chart_recept.value.filter(item => item>0)
-          console.log('일별 접수대수 보정 data', trend_chart_recept.value)
-          mixed_series.value = get_mixed_series(trend_chart_close.value,trend_chart_accepted.value, trend_chart_release.value, trend_chart_recept.value)
-          mixed_chart_options.value = get_chart_options(trend_chart_close.value,trend_chart_date.value)
         });
       };
-      call_api('일반', props.region, props.sido);
+      if(chk_width <= 430){
+        call_api(true,'일반', props.region, props.sido);
+      }else{
+        call_api(false,'일반', props.region, props.sido);
+      }
+
       emitter.on("change_trend_pData", (data) =>{
         console.log("change trend pData", data)
         if(data[2] === '선택해주세요'){
-          call_api('일반', data[1], data[0]);
+          if(chk_width <= 430){
+            call_api(true,'일반', props.region, props.sido);
+          }else{
+            call_api(false,'일반', props.region, props.sido);
+          }
         }else{
-          call_api(data[2], data[1],data[0])
+          if(chk_width <= 430){
+            call_api(true,'일반', props.region, props.sido);
+          }else{
+            call_api(false,'일반', props.region, props.sido);
+          }
         }
       })
+      function handle_chart_data(){
+        if(window.innerWidth <= 430) call_api(true,'일반', props.region, props.sido);
+        else call_api(false,'일반', props.region, props.sido);
+      }
+      window.addEventListener('resize', handle_chart_data)
+
+
       let line_series = [{
         name: "Desktops",
         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
@@ -122,7 +162,7 @@ import {fetch_api} from "../plugin.js"
       };
       watchEffect(()=>{
         mixed_chart_options.value
-        mixed_series
+
       })
       onBeforeUpdate(()=>{
       });
