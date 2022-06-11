@@ -24,7 +24,7 @@
           <li class="item" v-for="(item, i) in car_brand_data" :key="i" @click="change_cal_car_brand(item.category)">{{item.category}}</li>
         </ul>
       </div>
-      <div :class="is_click_sec_right?'select active second':'select second'" style="z-index: 1">
+      <div :class="is_click_sec_right?'select active second bottom':'select second bottom'" style="z-index: 1">
         <button class="label" @click="click_button(4)">{{car_name}}</button>
         <ul class="option">
           <li class="item" v-for="(item, i) in car_name_data" :key="i" @click="change_cal_car_name(item.category2)">{{item.category2}}</li>
@@ -168,5 +168,12 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 600px) {
+  .bottom{
+    display: block!important;
+    width: 100%!important;
+    margin-top: 10px
+  }
+}
 
 </style>

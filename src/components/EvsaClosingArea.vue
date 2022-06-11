@@ -60,7 +60,9 @@
       <div class="txt_bg">
         <div class="inner">
           <h1>{{capital_text_arr2[0]+" "+capital_text_arr2[1]}}</h1>
-          <h2>{{capital_text_arr2[2]+" "+capital_text_arr2[3]}}<br class="v800"><em class="color_sky" v-for="(item, i) of highlight_words" :key="i">{{item}}</em><br class="v800">{{capital_text_arr2[5]+" "+capital_text_arr2[6]+" "+capital_text_arr2[7]}}</h2>
+          <h2>{{capital_text_arr2[2]+" "+capital_text_arr2[3]}}
+            <br class="v800"><em class="color_sky" v-for="(item, i) of highlight_words" :key="i">{{item}}</em>
+            <br class="v800">{{capital_text_arr2[5]+" "+capital_text_arr2[6]+" "+capital_text_arr2[7]}}</h2>
           <p class="color_gray tac" v-for="(item, i) in capital_text_arr3" :key="i">{{item}}</p>
         </div>
       </div>
