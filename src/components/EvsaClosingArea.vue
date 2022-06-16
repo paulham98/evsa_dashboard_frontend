@@ -144,7 +144,7 @@ export default {
     let region = ref('서울특별시');
     let category2 = ref('선택해주세요');
     let closing_date = getInfoDate();
-    let third_select_options = ref(['전체', '법인', '택시']);
+    let third_select_options = ref(['일반','우선순위','전체', '법인', '택시']);
     let closing_area_data = ref({})
     let closing_area_dtos = ref([])
     let capital_text_dto = ref({})
@@ -258,9 +258,9 @@ export default {
     }
     // 3
     function changeSelectCategory2(event) {
-      if(event === '전체' || event === '법인' || event === '택시'){
-        third_select_options.value = ['전체', '법인', '택시'];
-      }
+      // if(event === '전체' || event === '법인' || event === '택시'){
+      //   third_select_options.value = ['전체', '법인', '택시'];
+      // }
       category2.value = event;
       // callClosingArea(sido.value, region.value, '전체', '2022-05-28')
       is_click_third.value = false
