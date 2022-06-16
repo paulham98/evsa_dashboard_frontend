@@ -98,11 +98,17 @@ let mixed_chart_options = (close,dates) => {
       horizontalAlign: 'left',
       offsetX: 40
     },
-    // responsive: [{
-    //   breakpoint: 450,
-    //   options: {}
-    //
-    // }]
+    responsive: [{
+      breakpoint: 430,
+      options:{
+        chart: {
+          width: '100%',
+          height: 470,
+          type: 'line',
+          stacked: false,
+        },
+      }
+    }]
   }
 }
 /*

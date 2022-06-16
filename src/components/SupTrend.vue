@@ -3,7 +3,7 @@
     <div class="inner">
       <p class="tit">보조금 신청 접수 일별 트렌드</p>
       <div class="area1">
-        <apexchart class="chart" type="line" height="520" style="padding-top: 10px;"
+        <apexchart class="chart" type="line" height="520"
                    :options="mixed_chart_options" :series="mixed_series" ></apexchart>
       </div>
     </div>
@@ -54,6 +54,7 @@ export default {
     let emitter = inject("emitter")
     let chk_width = window.innerWidth;
     let show_pred = ref(false)
+    let check_mobile = ref(520)
     const call_api = (isMob,pCategory, pRegion, pSido) => {
       // let start_date = getInfoDate()
       let end_date = getInfoDate()
@@ -109,8 +110,12 @@ export default {
 
 
     function handle_chart_data(){
-      if(window.innerWidth <= 430) call_api(true,'일반', props.region, props.sido);
-      else call_api(false,'일반', props.region, props.sido);
+      if(window.innerWidth <= 430) {
+        call_api(true,'일반', props.region, props.sido);
+      }
+      else {
+        call_api(false,'일반', props.region, props.sido);
+      }
     }
     window.addEventListener('resize', handle_chart_data)
 
@@ -182,7 +187,7 @@ export default {
     });
     onRenderTriggered(()=>{
     })
-    return{show_pred,mixed_chart_options, mixed_series, line_series, line_chartOptions}
+    return{check_mobile, show_pred,mixed_chart_options, mixed_series, line_series, line_chartOptions}
   }
 }
 </script>
@@ -190,4 +195,9 @@ export default {
 <style scoped>
 .toggle_box{display: inline-block;
   transform: translateY(-5px);}
+@media (max-width: 430px){
+  .area1{
+    height: 500px;}
+  .chart{height: 500px}
+}
 </style>
