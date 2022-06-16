@@ -38,12 +38,12 @@
         <div>접수율 <span class="percent color_blue">{{ev_cal_data.accept_rate +' '+ev_cal_data.accept_rate_unit}}</span></div>
       </li>
       <li>
-        <div>차량 가격</div>
-        <div><em>{{ev_cal_data.car_price}}</em> {{ev_cal_data.car_price_unit}}</div>
+        <div class="price_top">차량 가격</div>
+        <div class="price_bottom"><em>{{ev_cal_data.car_price}}</em> {{ev_cal_data.car_price_unit}}</div>
       </li>
       <li>
-        <div>차량 가격</div>
-        <div><em>-{{ev_cal_data.subsidy}}</em> {{ev_cal_data.subsidy_unit}}</div>
+        <div class="price_top">보조금</div>
+        <div class="price_bottom"><em>-{{ev_cal_data.subsidy}}</em> {{ev_cal_data.subsidy_unit}}</div>
       </li>
       <li>
         <div>구매 가격</div>
@@ -174,6 +174,10 @@ export default {
     width: 100%!important;
     margin-top: 10px
   }
+}
+@media(max-width: 800px){
+  .price_bottom{transform: translateY(-16px)}
+  .price_top{transform: translateY(20px)}
 }
 
 </style>
