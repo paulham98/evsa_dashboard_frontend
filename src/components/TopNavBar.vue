@@ -1,5 +1,8 @@
 <template>
   <header>
+
+    <Sign_in v-if="show_modal"></Sign_in>
+
     <div class="inner">
       <img src="../../public/images/logo.png" alt="" class="logo">
     </div>
@@ -13,9 +16,9 @@
             <li><a style="cursor: pointer" @click="this.open_new_window(3)" :class="page_guide?'active':'inactive'">보조금 신청 가이드</a></li>
           </ul>
         </div>
-        <router-link :to="{name: 'Sign_in'}">
-          <a href="#" class="login"><img src="images/login.png" @click="openModal" alt="" ></a>
-        </router-link>
+        <!--<router-link :to="{name: 'Sign_in'}">-->
+        <a href="#" class="login"><img src="images/login.png" @click="openModal" alt="" ></a>
+        <!--</router-link>-->
         <!--<button @click="openModal()">-->
           <!---->
         <!--</button>-->
@@ -26,8 +29,10 @@
 
 <script>
 import { ref, inject} from 'vue'
+import Sign_in from '../views/Sign_in'
   export default{
     name: "Top_navBar",
+    components:{ Sign_in},
     props:{
       page: Number
     },
@@ -35,7 +40,7 @@ import { ref, inject} from 'vue'
       let page_current = ref(true)
       let page_calculator = ref(false)
       let page_guide = ref(false)
-
+      let show_modal = ref(false)
       function change_page(num){
         console.log(num)
         if(num === 1){
@@ -60,10 +65,16 @@ import { ref, inject} from 'vue'
       let isShow = ref(false);
       let emitter = inject("emitter");
       let openModal = () => {
+        if(show_modal.value === false) show_modal.value = true
+        else show_modal.value = false
         emitter.emit("open", 100)
       };
+      emitter.on("close", data =>{
+        show_modal.value = data
+      })
       change_page(props.page)
-      return{page_calculator,page_current,page_guide,change_page,
+      return{
+        show_modal, page_calculator,page_current,page_guide,change_page,
         open_new_window, isShow, openModal}
     },
     methods:{
@@ -76,4 +87,5 @@ import { ref, inject} from 'vue'
 </script>
 
 <style scoped>
+
 </style>
