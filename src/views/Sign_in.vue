@@ -3,11 +3,13 @@
     <form class="modal-container">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
       <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <input type="text" class="form-control" id="floatingInput"
+               v-model="user_id">
         <label for="floatingInput">Email address</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword"
+               v-model="user_pw">
         <label for="floatingPassword">Password</label>
       </div>
 
@@ -16,7 +18,7 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit" @key_up.enter="login_submit" @click="login_submit">Sign in</button>
       <button class="btn btn-lg btn-primary" style="float: right; margin-top: 20px" @click="close_modal(false)">닫기</button>
 
     </form>
@@ -25,18 +27,31 @@
 </template>
 
 <script>
-import { inject } from "vue"
+import { inject, ref } from "vue"
+import urlTemplates from "@/composables/urlTemplates";
+import {post_login} from "../plugin.js"
   export default {
     name: "sign_in",
     setup(){
       let emitter = inject("emitter")
-      emitter.on("open", (data) =>{
-        console.log("open modal", data)
-      })
+      let user_id = ref('')
+      let user_pw = ref('')
       function close_modal(data){
         emitter.emit("close", data)
       }
-     return{ close_modal}
+      function login_submit(){
+       let login_api = urlTemplates.login();
+       let login_data = ref([user_id, user_pw]);
+       post_login(login_api, login_data, (token) =>{
+         console.log(token)
+       })
+      }
+
+      // emitter 영역
+      emitter.on("open", (data) =>{
+        console.log("open modal", data)
+      })
+     return{login_submit, close_modal, user_id, user_pw}
     },
 
   }

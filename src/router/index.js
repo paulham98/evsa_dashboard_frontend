@@ -5,6 +5,10 @@ import Evsa_sup_current from "../views/EvsaSupCurrent"
 import Evsa_sup_cal from "../views/EvsaSupCal"
 import Evsa_apply_guide from "../views/EvsaApplyGuide"
 import Sign_in from "../views/Sign_in"
+import AdminMain from "../views/AdminMain"
+import AdminCarName from "../components/AdminCarName"
+import AdminCarBrand from "../components/AdminCarBrand"
+import AdminSubsidyCapital from "../components/AdminSubsidyCapital"
 
 const routes = [
   { path: "/", component: Main, name: "Main" },
@@ -13,6 +17,10 @@ const routes = [
   { path: "/Evsa_sup_current", component: Evsa_sup_current, name: "Evsa_sup_current" },
   { path: "/Evsa_apply_guide", component: Evsa_apply_guide, name: "Evsa_apply_guide" },
   { path: "/sign_in", component: Sign_in, name: "Sign_in"},
+  { path: "/admin_main", component: AdminMain, name: "AdminMain"},
+  { path: "/admin_car_brand", component: AdminCarBrand, name: "AdminCarBrand"},
+  { path: "/admin_car_name", component: AdminCarName, name: "AdminCarName"},
+  { path: "/admin_subsidy_capital", component: AdminSubsidyCapital, name: "AdminSubsidyCapital"},
 ];
 
 

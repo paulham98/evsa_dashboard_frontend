@@ -1,18 +1,18 @@
 import axios from 'axios'
 
-const get_hostname = () => {
-  window.location.hostname;
-  if (process.env.NODE_ENV === 'local'){
-    return 'http://www.auction-price.co.kr:8088'
-  } else if(process.env.NODE_ENV === 'dev'){
-    return 'http://www.auction-price.co.kr:8088'
-  } else {
-    return 'http://www.auction-price.co.kr:8088'      // Else, return the original string.
-  }
-};
-const config = {
-  hostname: get_hostname()
-};
+// const get_hostname = () => {
+//   window.location.hostname;
+//   if (process.env.NODE_ENV === 'local'){
+//     return 'http://www.auction-price.co.kr:8088'
+//   } else if(process.env.NODE_ENV === 'dev'){
+//     return 'http://www.auction-price.co.kr:8088'
+//   } else {
+//     return 'http://www.auction-price.co.kr:8088'      // Else, return the original string.
+//   }
+// };
+// const config = {
+//   hostname: get_hostname()
+// };
 function fetch_api(url ,callback = () =>{}){
   //let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
   //console.log(url);
@@ -34,27 +34,23 @@ function fetch_api(url ,callback = () =>{}){
 
 }
 
-async function get_api(){
-  console.log(1)
-  let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
-  let api_response = await axios.get(api)
-    .then(res=>res)
-    .then(data=>data)
-    .catch(err=>console.log(err));
-  console.log("api response check",api_response);
-  let result = await new Promise ((resolve)=>{
-    resolve(api_response)
-  }).then(resolveData=>{
-    console.log('at plugin ',resolveData);
-    return resolveData
-  });
-  return result
-}
-async function callback_api(){
-  return await get_api().then(resolveData=>{
-    console.log(resolveData);
-    return(resolveData)
-  });
+function post_login(url, login_data,callback = () => {}){
+  console.log('들어가긴 함')
+  axios.post(url, JSON.stringify(login_data), {
+      headers: {
+        "Content-Type": 'application/json',
+      },
+    })
+    .then((res) =>{
+      if(res.status === 200){
+        callback(res)
+        console.log(res)
+      }
+    })
+    .catch(err =>{
+      console.log(err)
+    });
+
 }
 
-export {fetch_api, get_api, callback_api}
+export {fetch_api, post_login}
