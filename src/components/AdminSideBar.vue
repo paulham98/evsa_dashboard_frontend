@@ -6,23 +6,23 @@
       </a>
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
+        <li> <!-- class="nav-item"-->
           <router-link :to="{name:'AdminCarName'}">
-            <a class="nav-link active" aria-current="page">
+            <a :class="name_hover ?'nav-link active' : 'nav-link text-white'"  >
               car_name
             </a>
           </router-link>
         </li>
         <li>
           <router-link :to="{name:'AdminCarBrand'}">
-            <a class="nav-link text-white">
+            <a :class="brand_hover ?'nav-link active' : 'nav-link text-white'" >
               car_brand
             </a>
           </router-link>
         </li>
         <li>
           <router-link :to="{name:'AdminSubsidyCapital'}">
-            <a class="nav-link text-white">
+            <a :class="subsidy_capital_hover ?'nav-link active' : 'nav-link text-white'" >
               subsidy_capital
             </a>
           </router-link>
@@ -46,8 +46,37 @@
 </template>
 
 <script>
+import {ref} from "vue"
   export default {
-    name: "AdminSideBar"
+    name: "AdminSideBar",
+    props:{
+      page: Number
+    },
+    setup(props){
+      let now_page = ref(1)
+      let name_hover = ref(true)
+      let brand_hover = ref(false)
+      let subsidy_capital_hover = ref(false)
+      function hover_bar(id){
+        console.log(id)
+        if(id ===1){
+          name_hover.value = true
+          brand_hover.value = false
+          subsidy_capital_hover.value = false
+        }else if(id === 2){
+          name_hover.value = false
+          brand_hover.value = true
+          subsidy_capital_hover.value = false
+        }else if(id === 3){
+          name_hover.value = false
+          brand_hover.value = false
+          subsidy_capital_hover.value = true
+        }
+      }
+      hover_bar(props.page)
+      return{now_page, name_hover, brand_hover, subsidy_capital_hover,
+        hover_bar}
+    }
   }
 </script>
 

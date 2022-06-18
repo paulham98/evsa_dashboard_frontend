@@ -317,3 +317,6 @@ td:last-child{border-right: 0;}
 }
 
 .apexcharts-grid{ width:120%}
+.control_input{
+    margin-top: 20px; margin-left: 10px;
+}
