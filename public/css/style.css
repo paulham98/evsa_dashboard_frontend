@@ -127,8 +127,8 @@ border-radius: 8px 8px 0 0;}
 .txt2 h3 .color_green{font-size:45px;}
 
 .dead .select{margin-right: 30px;display: inline-block;width: 23%;}
-.dead .select .label{border-color: #313A4E;}
-.dead .select button:after{background: #313A4E;}
+.dead .select .label{border-color: #F1F1F1;}/*#313A4E*/
+.dead .select button:after{background: #F1F1F1;}
 table{font-size: 18px;}
 th{background: #ededed;border-right: 2px solid #fff;padding: 15px 0;font-weight: 600;}
 th:last-child{border-right: 0;}
@@ -173,8 +173,8 @@ td:last-child{border-right: 0;}
 
 .area3 .select{width: 36%;display: inline-block;}
 .area3 .select:first-child{margin-right:30px;}
-.area3 .select .label{border-color: #313A4E;}
-.area3 .select button:after{background: #313A4E;}
+.area3 .select .label{border-color: #F1F1F1;}
+.area3 .select button:after{background: #F1F1F1;}
 
 .car{display: block;margin: 100px auto;}
 
