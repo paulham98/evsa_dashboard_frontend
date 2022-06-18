@@ -34,8 +34,8 @@
     <img src="images/car.png" alt="" class="car">
     <ul class="price">
       <li>
-        <div>보조금 잔여대수 <em>{{ev_cal_data.num_remain_all}} / {{ev_cal_data.num_notice_all}}</em> {{ev_cal_data.num_notice_all_unit}}</div>
-        <div>접수율 <span class="percent color_blue">{{ev_cal_data.accept_rate +' '+ev_cal_data.accept_rate_unit}}</span></div>
+        <div class="text_control">보조금 잔여대수 <em>{{ev_cal_data.num_remain_all}} / {{ev_cal_data.num_notice_all}}</em> {{ev_cal_data.num_notice_all_unit}}</div>
+        <div class="text_control">접수율 <span class="percent color_blue">{{ev_cal_data.accept_rate +' '+ev_cal_data.accept_rate_unit}}</span></div>
       </li>
       <li>
         <div class="price_top">차량 가격</div>
@@ -46,8 +46,8 @@
         <div class="price_bottom"><em>-{{ev_cal_data.subsidy}}</em> {{ev_cal_data.subsidy_unit}}</div>
       </li>
       <li>
-        <div>구매 가격</div>
-        <div><span class="color_blue">{{ev_cal_data.sum_price}}</span> {{ev_cal_data.sum_price_unit}}</div>
+        <div class="text_control">구매 가격</div>
+        <div class="text_control"><span class="color_blue">{{ev_cal_data.sum_price}}</span> {{ev_cal_data.sum_price_unit}}</div>
       </li>
     </ul>
     <div class="area4">
@@ -179,5 +179,8 @@ export default {
   .price_bottom{transform: translateY(-16px)}
   .price_top{transform: translateY(20px)}
 }
-
+@media (max-width:550px) {
+  .text_control {text-align: center!important;}
+  .color_blue {text-align: center}
+}
 </style>
