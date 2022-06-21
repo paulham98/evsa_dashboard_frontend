@@ -151,14 +151,13 @@
 
 <script>
 import AdminSideBar from './AdminSideBar'
+
   export default {
     name: "AdminCarName",
     components:{
       AdminSideBar
     },
-    setup(){
-      // api call, data 뿌리고, 기능 20개를 기준으로 자르고
-    }
+
   }
 </script>
 

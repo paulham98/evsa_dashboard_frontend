@@ -48,26 +48,19 @@ import {ref} from "vue"
     setup(props){
       let now_page = ref(1)
       let name_hover = ref(true)
-      let brand_hover = ref(false)
       let subsidy_capital_hover = ref(false)
       function hover_bar(id){
         console.log(id)
         if(id ===1){
           name_hover.value = true
-          brand_hover.value = false
           subsidy_capital_hover.value = false
         }else if(id === 2){
           name_hover.value = false
-          brand_hover.value = true
-          subsidy_capital_hover.value = false
-        }else if(id === 3){
-          name_hover.value = false
-          brand_hover.value = false
           subsidy_capital_hover.value = true
         }
       }
       hover_bar(props.page)
-      return{now_page, name_hover, brand_hover, subsidy_capital_hover,
+      return{now_page, name_hover, subsidy_capital_hover,
         hover_bar}
     }
   }
