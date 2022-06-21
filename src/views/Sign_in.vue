@@ -18,9 +18,10 @@
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit" @key_up.enter="login_submit" @click="login_submit">Sign in</button>
+      <!--<button @click="login_submit()">sssssssss</button>-->
+      <button class="w-100 btn btn-lg btn-primary" type="submit"  @key_up.enter.prevent="login_submit()" @click.prevent="login_submit()">Sign in</button>
       <button class="btn btn-lg btn-primary" style="float: right; margin-top: 20px" @click="close_modal(false)">닫기</button>
-
+<!--  -->
     </form>
   </main>
 
@@ -36,14 +37,18 @@ import {post_login} from "../plugin.js"
       let emitter = inject("emitter")
       let user_id = ref('')
       let user_pw = ref('')
+      let login_data = ref({
+        'id' : user_id,
+        'password': user_pw
+      });
       function close_modal(data){
         emitter.emit("close", data)
       }
       function login_submit(){
        let login_api = urlTemplates.login();
-       let login_data = ref([user_id, user_pw]);
-       post_login(login_api, login_data, (token) =>{
-         console.log(token)
+       console.log(login_data.value)
+       post_login(login_api, login_data.value, (data) =>{
+         console.log(data)
        })
       }
 

@@ -13,7 +13,7 @@ import axios from 'axios'
 // const config = {
 //   hostname: get_hostname()
 // };
-function fetch_api(url ,callback = () =>{}){
+function fetch_api(url  ,callback = () =>{}){
   //let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
   //console.log(url);
   fetch(url)
@@ -34,20 +34,24 @@ function fetch_api(url ,callback = () =>{}){
 
 }
 
-function post_login(url, login_data,callback = () => {}){
-  console.log('들어가긴 함')
-  axios.post(url, JSON.stringify(login_data), {
-      headers: {
-        "Content-Type": 'application/json',
-      },
-    })
+function post_login(url, login_data){
+  console.log('왜 함수가 안돌지')
+  // const option = {
+  //   method: 'POST',
+  //   header:{
+  //     'Accept': 'application/json',
+  //     'Content-Type' : 'application/json'
+  //   },
+  //   data: login_data
+  // }
+  axios
+    .post(url, JSON.stringify(login_data))
     .then((res) =>{
       if(res.status === 200){
-        callback(res)
         console.log(res)
       }
     })
-    .catch(err =>{
+    .catch((err) =>{
       console.log(err)
     });
 
