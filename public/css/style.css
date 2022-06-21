@@ -320,3 +320,7 @@ td:last-child{border-right: 0;}
 .control_input{
     margin-top: 20px; margin-left: 10px;
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+}

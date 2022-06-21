@@ -18,6 +18,52 @@
           <td>random</td>
           <td>data</td>
           <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr><tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
+        </tr>
+        <tr>
+          <td>1,001</td>
+          <td>random</td>
+          <td>data</td>
+          <td>placeholder</td>
         </tr>
         <tr>
           <td>1,002</td>
@@ -81,6 +127,17 @@
         </tr>
         </tbody>
       </table>
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
       <div style="padding: 10px">
         <input placeholder="날짜 선택 기능" class="control_input"/>
         <input placeholder="파일명" class="control_input"/>
@@ -98,6 +155,9 @@ import AdminSideBar from './AdminSideBar'
     name: "AdminCarName",
     components:{
       AdminSideBar
+    },
+    setup(){
+      // api call, data 뿌리고, 기능 20개를 기준으로 자르고
     }
   }
 </script>

@@ -14,13 +14,6 @@
           </router-link>
         </li>
         <li>
-          <router-link :to="{name:'AdminCarBrand'}">
-            <a :class="brand_hover ?'nav-link active' : 'nav-link text-white'" >
-              car_brand
-            </a>
-          </router-link>
-        </li>
-        <li>
           <router-link :to="{name:'AdminSubsidyCapital'}">
             <a :class="subsidy_capital_hover ?'nav-link active' : 'nav-link text-white'" >
               subsidy_capital
