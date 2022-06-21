@@ -6,143 +6,25 @@
       <table class="table table-striped table-sm">
         <thead>
         <tr>
-          <th scope="col">category</th>
-          <th scope="col">category2</th>
-          <th scope="col">category3</th>
-          <th scope="col">count</th>
+          <th style="width:10%" scope="col">id</th>
+          <th style="width:20%" scope="col">category</th>
+          <th style="width:50%" scope="col">category2</th>
+          <th style="width:20%" scope="col">car price</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr><tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr>
-        <tr>
-          <td>1,001</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr>
-        <tr>
-          <td>1,002</td>
-          <td>placeholder</td>
-          <td>irrelevant</td>
-          <td>visual</td>
-        </tr>
-        <tr>
-          <td>1,003</td>
-          <td>data</td>
-          <td>rich</td>
-          <td>dashboard</td>
-        </tr>
-        <tr>
-          <td>1,003</td>
-          <td>information</td>
-          <td>placeholder</td>
-          <td>illustrative</td>
-        </tr>
-        <tr>
-          <td>1,004</td>
-          <td>text</td>
-          <td>random</td>
-          <td>layout</td>
-        </tr>
-        <tr>
-          <td>1,005</td>
-          <td>dashboard</td>
-          <td>irrelevant</td>
-          <td>text</td>
-        </tr>
-        <tr>
-          <td>1,006</td>
-          <td>dashboard</td>
-          <td>illustrative</td>
-          <td>rich</td>
-        </tr>
-        <tr>
-          <td>1,007</td>
-          <td>placeholder</td>
-          <td>tabular</td>
-          <td>information</td>
-        </tr>
-        <tr>
-          <td>1,008</td>
-          <td>random</td>
-          <td>data</td>
-          <td>placeholder</td>
-        </tr>
-        <tr>
-          <td>1,009</td>
-          <td>placeholder</td>
-          <td>irrelevant</td>
-          <td>visual</td>
-        </tr>
-        <tr>
-          <td>1,010</td>
-          <td>data</td>
-          <td>rich</td>
-          <td>dashboard</td>
+        <tr v-for="(item, i) in current_page_data" :key="i">
+          <td>{{item.id}}</td>
+          <td>{{item.category}}</td>
+          <td>{{item.category2}}</td>
+          <td>{{item.carPrice}}만</td>
         </tr>
         </tbody>
       </table>
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1">Previous</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-      <div style="padding: 10px">
-        <input placeholder="날짜 선택 기능" class="control_input"/>
-        <input placeholder="파일명" class="control_input"/>
-        <input placeholder="찾아오기" class="control_input"/>
-        <input placeholder="업로드" class="control_input"/>
+      <AdminPagenation :category="'name'"></AdminPagenation>
+      <div style="margin-right:150px;padding: 10px; float:right;">
+        <input placeholder="파일명" type="file" class="control_input"/>
+        <input placeholder="업로드" type="submit" class="control_input"/>
       </div>
     </div>
   </main>
@@ -151,16 +33,44 @@
 
 <script>
 import AdminSideBar from './AdminSideBar'
+import {ref,inject} from "vue"
+import {fetch_api} from "../plugin.js"
+import urlTemplates from "@/composables/urlTemplates";
+import AdminPagenation from "./AdminPagenation"
 
   export default {
     name: "AdminCarName",
     components:{
+      AdminPagenation,
       AdminSideBar
     },
+    setup: function () {
+      // api call, data 뿌리고, 기능 20개를 기준으로 자르고
+      let current_page_data = ref([])
+      let current_page_number = ref(0)
+      let emitter = inject('emitter')
 
+      function call_table_data(){
+        let page_url = urlTemplates.admin_car_name(current_page_number.value, 20)
+        fetch_api(page_url, (data) => {
+          console.log(data)
+          current_page_data.value = data.content
+        })
+      }
+      //emitter 영역
+      emitter.on('change_data', (data) =>{
+        // console.log(data)
+        current_page_data.value = data
+      })
+      call_table_data()
+      return {
+        current_page_data,
+
+      }
+    }
   }
 </script>
 
 <style scoped>
-
+table{table-layout: fixed}
 </style>
