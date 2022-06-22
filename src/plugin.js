@@ -16,6 +16,7 @@ import axios from 'axios'
 function fetch_api(url  ,callback = () =>{}){
   //let api = `${config.hostname}/api/v1/subsidy_info/0?param1=1123`;
   //console.log(url);
+  // console.log(callback)
   fetch(url)
     .then(res => {
       if(res.ok){
@@ -34,8 +35,7 @@ function fetch_api(url  ,callback = () =>{}){
 
 }
 
-function post_login(url, login_data){
-  console.log('왜 함수가 안돌지')
+function post_login(url, login_data, callback = () =>{}){
   // const option = {
   //   method: 'POST',
   //   header:{
@@ -44,11 +44,16 @@ function post_login(url, login_data){
   //   },
   //   data: login_data
   // }
+  // let option = {
+  //   "loginInfo": login_data
+  // }
+  console.log(login_data)
   axios
-    .post(url, JSON.stringify(login_data))
+    .post(url, login_data)
     .then((res) =>{
       if(res.status === 200){
-        console.log(res)
+        // console.log(res)
+        callback(res)
       }
     })
     .catch((err) =>{

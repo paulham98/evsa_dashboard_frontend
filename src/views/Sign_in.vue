@@ -12,16 +12,11 @@
                v-model="user_pw">
         <label for="floatingPassword">Password</label>
       </div>
-
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
+      <div style="margin-top:10px">
+        <button class="w-100 btn btn-lg btn-primary" type="submit"  @key_up.enter.prevent="login_submit(user_id, user_pw)" @click.prevent="login_submit(user_id, user_pw)">Sign in</button>
+        <button class="btn btn-lg btn-primary" style="float: right; margin-top: 20px" @click="close_modal(false)">닫기</button>
       </div>
-      <!--<button @click="login_submit()">sssssssss</button>-->
-      <button class="w-100 btn btn-lg btn-primary" type="submit"  @key_up.enter.prevent="login_submit()" @click.prevent="login_submit()">Sign in</button>
-      <button class="btn btn-lg btn-primary" style="float: right; margin-top: 20px" @click="close_modal(false)">닫기</button>
-<!--  -->
+      <!--  -->
     </form>
   </main>
 
@@ -31,6 +26,7 @@
 import { inject, ref } from "vue"
 import urlTemplates from "@/composables/urlTemplates";
 import {post_login} from "../plugin.js"
+import {router} from "../router/index.js"
   export default {
     name: "sign_in",
     setup(){
@@ -38,17 +34,33 @@ import {post_login} from "../plugin.js"
       let user_id = ref('')
       let user_pw = ref('')
       let login_data = ref({
-        'id' : user_id,
-        'password': user_pw
+        "id" : user_id.value,
+        "password": user_pw.value
       });
+      let get_token = ref('')
+      let login_success = ref(false)
       function close_modal(data){
         emitter.emit("close", data)
       }
-      function login_submit(){
+      function login_submit(id, pw){
        let login_api = urlTemplates.login();
-       console.log(login_data.value)
+       login_data.value = {
+         "id": id,
+         "password": pw
+       }
+       // console.log(login_data.value)
        post_login(login_api, login_data.value, (data) =>{
-         console.log(data)
+         // console.log(data.data)
+         if(data.data === "id 또는 패스워드가 맞지 않습니다."){
+           alert(data.data)
+           user_id.value = ''
+           user_pw.value = ''
+         }else{
+           login_success.value = true
+           get_token.value = data.data
+           close_modal(false)
+           router.replace('/admin_main')
+         }
        })
       }
 

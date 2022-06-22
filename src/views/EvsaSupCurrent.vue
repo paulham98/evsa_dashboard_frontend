@@ -47,7 +47,6 @@
       ></EvsaInfo>
     </div>
   </div>
-
   <SupTrend :sido="sido" :region="region" :category="category2"  :style="{'display':'block'}"></SupTrend>
   <EvsaClosingArea :sidos="sidos" :regions="regions"></EvsaClosingArea>
   <a href="#" class="banner"><img src="images/bot_banner.png" alt=""></a>
