@@ -18,7 +18,7 @@
           </ul>
         </div>
         <!--<router-link :to="{name: 'Sign_in'}">-->
-        <a href="#" class="login"><img src="images/login.png" @click="openModal" alt="" ></a>
+        <!--<a href="#" class="login"><img src="images/login.png" @click="openModal" alt="" ></a>-->
         <!--</router-link>-->
         <!--<button @click="openModal()">-->
           <!---->
