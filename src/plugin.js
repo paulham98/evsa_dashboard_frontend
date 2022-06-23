@@ -61,5 +61,8 @@ function post_login(url, login_data, callback = () =>{}){
     });
 
 }
-
-export {fetch_api, post_login}
+function show_trend(data){
+  if(data === false) return true
+  else return false
+}
+export {fetch_api, post_login, show_trend}

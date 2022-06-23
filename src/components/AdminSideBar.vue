@@ -20,6 +20,13 @@
             </a>
           </router-link>
         </li>
+        <li>
+          <div @click="click_toggle()" style="cursor: pointer">
+            <a class="nav-link text-white" >subsidy_accept_prediction</a>
+          </div>
+
+          <Toggle class="toggle_box" style="margin-left: 13px"></Toggle>
+        </li>
       </ul>
       <hr>
       <div class="dropdown">
@@ -37,8 +44,10 @@
 <script>
 import {ref, inject} from "vue"
 import router from "../router/index.js"
+import Toggle from "./Toggle"
   export default {
     name: "AdminSideBar",
+    components:{Toggle},
     props:{
       page: Number
     },
@@ -47,6 +56,7 @@ import router from "../router/index.js"
       let now_page = ref(1)
       let name_hover = ref(true)
       let subsidy_capital_hover = ref(false)
+      let show_pred = ref(false)
 
       function hover_bar(id){
         console.log(id)
@@ -66,10 +76,18 @@ import router from "../router/index.js"
         }
         else console.log('아니요')
       }
-
+      function click_toggle(){
+        if(show_pred.value === false){
+          show_pred.value = true
+          emitter.emit('signal to toggle', true)
+        }else{
+          show_pred.value = false
+          emitter.emit('signal to toggle', false)
+        }
+      }
       hover_bar(props.page)
       return{now_page, name_hover, subsidy_capital_hover,
-        hover_bar, sign_out}
+        hover_bar, sign_out, click_toggle}
     }
   }
 </script>

@@ -18,6 +18,13 @@ export default {
     function show_toggle(){
       emitter.emit('show_pred_trend', on_off.value)
     }
+
+
+    // emitter 영역
+    emitter.on('signal to toggle', data =>{
+      on_off.value = data
+      emitter.emit('show_pred_trend', on_off.value)
+    })
     return{on_off, show_toggle}
   }
 }

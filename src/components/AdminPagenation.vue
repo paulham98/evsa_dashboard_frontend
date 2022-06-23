@@ -40,7 +40,7 @@ import AdminSearchPageModal from "./AdminSearchPageModal"
         if(props.category === 'name'){
           page_url.value = urlTemplates.admin_car_name(current_page_number.value, 20)
         }else if(props.category === 'capital'){
-          page_url.value = urlTemplates.subsidy_capital_page(current_page_number.value, 20)
+          page_url.value = urlTemplates.admin_subsidy_capital_page(current_page_number.value, 20)
         }
         fetch_api(page_url.value, (data) => {
           console.log(data)

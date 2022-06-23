@@ -63,7 +63,7 @@ import AdminPagenation from "./AdminPagenation"
       let emitter = inject('emitter')
 
       function call_table_data(){
-        let page_url = urlTemplates.subsidy_capital_page(current_page_number.value, 20)
+        let page_url = urlTemplates.admin_subsidy_capital_page(current_page_number.value, 20)
         fetch_api(page_url, (data) => {
           console.log(data)
           current_page_data.value = data.content

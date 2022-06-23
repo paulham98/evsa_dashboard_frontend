@@ -8,9 +8,9 @@
       </div>
     </div>
     <a href="#" class="banner"><img src="images/mid_banner.png" alt=""></a>
-    <div class="inner" >
-      <p class="tit">보조금 신청 접수 예측 트렌드 <Toggle class="toggle_box"></Toggle></p>
-      <div class="area2" v-if="show_pred">
+    <div class="inner" v-if="show_pred">
+      <p class="tit">보조금 신청 접수 예측 트렌드 </p>
+      <div class="area2" >
         <apexchart class="chart" type="line" height="520" :options="line_chartOptions" :series="line_series"></apexchart>
       </div>
       <div class="txt2" v-if="show_pred">
@@ -29,8 +29,7 @@ import urlTemplates from "@/composables/urlTemplates";
 import {ref,inject, onBeforeUpdate, onRenderTriggered, watchEffect,} from 'vue'
 import {getInfoDate,getInfoFirstDate} from "@/composables/getInfoDate";
 import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
-import {fetch_api} from "../plugin.js"
-import Toggle from "./Toggle"
+import {fetch_api, show_trend} from "../plugin.js"
 
 
 export default {
@@ -41,7 +40,7 @@ export default {
     category: String
   },
   components:{
-    Toggle
+    // Toggle
   },
   setup(props){
     console.log(props.sido, props.category)
@@ -53,7 +52,7 @@ export default {
       ]);
     let emitter = inject("emitter")
     let chk_width = window.innerWidth;
-    let show_pred = ref(false)
+    let show_pred = ref(show_trend())
     let check_mobile = ref(520)
     const call_api = (isMob,pCategory, pRegion, pSido) => {
       // let start_date = getInfoDate()
