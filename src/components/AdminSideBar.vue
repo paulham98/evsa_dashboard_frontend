@@ -28,27 +28,26 @@
           <strong>mdo</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-          <li><a class="dropdown-item" href="#">New project...</a></li>
-          <li><a class="dropdown-item" href="#">Settings</a></li>
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><a class="dropdown-item" @click="sign_out">Sign out</a></li>
         </ul>
       </div>
     </div>
 </template>
 
 <script>
-import {ref} from "vue"
+import {ref, inject} from "vue"
+import router from "../router/index.js"
   export default {
     name: "AdminSideBar",
     props:{
       page: Number
     },
     setup(props){
+      let emitter = inject("emitter")
       let now_page = ref(1)
       let name_hover = ref(true)
       let subsidy_capital_hover = ref(false)
+
       function hover_bar(id){
         console.log(id)
         if(id ===1){
@@ -59,9 +58,18 @@ import {ref} from "vue"
           subsidy_capital_hover.value = true
         }
       }
+      function sign_out(){
+        let isOut = confirm('정말 나가시겠습니다?')
+        if(isOut) {
+          emitter.emit('delete token', '')
+          router.replace('/')
+        }
+        else console.log('아니요')
+      }
+
       hover_bar(props.page)
       return{now_page, name_hover, subsidy_capital_hover,
-        hover_bar}
+        hover_bar, sign_out}
     }
   }
 </script>

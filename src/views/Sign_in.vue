@@ -26,7 +26,7 @@
 import { inject, ref } from "vue"
 import urlTemplates from "@/composables/urlTemplates";
 import {post_login} from "../plugin.js"
-import {router} from "../router/index.js"
+import router from "../router/index.js"
   export default {
     name: "sign_in",
     setup(){
@@ -37,7 +37,7 @@ import {router} from "../router/index.js"
         "id" : user_id.value,
         "password": user_pw.value
       });
-      let get_token = ref('')
+      let manage_token = ref('')
       let login_success = ref(false)
       function close_modal(data){
         emitter.emit("close", data)
@@ -57,7 +57,7 @@ import {router} from "../router/index.js"
            user_pw.value = ''
          }else{
            login_success.value = true
-           get_token.value = data.data
+           manage_token.value = data.data
            close_modal(false)
            router.replace('/admin_main')
          }
@@ -67,6 +67,9 @@ import {router} from "../router/index.js"
       // emitter 영역
       emitter.on("open", (data) =>{
         console.log("open modal", data)
+      })
+      emitter.on('delete token', (data) =>{
+        manage_token.value = data
       })
      return{login_submit, close_modal, user_id, user_pw}
     },
