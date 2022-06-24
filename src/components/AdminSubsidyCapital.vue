@@ -1,5 +1,4 @@
 <template>
-  <!--<AdminSearchPageModal v-if="show_modal"></AdminSearchPageModal>-->
   <main>
     <AdminSideBar :page="2"></AdminSideBar>
     <div class="table-responsive">
@@ -14,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(item, i) in current_page_data" :key="i">
+        <tr :class="click_id === item.id ? 'hover' : ''" @click="line_click(item)" v-for="(item, i) in current_page_data" :key="i">
           <td>{{item.category}}</td>
           <td>{{item.category2}}</td>
           <td>{{item.category3}}</td>
@@ -63,6 +62,8 @@ import AdminPagenation from "./AdminPagenation"
       let current_page_number = ref(0)
       let emitter = inject('emitter')
       let file = ref('')
+      let isClick = ref(false)
+      let click_id = ref(0)
       function call_table_data(){
         let page_url = urlTemplates.admin_subsidy_capital_page(current_page_number.value, 20)
         fetch_api(page_url, (data) => {
@@ -87,6 +88,17 @@ import AdminPagenation from "./AdminPagenation"
           })
         }
       }
+      function line_click(data){
+        console.log(data)
+        if(!isClick.value){
+          click_id.value = data.id
+          isClick.value = true
+        }else{
+          click_id.value = 0
+          isClick.value = false
+        }
+
+      }
       //emitter 영역
       emitter.on('change_data', (data) =>{
         // console.log(data)
@@ -94,7 +106,7 @@ import AdminPagenation from "./AdminPagenation"
       })
       call_table_data()
       return {
-        current_page_data,get_file, upload_file
+        current_page_data,get_file, upload_file, line_click, click_id
 
       }
     }
@@ -102,5 +114,7 @@ import AdminPagenation from "./AdminPagenation"
 </script>
 
 <style scoped>
-
+.hover{
+  border-color: black; border-width: 2px;
+}
 </style>
