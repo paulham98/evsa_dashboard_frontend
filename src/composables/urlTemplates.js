@@ -11,6 +11,7 @@ const apiUrlTemplateMap = {
   'car_name':(brand)=> `http://15.165.32.56:30423/api/v1/car_name?category=${brand}`,
   'ev_subsidy_calculator':(sido, region, category, category2, date) =>`${hostName}/api/v1/ev_subsidy_calculator?category=${category}&category2=${category2}&date=${date}&region=${region}&sido=${sido}`,
   'login':() => `${hostName}/api/v1/login/`,
+  'upload_excel_file':() =>`${hostName}/api/v1/uploadExcel`,
   'admin_subsidy_capital_page':(page, size) => `${hostName}/api/v1/admin/subsidy_capital/page?page=${page}&size=${size}`,
   'admin_car_name': (page, size) =>`${hostName}/api/v1/admin/car_name/?page=${page}&size=${size}`
 }

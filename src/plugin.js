@@ -36,17 +36,6 @@ function fetch_api(url  ,callback = () =>{}){
 }
 
 function post_login(url, login_data, callback = () =>{}){
-  // const option = {
-  //   method: 'POST',
-  //   header:{
-  //     'Accept': 'application/json',
-  //     'Content-Type' : 'application/json'
-  //   },
-  //   data: login_data
-  // }
-  // let option = {
-  //   "loginInfo": login_data
-  // }
   console.log(login_data)
   axios
     .post(url, login_data)
@@ -65,4 +54,15 @@ function show_trend(data){
   if(data === false) return true
   else return false
 }
-export {fetch_api, post_login, show_trend}
+function post_excel_file(url, data, callback = () =>{}){
+  axios.post(url, data)
+    .then((res) =>{
+      if(res.status === 200){
+        callback(res)
+      }
+    })
+    .catch((err) =>{
+      console.log(err)
+    })
+}
+export {fetch_api, post_login, show_trend, post_excel_file}
