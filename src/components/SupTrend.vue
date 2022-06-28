@@ -82,11 +82,11 @@ export default {
           mixed_chart_options.value = get_chart_options(trend_chart_close.value,trend_chart_date.value)
         }else{
           console.log('430 px 이하 일때 사이즈 변경', )
-          let trend_chart_date = ref(data[0].slice(1,6))
-          let trend_chart_close = ref(data[1].slice(1,6).map(item=>parseInt(item)))
-          let trend_chart_accepted = ref(data[2].slice(1,6).map(item=>parseInt(item)))
-          let trend_chart_release = ref(data[3].slice(1,6).map(item=>parseInt(item)))
-          let trend_chart_recept =  ref(data[4].slice(1,6).map(item=>parseInt(item)))
+          let trend_chart_date = ref(data[0].slice(data[0].length -5, data[0].length))
+          let trend_chart_close = ref(data[1].slice(data[0].length -5, data[0].length).map(item=>parseInt(item)))
+          let trend_chart_accepted = ref(data[2].slice(data[0].length -5, data[0].length).map(item=>parseInt(item)))
+          let trend_chart_release = ref(data[3].slice(data[0].length -5, data[0].length).map(item=>parseInt(item)))
+          let trend_chart_recept =  ref(data[4].slice(data[0].length -5, data[0].length).map(item=>parseInt(item)))
           for(let i = 0; i <trend_chart_recept.value.length; i++){
             if(trend_chart_recept.value[i] < 0){
               trend_chart_recept.value[i] = 0
