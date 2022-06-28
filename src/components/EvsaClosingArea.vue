@@ -2,7 +2,8 @@
   <div>
     <div class="inner">
       <div class="border_b dead" style="border-bottom: 0;">
-        <p class="tit">보조금 마감 지역 찾기</p>
+        <p class="tit" style="margin:0px">내가 받을 수 있는 최대 보조금은?</p>
+        <p class="color_gray" style="text-align:left;margin-bottom:50px;font-size: 23px">우리 동네 보조금 마감지역 알아보고 최대 보조금 지원을 받으세요!</p>
         <div :class="is_click_left?'select active first':'select first'">
           <button class="label" @click="click_button(1)">{{sido}}</button>
           <ul class="option">
