@@ -6,6 +6,7 @@
       <table class="table table-striped table-sm">
         <thead>
         <tr>
+          <th scope="col">date</th>
           <th scope="col">category</th>
           <th scope="col">category2</th>
           <th scope="col">category3</th>
@@ -14,6 +15,7 @@
         </thead>
         <tbody>
         <tr :class="click_id === item.id ? 'hover' : ''" @click="line_click(item)" v-for="(item, i) in current_page_data" :key="i">
+          <td>{{item.date}}</td>
           <td>{{item.category}}</td>
           <td>{{item.category2}}</td>
           <td>{{item.category3}}</td>

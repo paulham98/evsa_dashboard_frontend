@@ -113,6 +113,7 @@ import AdminSearchPageModal from "./AdminSearchPageModal"
 
       // emitter 영역
       emitter.on('close_search_page', (data) => {
+        console.log(data)
         let real_id = data[1] - 1
         if (real_id > total_page_number.value) {
           return alert('잘못된 입력값입니다.')
