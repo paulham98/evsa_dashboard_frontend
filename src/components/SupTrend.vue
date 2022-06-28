@@ -1,7 +1,8 @@
 <template>
   <div class="border_b">
     <div class="inner">
-      <p class="tit">보조금 신청 접수 일별 트렌드</p>
+      <p class="tit" style="margin:0px">보조금 신청 접수 일별 트렌드</p>
+      <p class="color_gray">* 향후 최대 1년 간의 트렌들르 보여드릴 예정입니다.(기간  데이터 누적 중)</p>
       <div class="area1">
         <apexchart class="chart" type="line" height="520"
                    :options="mixed_chart_options" :series="mixed_series" ></apexchart>
