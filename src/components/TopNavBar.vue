@@ -12,9 +12,6 @@
             <li><router-link :to="{name:'Evsa_sup_current'}"><a :class="page_current?'active':'inactive'" @click="change_page(1)">전기차 보조금 현황</a></router-link></li>
             <li><router-link :to="{name:'Evsa_sup_cal'}"><a :class="page_calculator?'active':'inactive'" @click="change_page(2)">전기차 보조금 계산기</a></router-link></li>
             <li><a style="cursor: pointer" @click="this.open_new_window(3)" :class="page_guide?'active':'inactive'">보조금 신청 가이드</a></li>
-            <router-link :to="{name: 'AdminMain'}">
-              <button>임시</button>
-            </router-link>
           </ul>
         </div>
         <!--<router-link :to="{name: 'Sign_in'}">-->
