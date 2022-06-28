@@ -94,7 +94,8 @@
             <a href="#">문의하기</a>
           </li>
         </ul>
-        <button class="more" @click="click_more">더보기</button>
+        <button v-if="!show_more" class="more" @click="click_more">더보기</button>
+        <button v-if="show_more" class="more1" @click="click_more">접기</button>
         <p class="color_gray tac" v-for="(item, i) in capital_text_arr3" :key="i">{{item}}</p>
       </div>
     </div>
@@ -222,6 +223,7 @@ export default {
 
     function click_more(){
       if (show_more.value === false) return show_more.value = true
+      else return show_more.value = false
     }
     function click_button(lr){
       if(!is_click_left.value && lr === 1)is_click_left.value = true;

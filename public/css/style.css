@@ -160,6 +160,13 @@ td:last-child{border-right: 0;}
 .list li a:before{content:"";position:absolute;background: url(../images/arrow02.png) no-repeat;width: 7px;height: 12px;right: -40px;top: 50%;transform: translateY(-50%);}
 .more{border: 2px solid #DCDCDC;font-size: 25px;font-weight: 600;padding: 13px;width: 330px;border-radius: 500px;margin: 0 auto;display: block;margin-top: 50px;position: relative;margin-bottom: 100px;}
 .more:before{content:"";position:absolute;background: url(../images/more.png) no-repeat;width: 21px;height: 9px;bottom: -30px;left: 50%;transform: translateX(-50%);}
+.more1{border: 2px solid #DCDCDC;font-size: 25px;font-weight: 600;padding: 13px;width: 330px;border-radius: 500px;margin: 0 auto;display: block;margin-top: 50px;position: relative;margin-bottom: 100px;}
+.more1:before{content:"";position:absolute;background: url(../images/more.png) no-repeat;width: 21px;height: 9px;bottom: -30px;left: 50%;transform: translateX(-50%);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);}
 
 .color_gray.tac{margin-top: 8px;}
 .tac{text-align: center;}
