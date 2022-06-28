@@ -24,7 +24,6 @@
           <div @click="click_toggle()" style="cursor: pointer">
             <a class="nav-link text-white" >subsidy_accept_prediction</a>
           </div>
-
           <Toggle class="toggle_box" style="margin-left: 13px"></Toggle>
         </li>
       </ul>
@@ -45,6 +44,8 @@
 import {ref, inject} from "vue"
 import router from "../router/index.js"
 import Toggle from "./Toggle"
+// import urlTemplates from "@/composables/urlTemplates";
+import {put_api} from "../plugin.js"
   export default {
     name: "AdminSideBar",
     components:{Toggle},
@@ -56,10 +57,9 @@ import Toggle from "./Toggle"
       let now_page = ref(1)
       let name_hover = ref(true)
       let subsidy_capital_hover = ref(false)
-      let show_pred = ref(false)
-
+      let show_pred = ref()
       function hover_bar(id){
-        console.log(id)
+        // console.log(id)
         if(id ===1){
           name_hover.value = true
           subsidy_capital_hover.value = false
@@ -77,13 +77,18 @@ import Toggle from "./Toggle"
         else console.log('아니요')
       }
       function click_toggle(){
-        if(show_pred.value === false){
-          show_pred.value = true
-          emitter.emit('signal to toggle', true)
-        }else{
-          show_pred.value = false
-          emitter.emit('signal to toggle', false)
-        }
+        let url = '/api/v1/admin/subsidy/predict'
+        put_api(url, data =>{
+          console.log(data)
+          if(data.data.num === 0){
+            console.log(data.data.num)
+            show_pred.value = false
+            emitter.emit('signal to toggle', false)
+          }else if(data.data.num === 1 ){
+            show_pred.value = true
+            emitter.emit('signal to toggle', true)
+          }
+        })
       }
       hover_bar(props.page)
       return{now_page, name_hover, subsidy_capital_hover,

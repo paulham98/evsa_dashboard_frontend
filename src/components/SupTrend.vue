@@ -30,7 +30,7 @@ import urlTemplates from "@/composables/urlTemplates";
 import {ref,inject, onBeforeUpdate, onRenderTriggered, watchEffect,} from 'vue'
 import {getInfoDate,getInfoFirstDate} from "@/composables/getInfoDate";
 import {get_chart_options, get_mixed_series} from "@/composables/chartDataMaker";
-import {fetch_api, show_trend} from "../plugin.js"
+import {fetch_api} from "../plugin.js"
 
 
 export default {
@@ -53,7 +53,7 @@ export default {
       ]);
     let emitter = inject("emitter")
     let chk_width = window.innerWidth;
-    let show_pred = ref(show_trend())
+    let show_pred = ref(0)
     let check_mobile = ref(520)
     const call_api = (isMob,pCategory, pRegion, pSido) => {
       // let start_date = getInfoDate()
@@ -108,7 +108,18 @@ export default {
       call_api(false,'일반', props.region, props.sido);
     }
 
-
+    function get_pred_stat(){
+      let url = urlTemplates.admin_predict()
+      fetch_api(url, data =>{
+        console.log(data)
+        if(data.num === 0){
+          show_pred.value = false
+        }else{
+          show_pred.value = true
+        }
+      })
+    }
+    get_pred_stat()
     function handle_chart_data(){
       if(window.innerWidth <= 430) {
         call_api(true,'일반', props.region, props.sido);
@@ -118,7 +129,6 @@ export default {
       }
     }
     window.addEventListener('resize', handle_chart_data)
-
 
     let line_series = [{
       name: "Desktops",
@@ -176,8 +186,7 @@ export default {
     })
     emitter.on('show_pred_trend', data =>{
       console.log('show_pred_trend', data)
-      if(data === false) show_pred.value = data
-      else show_pred.value = data
+      show_pred.value = data
     })
     watchEffect(()=>{
       mixed_chart_options.value

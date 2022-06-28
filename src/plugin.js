@@ -50,10 +50,6 @@ function post_login(url, login_data, callback = () =>{}){
     });
 
 }
-function show_trend(data){
-  if(data === false) return true
-  else return false
-}
 function post_excel_file(url, data, callback = () =>{}){
   axios.post(url, data)
     .then((res) =>{
@@ -65,4 +61,14 @@ function post_excel_file(url, data, callback = () =>{}){
       console.log(err)
     })
 }
-export {fetch_api, post_login, show_trend, post_excel_file}
+function put_api(url, callback = () =>{}){
+  axios.put(url)
+    .then((res) =>{
+      callback(res)
+
+    })
+    .catch((err) =>{
+      console.log(err)
+    })
+}
+export {fetch_api, post_login,post_excel_file, put_api}
