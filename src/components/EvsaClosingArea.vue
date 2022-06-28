@@ -79,7 +79,7 @@
               <p>{{item.sido +" "+ item.region}}</p>
               <p>접수대수 <em class="color_sky">{{item.accept}}</em> <span><em>/ {{item.total}}</em> {{item.total_unit}}</span></p>
             </div>
-            <a href="#">문의하기</a>
+            <a @click="click_ask" style="cursor: pointer">문의하기</a>
           </li>
         </ul>
         <ul class="list" v-if="show_more">
@@ -92,7 +92,7 @@
               <p>{{item.sido +" "+ item.region}}</p>
               <p>접수대수 <em class="color_sky">{{item.accept}}</em> <span><em>/ {{item.total}}</em> {{item.total_unit}}</span></p>
             </div>
-            <a href="#">문의하기</a>
+              <a @click="click_ask" style="cursor: pointer">문의하기</a>
           </li>
         </ul>
         <button v-if="!show_more" class="more" @click="click_more">더보기</button>
@@ -274,9 +274,15 @@ export default {
         callClosingArea(sido.value, region.value, category2.value, closing_date)
       }
     }
+    function click_ask(){
+      //
+      // 문의하기 url 추가 필요
+      let api = ``;
+      window.open(api,"_blank")
+    }
 
     return {sido, region,closing_regions,is_click_left,is_click_right,is_click_third,category2,third_select_options,addClass,show_more,top_list,
-      click_button, click_more, changeSido,changeRegion, changeSelectCategory2,
+      click_button,click_ask, click_more, changeSido,changeRegion, changeSelectCategory2,
       closing_area_data, closing_area_dtos, capital_text_dto,capital_text_arr1,capital_text_arr2, capital_text_arr3,
       capital_data, capital_data_default,highlight_words}
 
