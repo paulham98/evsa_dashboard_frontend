@@ -76,6 +76,7 @@ import {put_api} from "../plugin.js"
         }
         else console.log('아니요')
       }
+
       function click_toggle(){
         let url = '/api/v1/admin/subsidy/predict'
         put_api(url, data =>{

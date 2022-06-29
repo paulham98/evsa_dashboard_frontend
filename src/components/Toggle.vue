@@ -30,6 +30,7 @@ export default {
           }
         })
     }
+
     function get_pred_stat(){
       let url = urlTemplates.admin_predict()
       fetch_api(url, data =>{

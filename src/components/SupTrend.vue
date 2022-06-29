@@ -188,6 +188,7 @@ export default {
       console.log('show_pred_trend', data)
       show_pred.value = data
     })
+
     watchEffect(()=>{
       mixed_chart_options.value
 
