@@ -44,8 +44,8 @@
 import {ref, inject} from "vue"
 import router from "../router/index.js"
 import Toggle from "./Toggle"
-// import urlTemplates from "@/composables/urlTemplates";
-import {put_api} from "../plugin.js"
+import urlTemplates from "@/composables/urlTemplates";
+import {fetch_api} from "../plugin";
   export default {
     name: "AdminSideBar",
     components:{Toggle},
@@ -78,22 +78,14 @@ import {put_api} from "../plugin.js"
       }
 
       function click_toggle(){
-        let url = ref(``)
-        if(process.env.NODE_ENV === 'production'){
-          url.value = 'http://15.165.32.56:30423/api/v1/admin/subsidy/predict'
-        }else{
-          url.value = `/api/v1/admin/subsidy/predict`
-          // url.value = urlTemplates.admin_predict()
-        }
-
-
-        put_api(url.value, data =>{
+        let url = urlTemplates.admin_predict_toggle()
+        fetch_api(url, data =>{
           console.log(data)
-          if(data.data.num === 0){
-            console.log(data.data.num)
+          if(data.num === 0){
+            console.log(data.num)
             show_pred.value = false
             emitter.emit('signal to toggle', false)
-          }else if(data.data.num === 1 ){
+          }else if(data.num === 1 ){
             show_pred.value = true
             emitter.emit('signal to toggle', true)
           }

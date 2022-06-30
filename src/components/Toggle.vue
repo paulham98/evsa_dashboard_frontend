@@ -8,7 +8,7 @@
 import Toggle from '@vueform/toggle'
 import {ref,inject} from "vue"
 import urlTemplates from "@/composables/urlTemplates";
-import {fetch_api,put_api } from "../plugin.js"
+import {fetch_api} from "../plugin.js"
 export default {
   name: "Toggle_btn",
   components: {
@@ -18,14 +18,14 @@ export default {
     let on_off = ref()
     let emitter = inject("emitter")
     function show_toggle(){
-      let url = '/api/v1/admin/subsidy/predict'
-        put_api(url, data =>{
+      let url = urlTemplates.admin_predict_toggle()
+      fetch_api(url, data =>{
           console.log(data)
-          if(data.data.num === 0){
-            console.log(data.data.num)
+          if(data.num === 0){
+            console.log(data.num)
             on_off.value = false
-          }else if(data.data.num === 1){
-            console.log(data.data.num)
+          }else if(data.num === 1){
+            console.log(data.num)
             on_off.value = true
           }
         })
