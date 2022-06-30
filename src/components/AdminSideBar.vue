@@ -91,6 +91,7 @@ import {put_api} from "../plugin.js"
           }
         })
       }
+      console.log(process.env)
       hover_bar(props.page)
       return{now_page, name_hover, subsidy_capital_hover,
         hover_bar, sign_out, click_toggle}
