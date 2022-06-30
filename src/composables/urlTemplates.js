@@ -17,6 +17,6 @@ const apiUrlTemplateMap = {
   'admin_predict': () => `${hostName}/api/v1/admin/subsidy/predict`,
   'admin_predict_toggle': () => `${hostName}/api/v1/admin/subsidy/predict/toggle`,
   'login_check': () => `${hostName}/api/v1/loginTest`,
-  'logout': () => `${hostName}/api/v1/logout`
+  // 'logout': () => `${hostName}/api/v1/logout`
 }
 export default apiUrlTemplateMap

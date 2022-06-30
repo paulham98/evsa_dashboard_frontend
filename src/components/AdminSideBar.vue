@@ -45,7 +45,7 @@ import {ref, inject} from "vue"
 import router from "../router/index.js"
 import Toggle from "./Toggle"
 import urlTemplates from "@/composables/urlTemplates";
-import {fetch_api,get_login_stat} from "../plugin";
+import {fetch_api} from "../plugin";
   export default {
     name: "AdminSideBar",
     components:{Toggle},
