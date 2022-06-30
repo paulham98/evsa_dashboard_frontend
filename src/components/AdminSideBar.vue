@@ -78,8 +78,16 @@ import {put_api} from "../plugin.js"
       }
 
       function click_toggle(){
-        let url = '/api/v1/admin/subsidy/predict'
-        put_api(url, data =>{
+        let url = ref(``)
+        if(process.env.NODE_ENV === 'production'){
+          url.value = 'http://15.165.32.56:30423/api/v1/admin/subsidy/predict'
+        }else{
+          url.value = `/api/v1/admin/subsidy/predict`
+          // url.value = urlTemplates.admin_predict()
+        }
+
+
+        put_api(url.value, data =>{
           console.log(data)
           if(data.data.num === 0){
             console.log(data.data.num)
