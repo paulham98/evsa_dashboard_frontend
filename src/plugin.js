@@ -34,7 +34,17 @@ function fetch_api(url  ,callback = () =>{}){
     });
 
 }
-
+function get_login_stat(url, token, callback = () =>{}){
+  fetch(url, {
+    headers: {
+      'X-AUTH-TOKEN': token
+    }
+  }).then(data =>{
+    callback(data)
+  }).catch(err =>{
+    console.log(err)
+  })
+}
 function post_login(url, login_data, callback = () =>{}){
   console.log(login_data)
   axios
@@ -71,4 +81,4 @@ function put_api(url, callback = () =>{}){
       console.log(err)
     })
 }
-export {fetch_api, post_login,post_excel_file, put_api}
+export {get_login_stat,fetch_api, post_login,post_excel_file, put_api}

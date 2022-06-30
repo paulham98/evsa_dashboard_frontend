@@ -15,6 +15,8 @@ const apiUrlTemplateMap = {
   'admin_subsidy_capital_page':(page, size) => `${hostName}/api/v1/admin/subsidy_capital/page?page=${page}&size=${size}`,
   'admin_car_name': (page, size) =>`${hostName}/api/v1/admin/car_name/?page=${page}&size=${size}`,
   'admin_predict': () => `${hostName}/api/v1/admin/subsidy/predict`,
-  'admin_predict_toggle': () => `${hostName}/api/v1/admin/subsidy/predict/toggle`
+  'admin_predict_toggle': () => `${hostName}/api/v1/admin/subsidy/predict/toggle`,
+  'login_check': () => `${hostName}/api/v1/loginTest`,
+  'logout': () => `${hostName}/api/v1/logout`
 }
 export default apiUrlTemplateMap

@@ -18,8 +18,9 @@
       </div>
       <!--  -->
     </form>
-  </main>
 
+  </main>
+<AdminSideBar v-if="false"></AdminSideBar>
 </template>
 
 <script>
@@ -27,8 +28,11 @@ import { inject, ref } from "vue"
 import urlTemplates from "@/composables/urlTemplates";
 import {post_login} from "../plugin.js"
 import router from "../router/index.js"
+import {get_login_stat} from "../plugin";
+import AdminSideBar from '../components/AdminSideBar'
   export default {
     name: "sign_in",
+    components: {AdminSideBar},
     setup(){
       let emitter = inject("emitter")
       let user_id = ref('')
@@ -38,7 +42,7 @@ import router from "../router/index.js"
         "password": user_pw.value
       });
       let manage_token = ref('')
-      let login_success = ref(false)
+      let isLogin = ref(false)
       function close_modal(data){
         emitter.emit("close", data)
       }
@@ -48,18 +52,27 @@ import router from "../router/index.js"
          "id": id,
          "password": pw
        }
+       let login_check_url = urlTemplates.login_check()
        // console.log(login_data.value)
        post_login(login_api, login_data.value, (data) =>{
-         // console.log(data.data)
-         if(data.data === "id 또는 패스워드가 맞지 않습니다."){
-           alert(data.data)
+         console.log(data.data)
+         if(data.data === 'id 또는 패스워드가 맞지 않습니다.'){
+           alert("id 또는 패스워드가 맞지 않습니다.")
            user_id.value = ''
            user_pw.value = ''
-         }else{
-           login_success.value = true
-           manage_token.value = data.data
-           close_modal(false)
-           router.replace('/admin_main')
+           isLogin.value = false
+         }else {
+           get_login_stat(login_check_url, data.data, data =>{
+             console.log(data)
+             if(data.status === 200){
+               // login 성공
+               manage_token.value = data.data
+               emitter.emit('login ok', data.data)
+               close_modal(false)
+               router.replace('/admin_main')
+               isLogin.value = true
+             }
+           })
          }
        })
       }
@@ -68,10 +81,11 @@ import router from "../router/index.js"
       emitter.on("open", (data) =>{
         console.log("open modal", data)
       })
-      emitter.on('delete token', (data) =>{
-        manage_token.value = data
+      emitter.on('delete token', (da) =>{
+        console.log(da)
+
       })
-     return{login_submit, close_modal, user_id, user_pw}
+     return{login_submit, close_modal, user_id, user_pw, isLogin}
     },
 
   }
