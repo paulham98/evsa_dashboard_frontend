@@ -41,6 +41,7 @@ import AdminSideBar from '../components/AdminSideBar'
         "id" : user_id.value,
         "password": user_pw.value
       });
+
       let manage_token = ref('')
       let isLogin = ref(false)
       function close_modal(data){
